@@ -20,7 +20,7 @@ export default function SubjectCard({
 }: {
   subject: SubjectInputs;
   setEditData: (subject: SubjectInputs) => void;
-  setDeleteData: (id: string) => void;
+  setDeleteData: (id: number) => void;
 }) {
   return (
     <Card sx={{}}>

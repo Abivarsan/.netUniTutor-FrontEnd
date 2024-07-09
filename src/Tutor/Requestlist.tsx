@@ -15,10 +15,10 @@ export default function Requestlist() {
   const [isFetching, setIsFetching] = useState(true);
 
   const fetchRequests = async () => {
-    const tutorId = "6682b3aba83ed27324efc71a";
+    const tutorId = 2;
     try {
       const response = await axios.get(
-        `http://localhost:8082/subject-request/tutor/${tutorId}`
+        `http://localhost:5025/api/Request/tutor/${tutorId}`
       );
       if (response.status === 200) {
         setRequests(response.data);
@@ -34,7 +34,7 @@ export default function Requestlist() {
     setIsFetching(false);
   }, []);
 
-  const handleRequest = async (id: string, isAccept: boolean) => {};
+  const handleRequest = async (id: number, isAccept: boolean) => {};
   
   if (isFetching) {
     return (
