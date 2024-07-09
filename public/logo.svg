@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-graduation-cap">
+  <path d="M22 13v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-6" fill="none" stroke="#3498db"/>
+  <path d="M7 13v-2l5-2.5L17 11v2" fill="none" stroke="#2980b9"/>
+  <polygon points="12 3 4 8 12 13 20 8 12 3" fill="#34495e" stroke="#34495e"/>
+</svg>

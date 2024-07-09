@@ -1,0 +1,9 @@
+{
+    "run": "npm run dev",
+    "web_server_url": "http://localhost:5173",
+    "web_server_url": "http://localhost:5173",
+    "run_prettier": true,
+    "include": ["src"] ,
+
+
+}
