@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Typography from "@mui/material/Typography";
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
@@ -9,13 +10,10 @@ import {
   CardContent,
   CardHeader,
   Grid,
-  Link,
   Tooltip,
 } from "@mui/material";
 import CallIcon from "@mui/icons-material/Call";
 import EmailIcon from "@mui/icons-material/Email";
-import WorkIcon from "@mui/icons-material/Work";
-import Stu from "./Images/Stu.jpg";
 
 const darkblue = {
   100: "#C9DCF7",
@@ -26,11 +24,49 @@ const darkblue = {
   900: "#001B80",
 };
 
+interface Student {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  profileUrl: string;
+}
+
 export default function DashboardSt() {
-  const [value, setValue] = React.useState<number | null>(4);
+  const [mySubjectsCount, setMySubjectsCount] = useState<number>(0);
+  const [acceptedRequestsCount, setAcceptedRequestsCount] = useState<number>(0);
+  const [rejectedRequestsCount, setRejectedRequestsCount] = useState<number>(0);
+  const [student, setStudent] = useState<Student | null>(null);
+  const studentId = 1; // Replace with actual student ID
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const studentResponse = await axios.get(`/api/Students/${studentId}`);
+        setStudent(studentResponse.data);
+
+        const mySubjectsResponse = await axios.get(`/api/SubjectRequests/${studentId}/mysubjects`);
+        setMySubjectsCount(mySubjectsResponse.data);
+
+        const acceptedRequestsResponse = await axios.get(`/api/SubjectRequests/${studentId}/acceptedrequests`);
+        setAcceptedRequestsCount(acceptedRequestsResponse.data);
+
+        const rejectedRequestsResponse = await axios.get(`/api/SubjectRequests/${studentId}/rejectedrequests`);
+        setRejectedRequestsCount(rejectedRequestsResponse.data);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+
+    fetchData();
+  }, [studentId]);
+
+  if (!student) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <Grid container sx={{  height: "100vh"}}>
+    <Grid container sx={{ height: "100vh"}}>
       <Grid item sm={2}></Grid>
       <Grid item sm={3}>
         <Card
@@ -55,7 +91,7 @@ export default function DashboardSt() {
               borderBottom: `3px solid ${darkblue[200]}`,
             }}
           >
-            <CardHeader title=" Hi Nilaxsan!!" />
+            <CardHeader title={`Hi ${student.firstName} ${student.lastName}!!`} />
           </Box>
 
           <CardContent>
@@ -64,7 +100,7 @@ export default function DashboardSt() {
                 alt="profile-user"
                 width="120px"
                 height="120px"
-                src={Stu}
+                src={student.profileUrl}
                 style={{ cursor: "pointer", borderRadius: "50%" }}
               />
             </Box>
@@ -85,28 +121,20 @@ export default function DashboardSt() {
               flexDirection="column"
               sx={{ color: darkblue[900] }}
             >
-             
-
               <Typography>
                 <Tooltip title="Email">
                   <EmailIcon />
                 </Tooltip>
-                <h5>nilaxsanala2001@gmail.com</h5>
+                <h5>{student.email}</h5>
               </Typography>
 
               <Typography>
                 <Tooltip title="Phone No">
                   <CallIcon />
                 </Tooltip>
-                <h5>0763460985</h5>
+                <h5>{student.phoneNumber}</h5>
               </Typography>
 
-              <Typography>
-                <Tooltip title="Current state">
-                  <WorkIcon />
-                </Tooltip>
-                <h5>Student</h5>
-              </Typography>
             </Box>
           </CardContent>
         </Card>
@@ -118,7 +146,7 @@ export default function DashboardSt() {
         sx={{ mt: 5, display: "flex", justifyContent: "space-around" }}
       >
         <Grid item>
-        <Card
+          <Card
             sx={{
               borderRadius: 3,
               boxShadow: 3,
@@ -139,25 +167,25 @@ export default function DashboardSt() {
                 borderBottom: `3px solid ${darkblue[200]}`,
               }}
             >
-              <CardHeader title="Tutors" />
+              <CardHeader title="My Subjects" />
             </Box>
             <CardContent
               sx={{
                 display: "flex",
-                justifyContent: "space-around",
+                justifyContent:"space-around",
                 alignItems: "center",
               }}
             >
-              < LocalLibraryIcon sx={{ color: "Darkblue", fontSize: 40 }} />
+              <LocalLibraryIcon sx={{ color: "Darkblue", fontSize: 40 }} />
               <Typography sx={{ color: "Darkblue", fontSize: 30 }}>
-                {120}
+                {mySubjectsCount}
               </Typography>
             </CardContent>
           </Card>
         </Grid>
         
         <Grid item>
-        <Card
+          <Card
             sx={{
               borderRadius: 3,
               boxShadow: 3,
@@ -183,13 +211,13 @@ export default function DashboardSt() {
             <CardContent
               sx={{
                 display: "flex",
-                justifyContent: "space-around",
+                justifyContent:"space-around",
                 alignItems: "center",
               }}
             >
               <ArrowOutwardIcon sx={{ color: "green", fontSize: 40 }} />
               <Typography sx={{ color: "Darkblue", fontSize: 30 }}>
-                {6}
+                {acceptedRequestsCount}
               </Typography>
             </CardContent>
           </Card>
@@ -216,26 +244,23 @@ export default function DashboardSt() {
                 borderBottom: `3px solid ${darkblue[200]}`,
               }}
             >
-              <CardHeader title=" Rejected" />
+              <CardHeader title="Rejected" />
             </Box>
             <CardContent
               sx={{
                 display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
+                justifyContent:"space-around",
+                alignItems:"center",
               }}
             >
               <BlockIcon sx={{ color: "red", fontSize: 40 }} />
               <Typography sx={{ color: "Darkblue", fontSize: 30 }}>
-                {12}
+                {rejectedRequestsCount}
               </Typography>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
-
-     
-      
     </Grid>
   );
 }
