@@ -30,6 +30,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { mediums, modes, weekdays } from "../data/data";
 import AlertBox from "../components/common/Alert";
+
 // Define the type for a tutor
 interface Tutor {
   id: number;
@@ -61,7 +62,7 @@ const SearchSt = () => {
   const [modeFilter, setModeFilter] = useState<string[]>([]);
 
   const [isRequestAlertOpen, setIsRequestAlertOpen] = useState<boolean>(false);
-  const [subjectId, setSubjectId] = useState<string>("");
+  const [subjectId, setSubjectId] = useState<number | null>(null);
 
   const handleSearch = () => {
     setIsFiltering(true);
@@ -103,7 +104,7 @@ const SearchSt = () => {
   const fetchAllSubjects = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8082/subject/subjects`
+        `http://localhost:5025/api/Subject/getall`
       );
       if (response.status === 200) {
         setSubjects(response.data);
@@ -122,10 +123,10 @@ const SearchSt = () => {
 
   const handleRequest = async () => {
     try {
-      const studentId = "66880722bbb1e00ed5bd6c7c";
-      const tutorId = "6682b3aba83ed27324efc71a";
+      const studentId = 1;
+      const tutorId = 2;
       const studentEmail = "loremipsum@gmail.com";
-      await axios.post(`http://localhost:8082/subject-request/request`, {
+      await axios.post(`http://localhost:5025/api/Request/request`, {
         studentId,
         subjectId,
         tutorId,
@@ -133,7 +134,7 @@ const SearchSt = () => {
         timestamp: new Date(),
       });
       setIsRequestAlertOpen(false);
-      setSubjectId("");
+      setSubjectId(null);
       toast.success("Subject requested successfully");
     } catch (error) {
       console.error(error);
@@ -288,15 +289,19 @@ const SearchSt = () => {
                   <CardHeader
                     title={subject.title}
                     subheader={
-                      <Rating
-                        name="read-only"
-                        value={parseFloat(subject.averageRating.toFixed(1))}
-                        precision={0.5}
-                        readOnly
-                        sx={{
-                          fontSize: 20,
-                        }}
-                      />
+                      subject.averageRating !== undefined ? (
+                        <Rating
+                          name="read-only"
+                          value={parseFloat(subject.averageRating.toFixed(1))}
+                          precision={0.5}
+                          readOnly
+                          sx={{
+                            fontSize: 20,
+                          }}
+                        />
+                      ) : (
+                        <Typography>No rating available</Typography>
+                      )
                     }
                     sx={{
                       borderBottom: `2px solid ${darkblue[200]}`,
@@ -349,7 +354,7 @@ const SearchSt = () => {
         message="Are you sure you want to request this subject?"
         onClose={() => {
           setIsRequestAlertOpen(false);
-          setSubjectId("");
+          setSubjectId(null);
         }}
         onAgree={handleRequest}
       />

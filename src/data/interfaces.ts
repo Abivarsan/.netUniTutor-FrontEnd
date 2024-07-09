@@ -1,20 +1,20 @@
 import { SubjectInputs } from "../components/my-subjects/SubjectForm";
 
 export interface SubjectResponse extends SubjectInputs {
-  _id: string;
+  _id: number;
   averageRating: number;
   tutorName: string;
 }
 
 export interface RequestResponse {
-  _id: string;
+  _id: number;
   subjectId: {
-    _id: string;
+    _id: number;
     title: string;
     coverImage: string;
   };
   studentId: {
-    _id: string;
+    _id: number;
     firstName: string;
     email: string;
     phoneNumber: string;
@@ -22,7 +22,7 @@ export interface RequestResponse {
     schoolName: string;
     grade: string;
   };
-  tutorId: string;
+  tutorId: number;
   studentEmail: string;
   status: string;
   timestamp: string;

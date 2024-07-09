@@ -19,7 +19,7 @@ export default function RequestDetails({
   handleRequest,
 }: {
   request: RequestResponse;
-  handleRequest: (id: string, isAccept: boolean) => void;
+  handleRequest: (id: number, isAccept: boolean) => void;
 }) {
   return (
     <>

@@ -14,17 +14,17 @@ export default function MySubjects() {
 
   const [isFetching, setIsFetching] = useState(false);
   const [subjects, setSubjects] = useState<SubjectInputs[]>([]);
-  const [subjectId, setSubjectId] = useState<string | null>(null);
+  const [subjectId, setSubjectId] = useState<number | null>(null);
 
   const [editData, setEditData] = useState<SubjectInputs | null>(null);
   const [deleteData, setDeleteData] = useState<string | null>(null);
 
   const fetchSubjects = async () => {
-    const tutorId = "6682b3aba83ed27324efc71a";
+    const tutorId = 2;
     setIsFetching(true);
     try {
       const response = await axios.get(
-        `http://localhost:8082/subject/tutor/${tutorId}`
+        `http://localhost:5025/api/Subject/getall/${tutorId}`
       );
       setSubjects(response.data);
     } catch (error) {
@@ -38,12 +38,12 @@ export default function MySubjects() {
     fetchSubjects();
   }, []);
 
-  const handleDeleteSubject = async (id: string) => {
+  const handleDeleteSubject = async (id: number) => {
     try {
-      await axios.delete(`http://localhost:8082/subject/${id}`);
+      await axios.delete(`http://localhost:5025/api/Subject/delete/${id}`);
       setSubjectId(null);
       fetchSubjects();
-      toast.success("Subject deleted successfully");
+      toast.success("Subject deleted");
     } catch (error) {
       console.error(error);
     }
@@ -72,7 +72,7 @@ export default function MySubjects() {
                   <SubjectCard
                     subject={subject}
                     setEditData={(data: SubjectInputs) => setEditData(data)}
-                    setDeleteData={(id: string) => {
+                    setDeleteData={(id: number) => {
                       setSubjectId(id);
                       setOpenAlert(true);
                     }}

@@ -35,8 +35,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export interface SubjectInputs {
-  _id?: string;
-  tutorId?: string;
+  _id?: number;
+  tutorId?: number;
   title: string;
   description: string;
   coverImage: string;
@@ -100,12 +100,12 @@ export default function SubjectForm({
   }, [subject, open]);
 
   const onSubmit = async (data: SubjectInputs) => {
-    const tutorId = "6682b3aba83ed27324efc71a";
+    const tutorId = 2;
     if (subject) {
       try {
         setIsLoading(true);
         const response = await axios.put(
-          `http://localhost:8082/subject/${subject._id}`,
+          `http://localhost:5025/api/Subject/update/${subject._id}`,
           data
         );
         if (response.status === 200) {
@@ -126,7 +126,7 @@ export default function SubjectForm({
     try {
       setIsLoading(true);
       const response = await axios.post(
-        `http://localhost:8082/subject/tutor/${tutorId}`,
+        `http://localhost:5025/api/Subject/createsubject/${tutorId}`,
         data
       );
       if (response.status === 201) {
