@@ -7,15 +7,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 
 interface CommentValues {
-  comment: string;
+  commentText: string;
 }
 
 const initialState: CommentValues = {
-  comment: "",
+  commentText: "",
 };
 
 const CommentShema = z.object({
-  comment: z.string().min(5, "Please enter a comment"),
+  commentText: z.string().min(5, "Please enter a comment"),
 });
 
 export default function Comment() {
@@ -35,10 +35,12 @@ export default function Comment() {
   });
 
   const onSubmit = async (data: CommentValues) => {
+    const id = localStorage.getItem("userId");
+    const type=localStorage.getItem("userRole");
     try {
       setIsLoading(true);
-      const response = await axios.post("http://localhost:5025/comments", {
-        comment: data.comment,
+      const response = await axios.post(`http://localhost:5025/Comment/create/${id}/${type}`, {
+        commentText: data.commentText,
       });
       console.log(response.data);
       toast.success("Comment added successfully");
@@ -63,9 +65,9 @@ export default function Comment() {
                 label="Add Comment here..."
                 multiline
                 rows={5}
-                {...register("comment")}
-                error={!!errors.comment}
-                helperText={errors.comment?.message}
+                {...register("commentText")}
+                error={!!errors.commentText}
+                helperText={errors.commentText?.message}
                 sx={{
                   width: 600,
                   mt: 22,

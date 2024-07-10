@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import CallIcon from "@mui/icons-material/Call";
 import EmailIcon from "@mui/icons-material/Email";
+import Variants from "../components/common/sketlan";
 
 const darkblue = {
   100: "#C9DCF7",
@@ -37,21 +38,23 @@ export default function DashboardSt() {
   const [acceptedRequestsCount, setAcceptedRequestsCount] = useState<number>(0);
   const [rejectedRequestsCount, setRejectedRequestsCount] = useState<number>(0);
   const [student, setStudent] = useState<Student | null>(null);
-  const studentId = 1; // Replace with actual student ID
+
+
+  const studentId = localStorage.getItem("userId"); 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const studentResponse = await axios.get(`/api/Students/${studentId}`);
+        const studentResponse = await axios.get(`http://localhost:5025/api/Student/details/${studentId}`);
         setStudent(studentResponse.data);
 
-        const mySubjectsResponse = await axios.get(`/api/SubjectRequests/${studentId}/mysubjects`);
+        const mySubjectsResponse = await axios.get(`http://localhost:5025/api/SubjectRequests/${studentId}/mysubjects`);
         setMySubjectsCount(mySubjectsResponse.data);
 
-        const acceptedRequestsResponse = await axios.get(`/api/SubjectRequests/${studentId}/acceptedrequests`);
+        const acceptedRequestsResponse = await axios.get(`http://localhost:5025/api/SubjectRequests/${studentId}/acceptedrequests`);
         setAcceptedRequestsCount(acceptedRequestsResponse.data);
 
-        const rejectedRequestsResponse = await axios.get(`/api/SubjectRequests/${studentId}/rejectedrequests`);
+        const rejectedRequestsResponse = await axios.get(`http://localhost:5025/api/SubjectRequests/${studentId}/rejectedrequests`);
         setRejectedRequestsCount(rejectedRequestsResponse.data);
       } catch (error) {
         console.error("Error fetching data", error);
@@ -62,11 +65,11 @@ export default function DashboardSt() {
   }, [studentId]);
 
   if (!student) {
-    return <div>Loading...</div>;
+    return <Variants/>;
   }
 
   return (
-    <Grid container sx={{ height: "100vh"}}>
+    <Grid container sx={{ height: "100vh" }}>
       <Grid item sm={2}></Grid>
       <Grid item sm={3}>
         <Card
@@ -79,7 +82,7 @@ export default function DashboardSt() {
             height: 500,
             transition: "transform 0.3s ease-in-out",
             "&:hover": {
-              transform: "scale(1.05)",
+              transform: "scale(1.01)",
             },
           }}
         >
@@ -111,9 +114,7 @@ export default function DashboardSt() {
               sx={{
                 mt: 2,
               }}
-            >
-              
-            </Box>
+            ></Box>
             <Box
               display="flex"
               justifyContent="center"
@@ -134,7 +135,6 @@ export default function DashboardSt() {
                 </Tooltip>
                 <h5>{student.phoneNumber}</h5>
               </Typography>
-
             </Box>
           </CardContent>
         </Card>
@@ -155,7 +155,7 @@ export default function DashboardSt() {
               height: 150,
               transition: "transform 0.3s ease-in-out",
               "&:hover": {
-                transform: "scale(1.05)",
+                transform: "scale(1.01)",
               },
             }}
           >
@@ -172,7 +172,7 @@ export default function DashboardSt() {
             <CardContent
               sx={{
                 display: "flex",
-                justifyContent:"space-around",
+                justifyContent: "space-around",
                 alignItems: "center",
               }}
             >
@@ -183,7 +183,7 @@ export default function DashboardSt() {
             </CardContent>
           </Card>
         </Grid>
-        
+
         <Grid item>
           <Card
             sx={{
@@ -194,7 +194,7 @@ export default function DashboardSt() {
               height: 150,
               transition: "transform 0.3s ease-in-out",
               "&:hover": {
-                transform: "scale(1.05)",
+                transform: "scale(1.01)",
               },
             }}
           >
@@ -211,7 +211,7 @@ export default function DashboardSt() {
             <CardContent
               sx={{
                 display: "flex",
-                justifyContent:"space-around",
+                justifyContent: "space-around",
                 alignItems: "center",
               }}
             >
@@ -232,7 +232,7 @@ export default function DashboardSt() {
               height: 150,
               transition: "transform 0.3s ease-in-out",
               "&:hover": {
-                transform: "scale(1.05)",
+                transform: "scale(1.01)",
               },
             }}
           >
@@ -249,8 +249,8 @@ export default function DashboardSt() {
             <CardContent
               sx={{
                 display: "flex",
-                justifyContent:"space-around",
-                alignItems:"center",
+                justifyContent: "space-around",
+                alignItems: "center",
               }}
             >
               <BlockIcon sx={{ color: "red", fontSize: 40 }} />

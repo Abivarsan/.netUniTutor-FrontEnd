@@ -63,6 +63,7 @@ const SearchSt = () => {
 
   const [isRequestAlertOpen, setIsRequestAlertOpen] = useState<boolean>(false);
   const [subjectId, setSubjectId] = useState<number | null>(null);
+  const [tutorId, setTutorId] = useState<number | null>(null);
 
   const handleSearch = () => {
     setIsFiltering(true);
@@ -123,9 +124,8 @@ const SearchSt = () => {
 
   const handleRequest = async () => {
     try {
-      const studentId = 1;
-      const tutorId = 2;
-      const studentEmail = "loremipsum@gmail.com";
+      const studentId = localStorage.getItem("userId");
+      const studentEmail = localStorage.getItem("email");
       await axios.post(`http://localhost:5025/api/Request/request`, {
         studentId,
         subjectId,
@@ -134,7 +134,8 @@ const SearchSt = () => {
         timestamp: new Date(),
       });
       setIsRequestAlertOpen(false);
-      setSubjectId(null);
+      setSubjectId(subjectId);
+      setTutorId(tutorId);
       toast.success("Subject requested successfully");
     } catch (error) {
       console.error(error);
@@ -335,6 +336,7 @@ const SearchSt = () => {
                         onClick={() => {
                           setIsRequestAlertOpen(true);
                           setSubjectId(subject._id);
+                          setTutorId(subject.tutorId);
                         }}
                       >
                         Request

@@ -25,22 +25,9 @@ export default function RequestDetails({
     <>
       <Card variant="outlined" sx={{ minWidth: 450 }}>
         <CardHeader
-          //   action={
-          //     <>
-          //       <IconButton>
-          //         <Cancel />
-          //       </IconButton>
-          //       <IconButton>
-          //         <Edit />
-          //       </IconButton>
-          //     </>
-          //   }
+
           title={request.studentId.firstName}
-          subheader={
-            <Typography sx={{}} variant="inherit">
-              {request.studentId.phoneNumber + " | " + request.studentId.email}
-            </Typography>
-          }
+
         />
         <CardMedia
           component="img"
