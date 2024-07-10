@@ -84,7 +84,7 @@ const TutorRoutes: React.FC = () => (
     <div style={{ marginLeft: "64px", marginTop: "64px" }}>
       <Routes>
         <Route path="Dashboard" element={<Dashboard />} />
-        <Route path="editprofile" element={<Editprofile userId={2} />} />
+        <Route path="editprofile" element={<Editprofile/>} />
         <Route path="requestlist" element={<Requestlist />} />
         <Route path="MyStudents" element={<MyStudents />} />
         <Route path="Comment" element={<Comment />} />
@@ -106,7 +106,7 @@ const StudentRoutes: React.FC = () => (
     <div style={{ marginLeft: "64px", marginTop: "64px" }}>
       <Routes>
         <Route path="Dashboard" element={<DashboardSt />} />
-        <Route path="editprofile" element={<EditProfilest userId={2} />} />
+        <Route path="editprofile" element={<EditProfilest/>} />
         <Route path="Requested" element={<Requested />} />  
         <Route path="message" element={<Message />} />
         <Route path="MyTutors" element={<MyTutors />} />

@@ -13,16 +13,11 @@ import {
 import { toast } from "react-toastify";
 import { grades } from "../data/data";
 
-interface EditProfileProps {
-  userId: number; // Assuming userId is passed as a prop
-}
-
-const EditProfilest: React.FC<EditProfileProps> = ({ userId }) => {
+const EditProfilest: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [profileData, setProfileData] = useState({
     firstName: "",
     lastName: "",
-    email: "",
     phoneNumber: "",
     ProfileUrl: "",
     grade: "",
@@ -32,11 +27,15 @@ const EditProfilest: React.FC<EditProfileProps> = ({ userId }) => {
     profileImage: null as File | null,
   });
 
+  const userId = localStorage.getItem("userId");
+
   useEffect(() => {
-    fetchStudentProfile(userId);
+    if (userId) {
+      fetchStudentProfile(userId);
+    }
   }, [userId]);
 
-  const fetchStudentProfile = async (userId: number) => {
+  const fetchStudentProfile = async (userId: string) => {
     try {
       const response = await axios.get(
         `http://localhost:5025/api/Student/details/${userId}`
@@ -88,7 +87,7 @@ const EditProfilest: React.FC<EditProfileProps> = ({ userId }) => {
       toast.success("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert("Failed to update profile. Please try again.");
+      toast.error("Failed to update profile. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -109,8 +108,8 @@ const EditProfilest: React.FC<EditProfileProps> = ({ userId }) => {
       }}
     >
       <Typography
-        variant="h4"
-        component="h2"
+        variant="h5"
+        component="h5"
         sx={{ textAlign: "center", color: "darkblue" }}
       >
         Edit Profile
@@ -125,7 +124,6 @@ const EditProfilest: React.FC<EditProfileProps> = ({ userId }) => {
         margin="normal"
         variant="outlined"
       />
-      
       <TextField
         size="small"
         label="Last Name"
@@ -136,7 +134,25 @@ const EditProfilest: React.FC<EditProfileProps> = ({ userId }) => {
         margin="normal"
         variant="outlined"
       />
-       <TextField
+
+      <TextField
+        select
+        size="small"
+        label="Grade"
+        name="grade"
+        value={profileData.grade}
+        onChange={handleInputChange}
+        fullWidth
+        margin="normal"
+        variant="outlined"
+      >
+        {grades.map((grade) => (
+          <MenuItem key={grade} value={grade}>
+            {grade}
+          </MenuItem>
+        ))}
+      </TextField>
+      <TextField
         size="small"
         label="Address"
         name="address"
@@ -148,7 +164,6 @@ const EditProfilest: React.FC<EditProfileProps> = ({ userId }) => {
         margin="normal"
         variant="outlined"
       />
-
       <TextField
         size="small"
         label="Phone Number"
@@ -168,25 +183,7 @@ const EditProfilest: React.FC<EditProfileProps> = ({ userId }) => {
         margin="normal"
         InputLabelProps={{ shrink: true }}
       />
-      <TextField
-        select
-        size="small"
-        label="Grade"
-        name="grade"
-        value={profileData.grade}
-        onChange={handleInputChange}
-        fullWidth
-        margin="normal"
-        variant="outlined"
-      >
-        
-        {grades.map((grade) => (
-          <MenuItem key={grade} value={grade}>
-            {grade}
-          </MenuItem>
-        ))}
-      </TextField>
-     
+
       <Box mt={2} display="flex" justifyContent="flex-end">
         <Button
           size="small"

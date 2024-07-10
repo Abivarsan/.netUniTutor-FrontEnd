@@ -1,3 +1,7 @@
+
+
+
+
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "./../firebase"; // Adjust the path based on your actual setup
@@ -11,36 +15,36 @@ import {
   MenuItem,
 } from "@mui/material";
 import { toast } from "react-toastify";
-import { grades } from "../data/data";
+import { districts, occupations } from "../data/data";
 
-interface EditProfileProps {
-  userId: number; // Assuming userId is passed as a prop
-}
 
-const EditProfile: React.FC<EditProfileProps> = ({ userId }) => {
+const EditProfile: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [profileData, setProfileData] = useState({
     firstName: "",
     lastName: "",
-    email: "",
     phoneNumber: "",
+    district: "",
     ProfileUrl: "",
-    grade: "",
+    occupation: "",
     address: "",
   });
   const [formData, setFormData] = useState({
     profileImage: null as File | null,
   });
 
+  const userId = localStorage.getItem("userId");
+
   useEffect(() => {
-    fetchStudentProfile(userId);
+    if (userId) {
+      fetchStudentProfile(userId);
+    }
   }, [userId]);
 
-  const fetchStudentProfile = async (userId: number) => {
+  const fetchStudentProfile = async (userId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:5025/api/Student/details/2`
-        // `http://localhost:5025/api/Student/details/${userId}`
+       `http://localhost:5025/api/Tutor/details/${userId}`
       );
       setProfileData(response.data);
       console.log(response.data);
@@ -82,18 +86,14 @@ const EditProfile: React.FC<EditProfileProps> = ({ userId }) => {
 
       // Update profile data
       await axios.put(
-        `http://localhost:5025/api/Student/ProfileUpdate2`,
+        `http://localhost:5025/api/Student/ProfileUpdate/${userId}`,
         profileData
       );
-      // await axios.put(
-      //   `http://localhost:5025/api/Student/ProfileUpdate/${userId}`,  
-      //   profileData
-      // );
 
       toast.success("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert("Failed to update profile. Please try again.");
+      toast.error("Failed to update profile. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -110,12 +110,12 @@ const EditProfile: React.FC<EditProfileProps> = ({ userId }) => {
         boxShadow: 1,
         borderRadius: 4,
         bgcolor: "background.paper",
-        mt: 15,
+        mt: 12,
       }}
     >
       <Typography
-        variant="h4"
-        component="h2"
+        variant="h5"
+        component="h5"
         sx={{ textAlign: "center", color: "darkblue" }}
       >
         Edit Profile
@@ -141,6 +141,23 @@ const EditProfile: React.FC<EditProfileProps> = ({ userId }) => {
         variant="outlined"
       />
        <TextField
+        select
+        size="small"
+        label="Occupation"
+        name="occupation"
+        value={profileData.occupation}
+        onChange={handleInputChange}
+        fullWidth
+        margin="normal"
+        variant="outlined"
+      >
+        {occupations.map((occupation) => (
+          <MenuItem key={occupation} value={occupation}>
+            {occupation}
+          </MenuItem>
+        ))}
+      </TextField>
+      <TextField
         size="small"
         label="Address"
         name="address"
@@ -152,7 +169,24 @@ const EditProfile: React.FC<EditProfileProps> = ({ userId }) => {
         margin="normal"
         variant="outlined"
       />
-
+      <TextField
+        select
+        size="small"
+        label="District"
+        name="district"
+        value={profileData.district}
+        onChange={handleInputChange}
+        fullWidth
+        margin="normal"
+        variant="outlined"
+      >
+        {districts.map((district) => (
+          <MenuItem key={district} value={district}>
+            {district}
+          </MenuItem>
+        ))}
+      </TextField>
+      
       <TextField
         size="small"
         label="Phone Number"
@@ -172,24 +206,6 @@ const EditProfile: React.FC<EditProfileProps> = ({ userId }) => {
         margin="normal"
         InputLabelProps={{ shrink: true }}
       />
-      <TextField
-        select
-        size="small"
-        label="Grade"
-        name="grade"
-        value={profileData.grade}
-        onChange={handleInputChange}
-        fullWidth
-        margin="normal"
-        variant="outlined"
-      >
-        
-        {grades.map((grade) => (
-          <MenuItem key={grade} value={grade}>
-            {grade}
-          </MenuItem>
-        ))}
-      </TextField>
      
       <Box mt={2} display="flex" justifyContent="flex-end">
         <Button
