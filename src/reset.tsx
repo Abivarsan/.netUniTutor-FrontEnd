@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import axios from "axios";
 import React from "react";
-import { IconButton, InputAdornment } from "@mui/material";
+import { CircularProgress, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const defaultTheme = createTheme();
@@ -162,12 +162,14 @@ const Reset = () => {
                   type="submit"
                   variant="contained"
                   disabled={isLoading}
+                  
+
                   sx={{
                     mt: 5,
                     mb: 2,
                   }}
                 >
-                  Reset password
+                  {isLoading ? <CircularProgress size="1.6rem" /> : "Reset Password"}
                 </Button>
               </Box>
             </Box>

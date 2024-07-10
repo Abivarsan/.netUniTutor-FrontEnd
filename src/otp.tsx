@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { CircularProgress } from "@mui/material";
 
 const defaultTheme = createTheme();
 
@@ -138,6 +139,8 @@ const Otp = () => {
                   type="submit"
                   variant="contained"
                   disabled={isLoading}
+                  startIcon={isLoading ? <CircularProgress size="1rem" /> : null}
+
                   sx={{
                     mt: 5,
                     mb: 2,
@@ -145,7 +148,7 @@ const Otp = () => {
                   // component={RouterLink}
                   // to="/resetpassword"
                 >
-                  Verify OTP
+                {isLoading ? "Verifying..." : "Verify otp"}
                 </Button>
               </Box>
             </Box>

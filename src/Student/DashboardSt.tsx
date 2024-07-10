@@ -23,6 +23,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import Variants from "../components/common/sketlan";
 
 const darkblue = {
   100: "#C9DCF7",
@@ -120,7 +121,7 @@ export default function DashboardSt() {
   };
 
   if (!student) {
-    return <div>Loading...</div>;
+    return <div><Variants/></div>;
   }
 
   return (

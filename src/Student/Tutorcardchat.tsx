@@ -14,8 +14,10 @@ import {
   TextField,
   Button,
   Avatar,
+  Tooltip,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const darkblue = {
   100: "#C9DCF7",
@@ -27,21 +29,51 @@ const darkblue = {
 };
 
 export default function Tutorcardchat({ initialRating = 3 }) {
-  const [value, setValue] = React.useState<number | null>(0);
-  const [comment, setComment] = React.useState("");
-  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = useState<number | null>(0);
+  const [comment, setComment] = useState("");
+  const [report, setReport] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [reviewMode, setReviewMode] = useState<"review" | "report">("review");
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
+  const handleReview = () => {
+    setReviewMode("review");
+    handleOpenModal();
+  };
+
+  const handleReport = () => {
+    setReviewMode("report");
+    handleOpenModal();
+  };
 
   const handleSubmit = () => {
-    // Here you can handle the submission of comment and rating
+    if (comment.trim() === "") {
+      toast.error("Comment is required");
+      return;
+    }
+
     console.log("Submitted:", { comment, rating: value });
-    // Reset comment and rating after submission
+
+    toast.success("Submitted successfully");
     setComment("");
-    setValue(initialRating); // Reset to initial rating
-    handleClose(); // Close modal after submission (if needed)
+    setValue(initialRating);
+    handleCloseModal();
   };
+
+ const handleReportsubmit = () => {
+    if (report.trim() === "") {
+      toast.error("Report is required");
+      return; 
+    }
+
+    console.log("Submitted:", { report });
+
+    toast.success("Reported successfully");
+    setReport("");
+    handleCloseModal();
+  }
 
   return (
     <Box height={300} width={600}>
@@ -66,7 +98,7 @@ export default function Tutorcardchat({ initialRating = 3 }) {
           subheader={
             <Rating
               name="read-only"
-              value={initialRating} // Display initial rating on the card
+              value={initialRating}
               readOnly
               sx={{
                 fontSize: 20,
@@ -87,30 +119,36 @@ export default function Tutorcardchat({ initialRating = 3 }) {
         </CardContent>
         <Box display={"flex"} justifyContent={"flex-end"}>
           <CardActions>
-            <IconButton
-              aria-label="Rating"
-              sx={{ color: "darkblue" }}
-              onClick={handleOpen}
-            >
-              <LocalActivityIcon fontSize="medium" />
-            </IconButton>
-
-            <IconButton aria-label="Chat" sx={{ color: "darkblue" }}>
-              <SmsIcon fontSize="medium" />
-            </IconButton>
+            <Tooltip title="Review Rating & Report" arrow>
+              <IconButton
+                aria-label="Rating"
+                sx={{ color: "darkblue" }}
+                onClick={handleReview}
+              >
+                <LocalActivityIcon fontSize="medium" />
+              </IconButton>
+            </Tooltip>
+           
+            <Tooltip title="Chat" arrow>
+              <IconButton aria-label="Chat" sx={{ color: "darkblue" }}>
+                <SmsIcon fontSize="medium" />
+              </IconButton>
+            </Tooltip>
           </CardActions>
         </Box>
       </Card>
 
+      {/* Review and Report Modal */}
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={openModal}
+        onClose={handleCloseModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         BackdropProps={{
           style: { backgroundColor: "transparent" },
         }}
       >
+        {/* Modal Content Based on reviewMode */}
         <Box
           sx={{
             position: "absolute",
@@ -126,76 +164,101 @@ export default function Tutorcardchat({ initialRating = 3 }) {
             p: 4,
           }}
         >
+          {/* Ask whether user wants to review or report */}
           <Typography
             id="modal-modal-title"
             variant="h6"
             component="h6"
             align="center"
-            sx={{ color: "darkblue", fontSize: "40px" }}
+            sx={{ color: "darkblue", fontSize: "24px", mb: 3 }}
           >
-            Review and Rating
+            {reviewMode === "review" ? "Review and Rating" : "Report Tutor"}
           </Typography>
 
+          {/* Buttons for Review and Report */}
           <Box
             display="flex"
-            flexDirection="column"
-            alignItems="center"
             justifyContent="center"
-            height="auto"
-            sx={{
-              mt: 3,
-            }}
+            alignItems="center"
+            mb={3}
           >
-            <Rating
-              name="simple-controlled"
-              value={value}
-              onChange={(event, newValue) => {
-                setValue(newValue);
-              }}
-              sx={{ fontSize: "50px" }}
-            />
-
-            <TextField
-              id="outlined"
-              label="Add Comment here..."
-              multiline
-              rows={3}
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              sx={{
-                width: "100%",
-                mt: 3,
-                "& .MuiOutlinedInput-root": {
-                  fontSize: "20px",
-                  "& fieldset": {
-                    borderColor: darkblue[500],
-                  },
-                  "&:hover fieldset": {
-                    borderColor: darkblue[600],
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: darkblue[900],
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  fontSize: "20px", // Label text size
-                  color: darkblue[500],
-                },
-                "& .MuiInputLabel-root.Mui-focused": {
-                  color: darkblue[900],
-                },
-              }}
-            />
-
-            <Button
-              variant="outlined"
-              size="large"
-              sx={{ mt: 5, color: "darkblue" }}
-              onClick={handleSubmit}
+            <Button 
+              color= "success"
+              variant={reviewMode === "review" ? "contained" : "outlined"}
+              onClick={() => setReviewMode("review")}
             >
-              Submit
+              Review
+            </Button>
+            <Button
+               color="error"
+              variant={reviewMode === "report" ? "contained" : "outlined"}
+              onClick={() => setReviewMode("report")}
+              sx={{ ml: 2 }}
+            >
+              Report
             </Button>
           </Box>
+
+          {/* Content based on selected mode */}
+          {reviewMode === "review" && (
+            <Box display={"flex"} alignItems={"center"} flexDirection={"column"}>
+              <Rating
+                name="simple-controlled"
+                value={value}
+                onChange={(event, newValue) => {
+                  setValue(newValue);
+                }}
+                sx={{ fontSize: "50px", mb: 3 }}
+              />
+
+              <TextField
+                id="outlined"
+                label="Add Comment here..."
+                multiline
+                rows={3}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                fullWidth
+                variant="outlined"
+                sx={{ mb: 3 }}
+              />
+
+              <Button
+                variant="contained"
+                size="medium"
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+              </Box>
+          )}
+
+          {reviewMode === "report" && (
+            <Box display={"flex"} alignItems={"center"} flexDirection={"column"}>
+               <TextField
+                id="outlined"
+                label="Report here..."
+                multiline
+                rows={3}
+                value={report}
+                onChange={(e) => setReport(e.target.value)}
+                fullWidth
+                variant="outlined"
+                sx={{ mt: 3 }}
+              />
+
+              {/* Example Close Button */}
+              <Button
+                color="primary"
+                variant="contained"
+                size="medium"
+                sx={{ mt: 6 }}
+                onClick={handleReportsubmit}
+              >
+                Submit
+              </Button>
+            </Box>
+          )}
         </Box>
       </Modal>
     </Box>

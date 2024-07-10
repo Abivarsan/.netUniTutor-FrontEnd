@@ -13,10 +13,13 @@ import {
   IconButton,
   Modal,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import SmsIcon from "@mui/icons-material/Sms";
 import React from "react";
+import { toast } from "react-toastify";
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 
 const darkblue = {
   100: "#C9DCF7",
@@ -34,22 +37,28 @@ export default function Studentcardchat() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleSubmit = () => {
+    if (comment.trim() === "") {
+      // Show an error message or handle it as needed
+      toast.error("Comment is required");
+      return; // Prevent submission
+    }
     console.log("Submitted:", { comment });
+    toast.success("Submitted successfully");
     setComment("");
     handleClose();
   };
 
   return (
     <Box height={300} width={600}>
-      <Card 
-        sx={{ 
-          borderRadius: 3, 
-          boxShadow: 3, 
+      <Card
+        sx={{
+          borderRadius: 3,
+          boxShadow: 3,
           width: 300,
           transition: "transform 0.3s ease-in-out",
           "&:hover": {
             transform: "scale(1.05)"
-          } 
+          }
         }}
       >
 
@@ -61,11 +70,7 @@ export default function Studentcardchat() {
           }
           title="Nilaxsan"
           subheader="Grade 11"
-          action={
-            <IconButton aria-label="more Details">
-              <ArrowForwardIosIcon />
-            </IconButton>
-          }
+
           sx={{
             bgcolor: darkblue[100],
             borderBottom: `1px solid ${darkblue[200]}`,
@@ -80,16 +85,20 @@ export default function Studentcardchat() {
         </CardContent>
         <Box display="flex" justifyContent="flex-end">
           <CardActions>
-            <IconButton
-              aria-label="Rating"
-              sx={{ color: darkblue[600] }}
-              onClick={handleOpen}
-            >
-              <LocalActivityIcon fontSize="medium" />
-            </IconButton>
+            <Tooltip title="Report">  
+              <IconButton
+                aria-label="Rating"
+                sx={{ color: darkblue[600] }}
+                onClick={handleOpen}
+              >
+                <ReportGmailerrorredIcon fontSize="medium"  color="error"/>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Chat">
             <IconButton aria-label="Chat" sx={{ color: darkblue[600] }}>
               <SmsIcon fontSize="medium" />
             </IconButton>
+            </Tooltip>
           </CardActions>
         </Box>
       </Card>
