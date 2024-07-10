@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Typography from "@mui/material/Typography";
-import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
-import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import BlockIcon from '@mui/icons-material/Block';
 import {
   Box,
   Card,
   CardContent,
   CardHeader,
   Grid,
-  Tooltip,
+  List,
+  ListItem,
+  ListItemText,
+  IconButton,
+  TextField,
+  Typography,
+  Avatar,
 } from "@mui/material";
+import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+import BlockIcon from '@mui/icons-material/Block';
 import CallIcon from "@mui/icons-material/Call";
 import EmailIcon from "@mui/icons-material/Email";
-import Variants from "../components/common/sketlan";
+import PersonIcon from '@mui/icons-material/Person';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 const darkblue = {
   100: "#C9DCF7",
@@ -33,126 +41,185 @@ interface Student {
   profileUrl: string;
 }
 
+interface TodoItem {
+  id: number;
+  text: string;
+  isCompleted: boolean;
+}
+
 export default function DashboardSt() {
   const [mySubjectsCount, setMySubjectsCount] = useState<number>(0);
   const [acceptedRequestsCount, setAcceptedRequestsCount] = useState<number>(0);
   const [rejectedRequestsCount, setRejectedRequestsCount] = useState<number>(0);
   const [student, setStudent] = useState<Student | null>(null);
+  const [todos, setTodos] = useState<TodoItem[]>([]);
+  const [todoInput, setTodoInput] = useState<string>('');
 
-
-  const studentId = localStorage.getItem("userId"); 
+  const studentId = localStorage.getItem("userId");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const studentResponse = await axios.get(`http://localhost:5025/api/Student/details/${studentId}`);
+        const studentResponse = await axios.get<Student>(`http://localhost:5025/api/Student/details/${studentId}`);
         setStudent(studentResponse.data);
 
-        const mySubjectsResponse = await axios.get(`http://localhost:5025/api/SubjectRequests/${studentId}/mysubjects`);
+        const mySubjectsResponse = await axios.get<number>(`http://localhost:5025/api/SubjectRequests/${studentId}/mysubjects`);
         setMySubjectsCount(mySubjectsResponse.data);
 
-        const acceptedRequestsResponse = await axios.get(`http://localhost:5025/api/SubjectRequests/${studentId}/acceptedrequests`);
+        const acceptedRequestsResponse = await axios.get<number>(`http://localhost:5025/api/SubjectRequests/${studentId}/acceptedrequests`);
         setAcceptedRequestsCount(acceptedRequestsResponse.data);
 
-        const rejectedRequestsResponse = await axios.get(`http://localhost:5025/api/SubjectRequests/${studentId}/rejectedrequests`);
+        const rejectedRequestsResponse = await axios.get<number>(`http://localhost:5025/api/SubjectRequests/${studentId}/rejectedrequests`);
         setRejectedRequestsCount(rejectedRequestsResponse.data);
+
+        const todosResponse = await axios.get<TodoItem[]>(`http://localhost:5025/api/Todos/${studentId}`);
+        setTodos(todosResponse.data);
       } catch (error) {
         console.error("Error fetching data", error);
       }
     };
 
-    fetchData();
+    if (studentId) {
+      fetchData();
+    }
   }, [studentId]);
 
+  const handleAddTodo = async () => {
+    try {
+      if (todoInput.trim() !== '') {
+        const todoResponse = await axios.post<TodoItem>(`http://localhost:5025/api/Todos/${studentId}`, { text: todoInput });
+        setTodos([...todos, todoResponse.data]);
+        setTodoInput('');
+      }
+    } catch (error) {
+      console.error("Error adding todo", error);
+    }
+  };
+
+  const handleRemoveTodo = async (index: number) => {
+    try {
+      await axios.delete(`http://localhost:5025/api/Todos/${todos[index].id}`);
+      const updatedTodos = [...todos];
+      updatedTodos.splice(index, 1);
+      setTodos(updatedTodos);
+    } catch (error) {
+      console.error("Error deleting todo", error);
+    }
+  };
+
+  const handleCompleteTodo = async (index: number) => {
+    try {
+      const updatedTodo = { ...todos[index], isCompleted: true };
+      await axios.put(`http://localhost:5025/api/Todos/${todos[index].id}`, updatedTodo);
+      const updatedTodos = [...todos];
+      updatedTodos[index] = updatedTodo;
+      setTodos(updatedTodos);
+    } catch (error) {
+      console.error("Error completing todo", error);
+    }
+  };
+
   if (!student) {
-    return <Variants/>;
+    return <div>Loading...</div>;
   }
 
   return (
     <Grid container sx={{ height: "100vh" }}>
-      <Grid item sm={2}></Grid>
-      <Grid item sm={3}>
-        <Card
-          sx={{
-            borderRadius: 3,
-            boxShadow: 3,
-            width: 300,
-            mt: 5,
-            bgcolor: "#DEF1FE",
-            height: 500,
-            transition: "transform 0.3s ease-in-out",
-            "&:hover": {
-              transform: "scale(1.01)",
-            },
-          }}
-        >
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
+      <Grid item sm={5}>
+        <Box display="flex" alignItems="flex-start" p={2} ml={6}>
+          <Typography variant="h4" fontWeight="bold" sx={{ color: "darkblue" }}>
+            {`Hi, ${student.firstName} ${student.lastName}!!`}
+          </Typography>
+          <span role="img" aria-label="smile" style={{ marginLeft: 8, fontSize: '2em' }}>
+            👋👋
+          </span>
+        </Box>
+        <Box ml={6} p={2}>
+          <Card
             sx={{
-              borderBottom: `3px solid ${darkblue[200]}`,
+              borderRadius: 3,
+              boxShadow: 3,
+              width: "70%",
+              height: 500,
+              transition: "transform 0.3s ease-in-out",
+              "&:hover": {
+                transform: "scale(1.01)",
+              },
             }}
           >
-            <CardHeader title={`Hi ${student.firstName} ${student.lastName}!!`} />
-          </Box>
+            <Box
+              display="flex"
+              justifyContent="flex-start"
+              ml={14}
+              my={5}
 
-          <CardContent>
-            <Box display="flex" justifyContent="center" alignItems="center">
-              <img
-                alt="profile-user"
-                width="120px"
-                height="120px"
-                src={student.profileUrl}
-                style={{ cursor: "pointer", borderRadius: "50%" }}
-              />
-            </Box>
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              sx={{
-                mt: 2,
-              }}
-            ></Box>
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="flex-start"
-              flexDirection="column"
-              sx={{ color: darkblue[900] }}
             >
-              <Typography>
-                <Tooltip title="Email">
-                  <EmailIcon />
-                </Tooltip>
-                <h5>{student.email}</h5>
-              </Typography>
+              <Box display="flex">
+                {student.profileUrl ? (
+                  <img
+                    alt="profile-user"
+                    width="150px"
+                    height="150px"
+                    src={student.profileUrl}
+                    style={{
+                      cursor: "pointer",
+                      borderRadius: "50%",
+                      border: "3px solid black",
+                    }}
+                  />
+                ) : (
+                  <Avatar
+                    alt="default-avatar"
+                    sx={{
+                      width: 150,
+                      height: 150,
+                      cursor: "pointer",
+                      border: "3px solid black",
+                    }}
+                  >
 
-              <Typography>
-                <Tooltip title="Phone No">
-                  <CallIcon />
-                </Tooltip>
-                <h5>{student.phoneNumber}</h5>
-              </Typography>
+                  </Avatar>
+                )}
+              </Box>
+
             </Box>
-          </CardContent>
-        </Card>
+
+            <CardContent>
+              <Box display="flex" alignItems="center">
+                < PersonIcon sx={{ fontSize: 28, color: "darkblue" }} />
+                <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+                  Student
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center" sx={{ marginTop: 3 }}>
+                <EmailIcon sx={{ fontSize: 28, color: "darkblue" }} />
+                <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+                  {student.email}
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center" sx={{ marginTop: 3 }}>
+                <CallIcon sx={{ fontSize: 28, color: "darkblue" }} />
+                <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+                  {student.phoneNumber}
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
       </Grid>
       <Grid
         item
         sm={7}
         container
-        sx={{ mt: 5, display: "flex", justifyContent: "space-around" }}
+        sx={{ mt: 12, display: "flex", justifyContent: "space-around" }}
       >
         <Grid item>
           <Card
             sx={{
               borderRadius: 3,
               boxShadow: 3,
-              width: 200,
-              bgcolor: "#DEF1FE",
-              height: 150,
+              width: 230,
+              height: 120,
               transition: "transform 0.3s ease-in-out",
               "&:hover": {
                 transform: "scale(1.01)",
@@ -164,10 +231,16 @@ export default function DashboardSt() {
               justifyContent="center"
               alignItems="center"
               sx={{
-                borderBottom: `3px solid ${darkblue[200]}`,
+                borderBottom: `2px solid ${darkblue[200]}`,
               }}
             >
-              <CardHeader title="My Subjects" />
+              <CardHeader
+                subheader={
+                  <Typography variant="subtitle1" fontWeight="bold" sx={{ color: "darkblue" }}>
+                    Current Subjects
+                  </Typography>
+                }
+              />
             </Box>
             <CardContent
               sx={{
@@ -176,8 +249,8 @@ export default function DashboardSt() {
                 alignItems: "center",
               }}
             >
-              <LocalLibraryIcon sx={{ color: "Darkblue", fontSize: 40 }} />
-              <Typography sx={{ color: "Darkblue", fontSize: 30 }}>
+              <LocalLibraryIcon sx={{ color: "Darkblue", fontSize: 30 }} />
+              <Typography sx={{ color: "Darkblue", fontSize: 25 }}>
                 {mySubjectsCount}
               </Typography>
             </CardContent>
@@ -189,9 +262,8 @@ export default function DashboardSt() {
             sx={{
               borderRadius: 3,
               boxShadow: 3,
-              width: 200,
-              bgcolor: "#DEF1FE",
-              height: 150,
+              width: 230,
+              height: 120,
               transition: "transform 0.3s ease-in-out",
               "&:hover": {
                 transform: "scale(1.01)",
@@ -203,10 +275,16 @@ export default function DashboardSt() {
               justifyContent="center"
               alignItems="center"
               sx={{
-                borderBottom: `3px solid ${darkblue[200]}`,
+                borderBottom: `2px solid ${darkblue[200]}`,
               }}
             >
-              <CardHeader title="Requests" />
+              <CardHeader
+                subheader={
+                  <Typography variant="subtitle1" fontWeight="bold" sx={{ color: "darkblue" }}>
+                    Requested
+                  </Typography>
+                }
+              />
             </Box>
             <CardContent
               sx={{
@@ -215,21 +293,21 @@ export default function DashboardSt() {
                 alignItems: "center",
               }}
             >
-              <ArrowOutwardIcon sx={{ color: "green", fontSize: 40 }} />
-              <Typography sx={{ color: "Darkblue", fontSize: 30 }}>
+              <ArrowOutwardIcon sx={{ color: "green", fontSize: 30 }} />
+              <Typography sx={{ color: "Darkblue", fontSize: 25 }}>
                 {acceptedRequestsCount}
               </Typography>
             </CardContent>
           </Card>
         </Grid>
+
         <Grid item>
           <Card
             sx={{
               borderRadius: 3,
               boxShadow: 3,
-              width: 200,
-              bgcolor: "#DEF1FE",
-              height: 150,
+              width: 230,
+              height: 120,
               transition: "transform 0.3s ease-in-out",
               "&:hover": {
                 transform: "scale(1.01)",
@@ -241,10 +319,16 @@ export default function DashboardSt() {
               justifyContent="center"
               alignItems="center"
               sx={{
-                borderBottom: `3px solid ${darkblue[200]}`,
+                borderBottom: `2px solid ${darkblue[200]}`,
               }}
             >
-              <CardHeader title="Rejected" />
+              <CardHeader
+                subheader={
+                  <Typography variant="subtitle1" fontWeight="bold" sx={{ color: "darkblue" }}>
+                    Rejected
+                  </Typography>
+                }
+              />
             </Box>
             <CardContent
               sx={{
@@ -253,14 +337,80 @@ export default function DashboardSt() {
                 alignItems: "center",
               }}
             >
-              <BlockIcon sx={{ color: "red", fontSize: 40 }} />
-              <Typography sx={{ color: "Darkblue", fontSize: 30 }}>
+              <BlockIcon sx={{ color: "red", fontSize: 30 }} />
+              <Typography sx={{ color: "Darkblue", fontSize: 25 }}>
                 {rejectedRequestsCount}
               </Typography>
             </CardContent>
           </Card>
         </Grid>
+        <Box mb={9}>
+        <Grid item>
+          <Card
+            sx={{
+              borderRadius: 3,
+              boxShadow: 3,
+              width: 800,
+              height: 300,
+              transition: "transform 0.3s ease-in-out",
+              "&:hover": {
+                transform: "scale(1.01)",
+              },
+            }}
+          >
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              sx={{
+                borderBottom: `2px solid ${darkblue[200]}`,
+              }}
+            >
+              <CardHeader
+                subheader={
+                  <Typography variant="subtitle1" fontWeight="bold" sx={{ color: "darkblue" }}>
+                    Todo List
+                  </Typography>
+                }
+              />
+            </Box>
+            <CardContent>
+              <List>
+                {todos.map((todo, index) => (
+                  <ListItem key={index} disablePadding>
+                    <ListItemText primary={todo.text} />
+                    {!todo.isCompleted ? (
+                      <IconButton aria-label="complete" onClick={() => handleCompleteTodo(index)}>
+                        <CheckBoxIcon />
+                      </IconButton>
+                    ) : null}
+                    <IconButton aria-label="delete" onClick={() => handleRemoveTodo(index)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </ListItem>
+                ))}
+              </List>
+              <Box display="flex" alignItems="center" justifyContent="center" mt={2}>
+                <TextField
+                  variant="outlined"
+                  placeholder="Add a new todo"
+                  size="small"
+                  value={todoInput}
+                  onChange={(e) => setTodoInput(e.target.value)}
+                  sx={{ mr: 1, width:800 }}
+                />
+                <IconButton aria-label="add todo" onClick={handleAddTodo}>
+                  <AddIcon />
+                </IconButton>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+        </Box>
+
+        
       </Grid>
+      
     </Grid>
   );
 }
