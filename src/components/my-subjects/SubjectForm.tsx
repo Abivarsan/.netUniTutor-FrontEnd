@@ -100,7 +100,7 @@ export default function SubjectForm({
   }, [subject, open]);
 
   const onSubmit = async (data: SubjectInputs) => {
-    const tutorId = 2;
+    const tutorId = localStorage.getItem("userId");
     if (subject) {
       try {
         setIsLoading(true);

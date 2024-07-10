@@ -1,7 +1,4 @@
 
-
-
-
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "./../firebase"; // Adjust the path based on your actual setup
@@ -86,7 +83,7 @@ const EditProfile: React.FC = () => {
 
       // Update profile data
       await axios.put(
-        `http://localhost:5025/api/Student/ProfileUpdate/${userId}`,
+        `http://localhost:5025/api/Tutor/ProfileUpdate/${userId}`,
         profileData
       );
 

@@ -20,7 +20,7 @@ export default function MySubjects() {
   const [deleteData, setDeleteData] = useState<string | null>(null);
 
   const fetchSubjects = async () => {
-    const tutorId = 2;
+    const tutorId = localStorage.getItem("userId");
     setIsFetching(true);
     try {
       const response = await axios.get(

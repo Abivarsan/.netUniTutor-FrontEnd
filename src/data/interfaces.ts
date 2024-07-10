@@ -4,6 +4,7 @@ export interface SubjectResponse extends SubjectInputs {
   _id: number;
   averageRating: number;
   tutorName: string;
+  tutorId: number;
 }
 
 export interface RequestResponse {

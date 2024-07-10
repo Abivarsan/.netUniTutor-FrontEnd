@@ -1,3 +1,4 @@
+
 // src/Admin/Pages/CommentsPage/CommentsPage.tsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -6,7 +7,7 @@ import { Container, Typography } from '@mui/material';
 import './CommentsPage.scss';
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 70 },
+  { field: '_id', headerName: 'ID', width: 70 },
   { field: 'userType', headerName: 'User Type', width: 130 },
   { field: 'fullName', headerName: 'Name', width: 200 },
   { field: 'commentText', headerName: 'Comment', width: 400 },
@@ -30,7 +31,7 @@ const CommentsPage: React.FC = () => {
   return (
     <Container className="commentsPage">
       <Typography variant="h5" gutterBottom>
-       <h1>Comments</h1> 
+        <h1>Comments</h1>
       </Typography>
       <div style={{ height: 400, width: '100%' }}>
         <DataGrid
@@ -39,6 +40,7 @@ const CommentsPage: React.FC = () => {
           pageSizeOptions={[5, 10, 20]}
           paginationModel={{ pageSize, page: 0 }}
           onPaginationModelChange={(newModel) => setPageSize(newModel.pageSize)}
+          getRowId={(row) => row._id}
         />
       </div>
     </Container>

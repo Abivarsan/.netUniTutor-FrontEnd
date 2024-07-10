@@ -80,7 +80,7 @@ const EditProfilest: React.FC = () => {
 
       // Update profile data
       await axios.put(
-        `http://localhost:5025/api/Student/ProfileUpdate/${userId}`,
+        `http://localhost:5025/api/Student/ProfileUpdate${userId}`,
         profileData
       );
 
