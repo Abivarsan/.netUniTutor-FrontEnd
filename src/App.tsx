@@ -60,6 +60,7 @@ import Return from "./Payment";
 import Comment from "./Comment";
 
 import EditProfilest from "./Student/Editprofile";
+import { Logout } from "@mui/icons-material";
 
 const Layout: React.FC = () => {
   return (
@@ -148,6 +149,7 @@ function App() {
             <Route path="requests" element={<Requests />} />
             <Route path="comments" element={<CommentsPage />} />
             <Route path="settings" element={<SettingsPage />} />
+            <Route path="logOut" element={<Logout />} />
           </Route>
           <Route path="/login" element={<Login />} />
         </Routes>

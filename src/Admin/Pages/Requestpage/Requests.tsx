@@ -105,7 +105,7 @@ const Requests: React.FC = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await axios.get("http://localhost:5025/api/Admin/AllTutors");
+        const response = await axios.get("http://localhost:5025/api/Admin/TutorVerification");
         setRequests(
           response.data.map((request: any) => ({
             ...request,
