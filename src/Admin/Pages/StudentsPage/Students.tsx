@@ -6,7 +6,7 @@ import Add from "../../Components/Add/Add";
 import axios from "axios";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
+  { field: "_id", headerName: "ID", width: 90 },
   {
     field: "profileUrl",
     headerName: "Avatar",

@@ -6,7 +6,7 @@ import Add from "../../Components/Add/Add";
 import axios from "axios";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
+  { field: "_id", headerName: "ID", width: 90 },
   {
     field: "profileUrl",
     headerName: "Avatar",
@@ -34,7 +34,7 @@ const columns: GridColDef[] = [
     width: 120,
     type: "string",
   },
-  { 
+  {
     field: "verified",
     headerName: "Verified",
     width: 80,
@@ -57,6 +57,7 @@ const Tutors = () => {
     const fetchTutors = async () => {
       try {
         const response = await axios.get("http://localhost:5025/api/Admin/AllTutors");
+        console.log(response.data); // Debugging log
         setTutors(response.data);
       } catch (error) {
         console.error("Error fetching tutors:", error);
