@@ -28,3 +28,25 @@ export interface RequestResponse {
   status: string;
   timestamp: string;
 }
+
+
+export interface SubjectRequest {
+  rating: number | undefined;
+  description: string;
+  tutorName: string;
+  _id: number;
+  subjectId: {
+    _id: number;
+    title: string;
+    coverImage: string;
+  };
+  studentId: number;
+  tutorId: {
+    _id: number;
+    firstName: string;
+    lastName: string;
+  };
+  studentEmail: string;
+  status: string;
+  timestamp: string;
+}

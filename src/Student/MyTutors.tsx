@@ -1,32 +1,59 @@
-import { Box, Grid } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Grid, Typography } from "@mui/material";
 import Tutorcardchat from "./Tutorcardchat";
+import axios from "axios";
+import { SubjectRequest } from "../data/interfaces";
+import { toast } from "react-toastify";
 
-export default function MyTutors() {
+export default function Mysubjects() {
+  const [requestedSubjects, setRequestedSubjects] = useState<SubjectRequest[]>([]);
+  const [isFetching, setIsFetching] = useState<boolean>(true);
+
+  const fetchRequestedSubjects = async () => {
+    try {
+      setIsFetching(true);
+      const studentId = localStorage.getItem("userObjId");
+      const response = await axios.get(`http://localhost:8082/subject-request/student/${studentId}`);
+      setRequestedSubjects(response.data);
+      setIsFetching(false);
+    } catch (error) {
+      toast.error("Something went wrong");
+      setIsFetching(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRequestedSubjects();
+  }, []);
+
+  if (isFetching)
+    return (
+      <Box>
+        <Typography variant="h6" color="textSecondary" align="center">
+          Loading...
+        </Typography>
+      </Box>
+    );
+
   return (
-    
-    <Grid container p={3} spacing={4} sx={{ width: '100%', height: '100%' }}>
-      {[1, 2, 3].map((key) => (
-        <Grid
-          container
-          item
-          sm={12}
-          spacing={3}
-          display="flex"
-          justifyContent="space-evenly"
-          key={key}
-        >
-          <Grid item sm={3}>
-            <Tutorcardchat />
-          </Grid>
-          <Grid item sm={3}>
-            <Tutorcardchat />
-          </Grid>
-          <Grid item sm={3}>
-            <Tutorcardchat />
-          </Grid>
+    <Box sx={{ p: 2 }}>
+      {requestedSubjects.length === 0 ? (
+        <Typography variant="h4" color="textSecondary" align="center">
+          No subjects yet
+        </Typography>
+      ) : (
+        <Grid container spacing={2}>
+          {requestedSubjects.map((request) => (
+            <Grid item sm={4} key={request._id}>
+              <Tutorcardchat
+                tutorName={request.tutorName}
+                tutorDescription={request.description}
+                initialRating={request.rating}
+              />
+            </Grid>
+          ))}
         </Grid>
-      ))}
-    </Grid>
-   
+      )}
+    </Box>
   );
 }
