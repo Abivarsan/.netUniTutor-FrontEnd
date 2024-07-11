@@ -10,6 +10,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   AppBar,
   Checkbox,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   FormGroup,
@@ -196,6 +197,7 @@ const TutorForm1 = () => {
         console.log("URL = ", url);
         setValue("universityID", url);
         toast.success("File uploaded successfully");
+        
       }
     );
   };
@@ -432,6 +434,7 @@ const TutorForm1 = () => {
                           accept="image/*"
                           type="file"
                           onChange={handleUploadCv}
+                          
                         />
                       </Button>
 
@@ -536,10 +539,12 @@ const TutorForm1 = () => {
                     type="submit"
                     variant="contained"
                     disabled={isLoading}
+                    startIcon={isLoading ? <CircularProgress size="1rem" /> : null}
+
                     sx={{
                       mt: 1,
                       mb: 1,
-                      width: 100,
+                      width: 120,
                       color: "white",
                       backgroundColor: "#1e90ff",
                       borderRadius: "20px",
@@ -548,7 +553,7 @@ const TutorForm1 = () => {
                       },
                     }}
                   >
-                    Register
+                    {isLoading ?" Registering" : "Register"}
                   </Button>
                 </Box>
               </form>

@@ -55,38 +55,24 @@ export default function Coinbank() {
   };
 
   return (
-    <Grid container sx={{ height: "100vh" }}>
-      <Box
-        sx={{ width: "100%", p: 2 }}
-        display={"flex"}
-        flexDirection={"row-reverse"}
-      >
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
-            <Tab label=" Coin Wallet" {...a11yProps(0)} />
-            <Tab label="Buy Coins" {...a11yProps(1)} />
-            
-          </Tabs>
-        </Box>
-        <CustomTabPanel value={value} index={0}>
-          <center>
-            <CoinWallet />
-          </center>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          {/* <Typography variant="h6">Buy Coins Content</Typography> */}
-          <center>
-            <BuyCoins />
-          </center>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          <Typography variant="h6">Payments Content</Typography>
-        </CustomTabPanel>
+    <Box p={2}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+        >
+          <Tab label=" Coin Wallet" {...a11yProps(0)} />
+          <Tab label="Buy Coins" {...a11yProps(1)} />
+        </Tabs>
       </Box>
-    </Grid>
+      <CustomTabPanel value={value} index={0}>
+        <CoinWallet />
+      </CustomTabPanel>
+
+      <CustomTabPanel value={value} index={1}>
+        <BuyCoins />
+      </CustomTabPanel>
+    </Box>
   );
 }

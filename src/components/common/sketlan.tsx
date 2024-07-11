@@ -7,43 +7,37 @@ import { Grid } from '@mui/material';
 export default function Variants() {
     return (
         <Grid container sx={{ height: "100vh" }}>
-            <Grid item sm={2}></Grid>
-            <Grid item sm={3}>
-                <Stack spacing={1} my={18}>
+
+            <Grid item sm={5}>
+                <Stack spacing={1} p={2} my={8}>
                     {/* For variant="text", adjust the height via font-size */}
-                    <Box display="flex" justifyContent="center">
-                        <Skeleton variant="text" width={300} height={50} />
-                    </Box>
-                    {/* Center the circular Skeleton */}
-                    <Box display="flex" justifyContent="center">
-                        <Skeleton variant="circular" width={150} height={150} />
-                    </Box>
 
-                    {/* Center the rectangular Skeleton */}
-                    <Box display="flex" justifyContent="center">
-                        <Skeleton variant="rectangular" width={300} height={60} />
-                    </Box>
 
-                    {/* Center the rounded Skeleton */}
+
+
+
                     <Box display="flex" justifyContent="center">
-                        <Skeleton variant="rounded" width={300} height={60} />
-                    </Box>
-                    <Box display="flex" justifyContent="center">
-                        <Skeleton variant="rounded" width={300} height={60} />
+                        <Skeleton variant="rounded" width="70%" height={500} />
                     </Box>
                 </Stack>
             </Grid>
-            <Grid item container sm={7} my={18}  sx={{  display: "flex", justifyContent: "space-around" }}>
+            <Grid item container sm={7} my={10} sx={{ display: "flex", justifyContent: "space-around" }}>
                 <Grid item>
-                    <Skeleton variant="rectangular" width={200} height={150} />
+                    <Skeleton variant="rectangular" width={230} height={120} />
                 </Grid>
                 <Grid item>
-                    <Skeleton variant="rectangular" width={200} height={150} />
+                    <Skeleton variant="rectangular" width={230} height={120} />
                 </Grid>
 
                 <Grid item>
-                    <Skeleton variant="rectangular" width={200} height={150} />
+                    <Skeleton variant="rectangular" width={230} height={120} />
                 </Grid>
+                <Box mb={9}>
+                    <Grid item>
+                    <Skeleton variant="rectangular" width={800} height={300} />
+                </Grid></Box>
+
+
 
             </Grid>
 
