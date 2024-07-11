@@ -16,7 +16,7 @@ const DataTable: React.FC<Props> = ({ columns, rows, slug }) => {
     width: 150,
     renderCell: (params) => (
       <div className="action">
-        <Link to={`/Admin/${slug}/${params.row.id}`}>
+        <Link to={`/Admin/${slug}/${params.row._id}`}>
           <img src="/view.svg" alt="view" />
         </Link>
       </div>
@@ -29,6 +29,7 @@ const DataTable: React.FC<Props> = ({ columns, rows, slug }) => {
         className="dataGrid"
         rows={rows}
         columns={[...columns, actionColumn]}
+        getRowId={(row) => row._id} // Specify the unique identifier for each row
         initialState={{
           pagination: {
             paginationModel: { pageSize: 10, page: 0 },
@@ -53,5 +54,3 @@ const DataTable: React.FC<Props> = ({ columns, rows, slug }) => {
 };
 
 export default DataTable;
-
-

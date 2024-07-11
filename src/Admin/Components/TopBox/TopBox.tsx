@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./TopBox.scss";
-
+import CustomAvatar from "../../Components/Avatar/CustomAvatar";
 interface User {
   id: number;
   fullName: string;
   email: string;
-  avatarUrl: string;
+  profileUrl: string;
   type: string;
+
 }
 
 const TopBox: React.FC = () => {
@@ -33,7 +34,10 @@ const TopBox: React.FC = () => {
         {users.map((user) => (
           <div className="listItem" key={user.id}>
             <div className="user">
-              <img src={user.avatarUrl} alt="" />
+              <CustomAvatar
+                name={user.fullName}
+                src={user.profileUrl}
+              />
               <div className="userTexts">
                 <span className="username">{user.fullName}</span>
                 <span className="email">{user.email}</span>

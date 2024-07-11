@@ -34,19 +34,6 @@ export const menu = [
   },
   {
     id: 3,
-    title: "analysis",
-    listItems: [
-      {
-        id: 1,
-        title: "Charts",
-        url: "/Admin/Admincharts",
-        icon: <BarChart />,
-      },
-    ],
-  },
-
-  {
-    id: 4,
     title: "faq",
     listItems: [
       {
@@ -58,7 +45,7 @@ export const menu = [
     ],
   },
   {
-    id: 5,
+    id: 4,
     title: "Maintenance",
     listItems: [
       {
@@ -76,7 +63,7 @@ export const menu = [
     ],
   },
   {
-    id: 6,
+    id: 5,
     title: "exit",
     listItems: [
       {

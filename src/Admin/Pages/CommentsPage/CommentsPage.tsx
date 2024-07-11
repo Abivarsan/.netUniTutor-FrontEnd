@@ -8,6 +8,7 @@ import './CommentsPage.scss';
 
 const columns: GridColDef[] = [
   { field: '_id', headerName: 'ID', width: 70 },
+  { field: 'ProfileUrl', headerName: 'Avatar', width: 130},
   { field: 'userType', headerName: 'User Type', width: 130 },
   { field: 'fullName', headerName: 'Name', width: 200 },
   { field: 'commentText', headerName: 'Comment', width: 400 },
