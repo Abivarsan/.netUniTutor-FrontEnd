@@ -208,6 +208,7 @@ import axios from "axios";
 import "./Requests.scss";
 import { toast } from "react-toastify";
 import AlertBox from "../../../components/common/Alert";
+import ImageViewerDialog from "../../Components/ImageViewerDialog/ImageViewerDialog";
 
 const Requests: React.FC = () => {
   const [requests, setRequests] = useState<
@@ -227,6 +228,8 @@ const Requests: React.FC = () => {
   const [alertMessage, setAlertMessage] = useState<string>("");
   const [currentId, setCurrentId] = useState<number | null>(null);
   const [actionType, setActionType] = useState<string>("");
+  const [imageViewerOpen, setImageViewerOpen] = useState<boolean>(false);
+  const [imageToView, setImageToView] = useState<string>("");
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -300,11 +303,14 @@ const Requests: React.FC = () => {
     setActionType("");
   };
 
-  const handleViewImage = (cv: string) => {
-    window.open(cv, "_blank");
+  const handleViewImage = (imageUrl: string) => {
+    setImageToView(imageUrl);
+    setImageViewerOpen(true);
   };
-  const handleViewone = (universityID: string) => {
-    window.open(universityID, "_blank");
+
+  const handleCloseImageViewer = () => {
+    setImageViewerOpen(false);
+    setImageToView("");
   };
 
   if (loading) return <CircularProgress />;
@@ -321,7 +327,7 @@ const Requests: React.FC = () => {
           onAccept={(_id) => handleOpenAlert(_id, "accept")}
           onReject={(_id) => handleOpenAlert(_id, "reject")}
           onViewCv={(cv) => handleViewImage(cv)}
-          onViewUniversityId={(universityID) => handleViewone(universityID)}
+          onViewUniversityId={(universityID) => handleViewImage(universityID)}
         />
       </Container>
       <AlertBox
@@ -330,6 +336,11 @@ const Requests: React.FC = () => {
         message={alertMessage}
         onClose={handleCloseAlert}
         onAgree={actionType === "accept" ? handleAccept : handleReject}
+      />
+      <ImageViewerDialog
+        open={imageViewerOpen}
+        imageUrl={imageToView}
+        onClose={handleCloseImageViewer}
       />
     </div>
   );
