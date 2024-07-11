@@ -43,7 +43,7 @@ interface Student {
 }
 
 interface TodoItem {
-  id: number;
+  _id: number;
   text: string;
   isCompleted: boolean;
 }
@@ -57,23 +57,34 @@ export default function DashboardSt() {
   const [todoInput, setTodoInput] = useState<string>('');
 
   const studentId = localStorage.getItem("userId");
+  const type = localStorage.getItem("userRole");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("Fetching student details...");
         const studentResponse = await axios.get<Student>(`http://localhost:5025/api/Student/details/${studentId}`);
+        console.log("Student details:", studentResponse.data);
         setStudent(studentResponse.data);
 
+        console.log("Fetching my subjects count...");
         const mySubjectsResponse = await axios.get<number>(`http://localhost:5025/api/SubjectRequests/${studentId}/mysubjects`);
+        console.log("My subjects count:", mySubjectsResponse.data);
         setMySubjectsCount(mySubjectsResponse.data);
 
+        console.log("Fetching accepted requests count...");
         const acceptedRequestsResponse = await axios.get<number>(`http://localhost:5025/api/SubjectRequests/${studentId}/acceptedrequests`);
+        console.log("Accepted requests count:", acceptedRequestsResponse.data);
         setAcceptedRequestsCount(acceptedRequestsResponse.data);
 
+        console.log("Fetching rejected requests count...");
         const rejectedRequestsResponse = await axios.get<number>(`http://localhost:5025/api/SubjectRequests/${studentId}/rejectedrequests`);
+        console.log("Rejected requests count:", rejectedRequestsResponse.data);
         setRejectedRequestsCount(rejectedRequestsResponse.data);
 
-        const todosResponse = await axios.get<TodoItem[]>(`http://localhost:5025/api/Todos/${studentId}`);
+        console.log("Fetching todo items...");
+        const todosResponse = await axios.get<TodoItem[]>(`http://localhost:5025/api/TodoItem/student/${studentId}`);
+        console.log("Todo items:", todosResponse.data);
         setTodos(todosResponse.data);
       } catch (error) {
         console.error("Error fetching data", error);
@@ -88,8 +99,10 @@ export default function DashboardSt() {
   const handleAddTodo = async () => {
     try {
       if (todoInput.trim() !== '') {
-        const todoResponse = await axios.post<TodoItem>(`http://localhost:5025/api/Todos/${studentId}`, { text: todoInput });
+        const todoResponse = await axios.post<TodoItem>(`http://localhost:5025/api/TodoItem/${type}/${studentId}`, { text: todoInput });
         setTodos([...todos, todoResponse.data]);
+        console.log("Todo added:", todoResponse.data);
+        
         setTodoInput('');
       }
     } catch (error) {
@@ -99,7 +112,7 @@ export default function DashboardSt() {
 
   const handleRemoveTodo = async (index: number) => {
     try {
-      await axios.delete(`http://localhost:5025/api/Todos/${todos[index].id}`);
+      await axios.delete(`http://localhost:5025/api/TodoItem/${todos[index]._id}`);
       const updatedTodos = [...todos];
       updatedTodos.splice(index, 1);
       setTodos(updatedTodos);
@@ -111,9 +124,10 @@ export default function DashboardSt() {
   const handleCompleteTodo = async (index: number) => {
     try {
       const updatedTodo = { ...todos[index], isCompleted: true };
-      await axios.put(`http://localhost:5025/api/Todos/${todos[index].id}`, updatedTodo);
-      const updatedTodos = [...todos];
-      updatedTodos[index] = updatedTodo;
+      await axios.put(`http://localhost:5025/api/TodoItem/${todos[index]._id}`, updatedTodo);
+      const updatedTodos = todos.map((todo, idx) => 
+        idx === index ? updatedTodo : todo
+      );
       setTodos(updatedTodos);
     } catch (error) {
       console.error("Error completing todo", error);
