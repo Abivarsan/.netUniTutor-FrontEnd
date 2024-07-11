@@ -61,6 +61,7 @@ import Comment from "./Comment";
 
 import EditProfilest from "./Student/Editprofile";
 import { Logout } from "@mui/icons-material";
+import Mysubjects from "./Student/MyTutors";
 
 const Layout: React.FC = () => {
   return (
@@ -110,7 +111,7 @@ const StudentRoutes: React.FC = () => (
         <Route path="editprofile" element={<EditProfilest/>} />
         <Route path="Requested" element={<Requested />} />  
         <Route path="message" element={<Message />} />
-        <Route path="MyTutors" element={<MyTutors />} />
+        <Route path="MySubjects" element={<Mysubjects />} />
         <Route path="Comment" element={<Comment />} />
         <Route path="Search" element={<SearchSt />} />
       </Routes>

@@ -19,7 +19,7 @@ import Comment from "./Comment";
 
 
 
-import MyTutors from "./Student/MyTutors"
+import Mysubjects from "./Student/MyTutors"
 
 import Settingst from "./Tutor/Settings";
 import Helpst from "./Comment";
@@ -54,10 +54,10 @@ const data = [
  
   {
     id: 3,
-    label: "MyTutors",
+    label: "MySubjects",
     icon: <Groups2Icon />,
-    component: <MyTutors />,
-    path: "/Student/MyTutors",
+    component: <Mysubjects />,
+    path: "/Student/MySubjects",
   },
   {
     id: 4,

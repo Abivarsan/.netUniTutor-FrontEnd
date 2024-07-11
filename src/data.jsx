@@ -43,7 +43,7 @@ const data = [
   },
   {
     id: 2,
-    label: "Studentlist",
+    label: "Requestlist",
     icon: <List />,
     component: <Requestlist />,
     path: "/Tutor/requestlist",

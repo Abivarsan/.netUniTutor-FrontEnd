@@ -170,7 +170,7 @@ export default function DashboardSt() {
 
             >
               <Box display="flex">
-                {student.profileUrl ? (
+                {student.profileUrl ? ( 
                   <img
                     alt="profile-user"
                     width="150px"

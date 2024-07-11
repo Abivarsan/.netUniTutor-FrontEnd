@@ -39,14 +39,35 @@ export interface SubjectRequest {
     _id: number;
     title: string;
     coverImage: string;
+    description: string;
   };
   studentId: number;
   tutorId: {
     _id: number;
+    ProfileUrl: string;
     firstName: string;
     lastName: string;
+    district: string;
+    universityMail: string;
+    phoneNumber: string;
+                    
   };
   studentEmail: string;
   status: string;
   timestamp: string;
 }
+
+export interface FeedbackI {
+  _id: string;
+  studentId: string;
+  subjectId: string;
+  rating: number;
+  feedback: string;
+  timestamp: string;
+}
+export interface ReviewResponse {
+  reviews: FeedbackI[];
+  averageRating: number;
+}
+
+

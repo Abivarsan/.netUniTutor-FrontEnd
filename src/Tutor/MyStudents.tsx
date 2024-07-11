@@ -16,7 +16,7 @@ export default function MyStudents() {
         <Studentcardchat />
         <Studentcardchat />
         <Studentcardchat />
-      </Box>
+      </Box>  
     </Grid>
   );
 }

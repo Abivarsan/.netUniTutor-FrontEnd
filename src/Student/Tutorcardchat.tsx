@@ -128,7 +128,7 @@
 //                 <LocalActivityIcon fontSize="medium" />
 //               </IconButton>
 //             </Tooltip>
-           
+
 //             <Tooltip title="Chat" arrow>
 //               <IconButton aria-label="Chat" sx={{ color: "darkblue" }}>
 //                 <SmsIcon fontSize="medium" />
@@ -264,7 +264,7 @@
 //     </Box>
 //   );
 // }
-
+import axios from 'axios';
 import React, { useState } from "react";
 import { Box, Card, CardActions, CardContent, CardHeader, IconButton, Rating, Modal, Avatar, Tooltip, Button, Typography } from "@mui/material";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
@@ -273,6 +273,12 @@ import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import { toast } from "react-toastify";
 import ReviewSection from "../components/Reviewsection";
 import ReportSection from "../components/ReportSection";
+import { request } from "http";
+import { SubjectRequest } from "../data/interfaces";
+import PersonIcon from '@mui/icons-material/Person';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import CallIcon from "@mui/icons-material/Call";
+import EmailIcon from "@mui/icons-material/Email";
 
 const darkblue = {
   100: "#C9DCF7",
@@ -284,12 +290,11 @@ const darkblue = {
 };
 
 interface TutorCardchatProps {
-  initialRating?: number;
-  tutorName: string;
-  tutorDescription: string;
+  request: SubjectRequest;
+
 }
 
-const Tutorcardchat: React.FC<TutorCardchatProps> = ({ initialRating = 3, tutorName, tutorDescription }) => {
+const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
   const [openModal, setOpenModal] = useState(false);
   const [reviewMode, setReviewMode] = useState<"review" | "report">("review");
 
@@ -305,6 +310,11 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ initialRating = 3, tutorN
     setReviewMode("report");
     handleOpenModal();
   };
+
+
+
+
+
 
   return (
     <Box height={300} width={600}>
@@ -325,11 +335,14 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ initialRating = 3, tutorN
               <AccountBoxIcon fontSize="large" />
             </Avatar>
           }
-          title={tutorName}
+          title={request.subjectId.title}
+          titleTypographyProps={{
+            fontWeight: 'bold'
+          }}
           subheader={
             <Rating
               name="read-only"
-              value={initialRating}
+              value={0}
               readOnly
               sx={{
                 fontSize: 20,
@@ -341,10 +354,38 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ initialRating = 3, tutorN
             borderBottom: `1px solid ${darkblue[200]}`,
           }}
         />
+
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            {tutorDescription}
+          <Box display="flex" alignItems="center" mt={0.5}>
+            < PersonIcon sx={{ fontSize: 25, color: "darkblue" }} />
+            <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+              {request.tutorId.firstName + " " + request.tutorId.lastName}
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center" mt={0.5}>
+            <LocationOnIcon sx={{ fontSize: 22, color: "darkblue" }} />
+            <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+              {request.tutorId.district}
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center" mt={0.5}>
+            <CallIcon sx={{ fontSize: 20, color: "darkblue" }} />
+            <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+              {request.tutorId.phoneNumber}
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center" mt={0.5}>
+            <EmailIcon sx={{ fontSize: 20, color: "darkblue" }} />
+            <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+              {request.tutorId.universityMail}
+            </Typography>
+          </Box>
+
+          <Typography variant="body1" color="text.primary" mt={0.5}>
+            {request.subjectId.description}
           </Typography>
+
+
         </CardContent>
         <Box display={"flex"} justifyContent={"flex-end"}>
           <CardActions>
@@ -421,10 +462,11 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ initialRating = 3, tutorN
           </Box>
 
           {reviewMode === "review" ? (
-            <ReviewSection initialRating={initialRating} onClose={handleCloseModal} />
-          ) : (
-            <ReportSection onClose={handleCloseModal} />
-          )}
+            <ReviewSection initialRating={0} subjectid={request.subjectId._id} studentid={Number(localStorage.getItem("userId"))} onClose={handleCloseModal} />)
+            :
+            (
+              <ReportSection tutorEmail={request.tutorId.universityMail} onClose={handleCloseModal} />
+            )}
         </Box>
       </Modal>
     </Box>

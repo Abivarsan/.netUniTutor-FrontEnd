@@ -27,7 +27,7 @@ export const districts: string[] = [
 ];
 
 export const occupations = ["Undergraduate", "Lecturer"];
-export const modes = ["Online", "Physical", "Both"];
+export const modes = ["Online", "Physical"];
 export const mediums = ["English", "Tamil", "Sinhala"];
 export const weekdays = [
   "Monday",
