@@ -217,7 +217,7 @@ const Requests: React.FC = () => {
       universityMail: string;
       ProfileUrl: string;
       cv: string;
-      universityId: string;
+      universityID: string;
     }[]
   >([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -303,8 +303,8 @@ const Requests: React.FC = () => {
   const handleViewImage = (cv: string) => {
     window.open(cv, "_blank");
   };
-  const handleViewone = (universityId: string) => {
-    window.open(universityId, "_blank");
+  const handleViewone = (universityID: string) => {
+    window.open(universityID, "_blank");
   };
 
   if (loading) return <CircularProgress />;
@@ -321,7 +321,7 @@ const Requests: React.FC = () => {
           onAccept={(_id) => handleOpenAlert(_id, "accept")}
           onReject={(_id) => handleOpenAlert(_id, "reject")}
           onViewCv={(cv) => handleViewImage(cv)}
-          onViewUniversityId={(universityId) => handleViewone(universityId)}
+          onViewUniversityId={(universityID) => handleViewone(universityID)}
         />
       </Container>
       <AlertBox
