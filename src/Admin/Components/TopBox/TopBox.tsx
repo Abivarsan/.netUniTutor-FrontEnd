@@ -34,10 +34,10 @@ const TopBox: React.FC = () => {
         {users.map((user) => (
           <div className="listItem" key={user.id}>
             <div className="user">
-              <CustomAvatar
-                name={user.fullName}
-                src={user.profileUrl}
-              />
+                <CustomAvatar
+                  name={user.fullName}
+                  src={user.profileUrl}
+                />
               <div className="userTexts">
                 <span className="username">{user.fullName}</span>
                 <span className="email">{user.email}</span>
