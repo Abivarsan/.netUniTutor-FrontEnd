@@ -39,14 +39,22 @@ export interface SubjectRequest {
     _id: number;
     title: string;
     coverImage: string;
+    description: string;
   };
   studentId: number;
   tutorId: {
     _id: number;
+    ProfileUrl: string;
     firstName: string;
     lastName: string;
+    district: string;
+    universityMail: string;
+    phoneNumber: string;
+                    
   };
   studentEmail: string;
   status: string;
   timestamp: string;
 }
+
+

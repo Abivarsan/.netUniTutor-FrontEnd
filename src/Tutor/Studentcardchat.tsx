@@ -90,6 +90,7 @@ export default function Studentcardchat() {
                 aria-label="Rating"
                 sx={{ color: darkblue[600] }}
                 onClick={handleOpen}
+                 
               >
                 <ReportGmailerrorredIcon fontSize="medium"  color="error"/>
               </IconButton>

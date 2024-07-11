@@ -128,7 +128,7 @@
 //                 <LocalActivityIcon fontSize="medium" />
 //               </IconButton>
 //             </Tooltip>
-           
+
 //             <Tooltip title="Chat" arrow>
 //               <IconButton aria-label="Chat" sx={{ color: "darkblue" }}>
 //                 <SmsIcon fontSize="medium" />
@@ -264,7 +264,7 @@
 //     </Box>
 //   );
 // }
-
+import axios from 'axios';
 import React, { useState } from "react";
 import { Box, Card, CardActions, CardContent, CardHeader, IconButton, Rating, Modal, Avatar, Tooltip, Button, Typography } from "@mui/material";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
@@ -273,6 +273,8 @@ import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import { toast } from "react-toastify";
 import ReviewSection from "../components/Reviewsection";
 import ReportSection from "../components/ReportSection";
+import { request } from "http";
+import { SubjectRequest } from "../data/interfaces";
 
 const darkblue = {
   100: "#C9DCF7",
@@ -284,12 +286,11 @@ const darkblue = {
 };
 
 interface TutorCardchatProps {
-  initialRating?: number;
-  tutorName: string;
-  tutorDescription: string;
+  request: SubjectRequest;
+
 }
 
-const Tutorcardchat: React.FC<TutorCardchatProps> = ({ initialRating = 3, tutorName, tutorDescription }) => {
+const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
   const [openModal, setOpenModal] = useState(false);
   const [reviewMode, setReviewMode] = useState<"review" | "report">("review");
 
@@ -305,6 +306,24 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ initialRating = 3, tutorN
     setReviewMode("report");
     handleOpenModal();
   };
+
+  
+
+const handleReviewSubmit = async (rating: number, comment: string) => {
+  try {
+    const response = await axios.post('/api/reviews', {
+      rating,
+      comment,
+    });
+
+    console.log('Review submitted successfully');
+    // Optionally handle further actions after successful submission
+  } catch (error) {
+    console.error('Error submitting review:', error);
+    // Handle error, show error message to user, etc.
+  }
+};
+
 
   return (
     <Box height={300} width={600}>
@@ -325,11 +344,14 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ initialRating = 3, tutorN
               <AccountBoxIcon fontSize="large" />
             </Avatar>
           }
-          title={tutorName}
+          title={request.subjectId.title}
+          titleTypographyProps={{
+            fontWeight: 'bold'
+          }}
           subheader={
             <Rating
               name="read-only"
-              value={initialRating}
+              value={0}
               readOnly
               sx={{
                 fontSize: 20,
@@ -341,9 +363,22 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ initialRating = 3, tutorN
             borderBottom: `1px solid ${darkblue[200]}`,
           }}
         />
+
         <CardContent>
+          <Typography variant="body1" color="secondary" fontWeight={"bold"}>
+            {request.tutorId.firstName + " " + request.tutorId.lastName}
+          </Typography>
           <Typography variant="body2" color="text.secondary">
-            {tutorDescription}
+            {request.tutorId.district}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {request.tutorId.phoneNumber}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {request.tutorId.universityMail}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {request.subjectId.description}
           </Typography>
         </CardContent>
         <Box display={"flex"} justifyContent={"flex-end"}>
@@ -421,10 +456,11 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ initialRating = 3, tutorN
           </Box>
 
           {reviewMode === "review" ? (
-            <ReviewSection initialRating={initialRating} onClose={handleCloseModal} />
-          ) : (
-            <ReportSection onClose={handleCloseModal} />
-          )}
+           <ReviewSection initialRating={0} tutorEmail="example@email.com" onClose={() => {}} apiUrl="/api/reviews" />)
+            :
+            (
+              <ReportSection tutorEmail={request.tutorId.universityMail} onClose={handleCloseModal} />
+            )}
         </Box>
       </Modal>
     </Box>

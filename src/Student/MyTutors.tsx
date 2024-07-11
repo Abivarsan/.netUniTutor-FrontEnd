@@ -6,15 +6,15 @@ import { SubjectRequest } from "../data/interfaces";
 import { toast } from "react-toastify";
 
 export default function Mysubjects() {
-  const [requestedSubjects, setRequestedSubjects] = useState<SubjectRequest[]>([]);
+  const [mySubjects, setmySubjects] = useState<SubjectRequest[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(true);
 
-  const fetchRequestedSubjects = async () => {
+  const fetchMySubjects = async () => {
     try {
       setIsFetching(true);
-      const studentId = localStorage.getItem("userObjId");
-      const response = await axios.get(`http://localhost:8082/subject-request/student/${studentId}`);
-      setRequestedSubjects(response.data);
+      const studentId = localStorage.getItem("userId");
+      const response = await axios.get(`http://localhost:5025/api/Request/student/${studentId}/accepted`);
+      setmySubjects(response.data);
       setIsFetching(false);
     } catch (error) {
       toast.error("Something went wrong");
@@ -23,7 +23,7 @@ export default function Mysubjects() {
   };
 
   useEffect(() => {
-    fetchRequestedSubjects();
+    fetchMySubjects();
   }, []);
 
   if (isFetching)
@@ -37,18 +37,16 @@ export default function Mysubjects() {
 
   return (
     <Box sx={{ p: 2 }}>
-      {requestedSubjects.length === 0 ? (
+      {mySubjects.length === 0 ? (
         <Typography variant="h4" color="textSecondary" align="center">
           No subjects yet
         </Typography>
       ) : (
         <Grid container spacing={2}>
-          {requestedSubjects.map((request) => (
+          {mySubjects.map((request) => (
             <Grid item sm={4} key={request._id}>
               <Tutorcardchat
-                tutorName={request.tutorName}
-                tutorDescription={request.description}
-                initialRating={request.rating}
+                request={request}
               />
             </Grid>
           ))}

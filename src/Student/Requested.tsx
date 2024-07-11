@@ -18,9 +18,9 @@ export default function Requested() {
   const fetchRequestedSubjects = async () => {
     try {
       setIsFetching(true);
-      const studentId = localStorage.getItem("userObjId");
+      const studentId =localStorage.getItem("userId");
       const response = await axios.get(
-        `http://localhost:8082/subject-request/student/${studentId}`
+        `http://localhost:5025/api/Request/student/${studentId}/reject/pending`
       );
       setRequestedSubjects(response.data);
       setIsFetching(false);
