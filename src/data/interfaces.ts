@@ -57,4 +57,17 @@ export interface SubjectRequest {
   timestamp: string;
 }
 
+export interface FeedbackI {
+  _id: string;
+  studentId: string;
+  subjectId: string;
+  rating: number;
+  feedback: string;
+  timestamp: string;
+}
+export interface ReviewResponse {
+  reviews: FeedbackI[];
+  averageRating: number;
+}
+
 

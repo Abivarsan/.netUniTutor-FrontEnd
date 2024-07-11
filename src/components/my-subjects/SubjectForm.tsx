@@ -298,7 +298,6 @@ export default function SubjectForm({
             fullWidth
             sx={{ mb: 1 }}
             {...register("mode")}
-            value={getValues("mode")}
             error={!!errors.mode}
             helperText={errors.mode?.message}
           >

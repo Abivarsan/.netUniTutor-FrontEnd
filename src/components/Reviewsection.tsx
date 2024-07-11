@@ -5,12 +5,12 @@ import axios from 'axios';
 
 interface ReviewSectionProps {
   initialRating: 0;
-  tutorEmail: string;
+  subjectid: number;
+  studentid: number;
   onClose: () => void;
-  apiUrl: string; // Prop for the API endpoint URL
 }
 
-const ReviewSection: React.FC<ReviewSectionProps> = ({ initialRating, onClose, apiUrl }) => {
+const ReviewSection: React.FC<ReviewSectionProps> = ({ initialRating, onClose, subjectid, studentid }) => {
   const [value, setValue] = useState<number | null>(initialRating);
   const [feedback, setFeedback] = useState("");
 
@@ -21,16 +21,16 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ initialRating, onClose, a
         return;
       }
 
-      const response = await axios.post(apiUrl, {
+      const response = await axios.post(`http://localhost:5025/api/Review/create/${subjectid}/${studentid}`, {
         rating: value,
         feedback: feedback,
       });
 
       console.log('Review submitted successfully');
+      onClose();
       toast.success("Submitted successfully");
       setFeedback("");
       setValue(initialRating);
-      onClose();
     } catch (error) {
       console.error('Error submitting review:', error);
       toast.error("Failed to submit review");

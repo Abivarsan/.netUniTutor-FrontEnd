@@ -30,6 +30,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { mediums, modes, weekdays } from "../data/data";
 import AlertBox from "../components/common/Alert";
+import PopupModal from "../components/common/PopupModal";
+import SubjectModal from "./SubjectModal";
 
 // Define the type for a tutor
 interface Tutor {
@@ -64,6 +66,9 @@ const SearchSt = () => {
   const [isRequestAlertOpen, setIsRequestAlertOpen] = useState<boolean>(false);
   const [subjectId, setSubjectId] = useState<number | null>(null);
   const [tutorId, setTutorId] = useState<number | null>(null);
+
+  const [selectedSubject, setSelectedSubject] =
+  useState<SubjectResponse | null>(null);
 
   const handleSearch = () => {
     setIsFiltering(true);
@@ -286,6 +291,7 @@ const SearchSt = () => {
                       transform: "scale(1.01)",
                     },
                   }}
+                  onClick={() => setSelectedSubject(subject)}
                 >
                   <CardHeader
                     title={subject.title}
@@ -357,9 +363,17 @@ const SearchSt = () => {
         onClose={() => {
           setIsRequestAlertOpen(false);
           setSubjectId(null);
+          setTutorId(null);
         }}
         onAgree={handleRequest}
       />
+      <PopupModal
+        open={!!selectedSubject}
+        onClose={() => setSelectedSubject(null)}
+        maxWidth="md"
+      >
+        <SubjectModal selectedSubject={selectedSubject!} />
+      </PopupModal>
     </>
   );
 };

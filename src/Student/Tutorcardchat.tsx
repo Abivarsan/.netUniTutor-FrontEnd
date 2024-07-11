@@ -275,6 +275,10 @@ import ReviewSection from "../components/Reviewsection";
 import ReportSection from "../components/ReportSection";
 import { request } from "http";
 import { SubjectRequest } from "../data/interfaces";
+import PersonIcon from '@mui/icons-material/Person';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import CallIcon from "@mui/icons-material/Call";
+import EmailIcon from "@mui/icons-material/Email";
 
 const darkblue = {
   100: "#C9DCF7",
@@ -307,22 +311,9 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
     handleOpenModal();
   };
 
-  
 
-const handleReviewSubmit = async (rating: number, comment: string) => {
-  try {
-    const response = await axios.post('/api/reviews', {
-      rating,
-      comment,
-    });
 
-    console.log('Review submitted successfully');
-    // Optionally handle further actions after successful submission
-  } catch (error) {
-    console.error('Error submitting review:', error);
-    // Handle error, show error message to user, etc.
-  }
-};
+
 
 
   return (
@@ -365,21 +356,36 @@ const handleReviewSubmit = async (rating: number, comment: string) => {
         />
 
         <CardContent>
-          <Typography variant="body1" color="secondary" fontWeight={"bold"}>
-            {request.tutorId.firstName + " " + request.tutorId.lastName}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {request.tutorId.district}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {request.tutorId.phoneNumber}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {request.tutorId.universityMail}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Box display="flex" alignItems="center" mt={0.5}>
+            < PersonIcon sx={{ fontSize: 25, color: "darkblue" }} />
+            <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+              {request.tutorId.firstName + " " + request.tutorId.lastName}
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center" mt={0.5}>
+            <LocationOnIcon sx={{ fontSize: 22, color: "darkblue" }} />
+            <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+              {request.tutorId.district}
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center" mt={0.5}>
+            <CallIcon sx={{ fontSize: 20, color: "darkblue" }} />
+            <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+              {request.tutorId.phoneNumber}
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center" mt={0.5}>
+            <EmailIcon sx={{ fontSize: 20, color: "darkblue" }} />
+            <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+              {request.tutorId.universityMail}
+            </Typography>
+          </Box>
+
+          <Typography variant="body1" color="text.primary" mt={0.5}>
             {request.subjectId.description}
           </Typography>
+
+
         </CardContent>
         <Box display={"flex"} justifyContent={"flex-end"}>
           <CardActions>
@@ -456,7 +462,7 @@ const handleReviewSubmit = async (rating: number, comment: string) => {
           </Box>
 
           {reviewMode === "review" ? (
-           <ReviewSection initialRating={0} tutorEmail="example@email.com" onClose={() => {}} apiUrl="/api/reviews" />)
+            <ReviewSection initialRating={0} subjectid={request.subjectId._id} studentid={Number(localStorage.getItem("userId"))} onClose={handleCloseModal} />)
             :
             (
               <ReportSection tutorEmail={request.tutorId.universityMail} onClose={handleCloseModal} />
