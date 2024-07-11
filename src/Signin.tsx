@@ -13,12 +13,15 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link as RouterLink } from "react-router-dom";
 import {
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
 } from "@mui/material";
+import { toast } from "react-toastify";
+import { set } from "date-fns";
 
 function isValidEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -88,6 +91,7 @@ const SignInSide = () => {
     };
 
     try {
+      setIsLoading(true);
       const response = await fetch(endpoint, {
         method: "POST",
         headers: {
@@ -98,6 +102,7 @@ const SignInSide = () => {
 
       if (response.ok) {
         const responseData = await response.json();
+        
         console.log("Login successful:", responseData);
 
         const decodedToken: any = jwtDecode(responseData.token);
@@ -116,12 +121,17 @@ const SignInSide = () => {
           navigate("/Admin");
         }
       } else {
+        
         console.error("Login failed:", response.statusText);
-        alert("Invalid email or password. Please try again.");
+        toast.error("Invalid email or password. Please try again.");
       }
+      setIsLoading(false);
+     
+
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred. Please try again.");
+      setIsLoading(false);
+      toast.error("An error occurred. Please try again.");
     }
   };
 
@@ -259,10 +269,12 @@ const SignInSide = () => {
               <Button
                 type="submit"
                 fullWidth
+                disabled={isLoading}
+                startIcon={isLoading ? <CircularProgress size="1.4rem" /> : null}
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                LogIn
+                {isLoading ? "Logging in..." : "Login"}
               </Button>
               <Grid container>
                 <Grid item xs>
