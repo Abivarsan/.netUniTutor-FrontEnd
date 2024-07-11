@@ -1,23 +1,278 @@
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
+// import Card from "@mui/material/Card";
+// import CardActions from "@mui/material/CardActions";
+// import CardContent from "@mui/material/CardContent";
+// import Typography from "@mui/material/Typography";
+// import AccountBoxIcon from "@mui/icons-material/AccountBox";
+// import SmsIcon from "@mui/icons-material/Sms";
+// import LocalActivityIcon from "@mui/icons-material/LocalActivity";
+// import {
+//   Box,
+//   CardHeader,
+//   IconButton,
+//   Rating,
+//   Modal,
+//   TextField,
+//   Button,
+//   Avatar,
+//   Tooltip,
+// } from "@mui/material";
+// import React, { useState } from "react";
+// import { toast } from "react-toastify";
+
+// const darkblue = {
+//   100: "#C9DCF7",
+//   200: "#789CFF",
+//   400: "#3A66FF",
+//   500: "#0044FF",
+//   600: "#0037CC",
+//   900: "#001B80",
+// };
+
+// export default function Tutorcardchat({ initialRating = 3 }) {
+//   const [value, setValue] = useState<number | null>(0);
+//   const [comment, setComment] = useState("");
+//   const [report, setReport] = useState("");
+//   const [openModal, setOpenModal] = useState(false);
+//   const [reviewMode, setReviewMode] = useState<"review" | "report">("review");
+
+//   const handleOpenModal = () => setOpenModal(true);
+//   const handleCloseModal = () => setOpenModal(false);
+
+//   const handleReview = () => {
+//     setReviewMode("review");
+//     handleOpenModal();
+//   };
+
+//   const handleReport = () => {
+//     setReviewMode("report");
+//     handleOpenModal();
+//   };
+
+//   const handleSubmit = () => {
+//     if (comment.trim() === "") {
+//       toast.error("Comment is required");
+//       return;
+//     }
+
+//     console.log("Submitted:", { comment, rating: value });
+
+//     toast.success("Submitted successfully");
+//     setComment("");
+//     setValue(initialRating);
+//     handleCloseModal();
+//   };
+
+//  const handleReportsubmit = () => {
+//     if (report.trim() === "") {
+//       toast.error("Report is required");
+//       return; 
+//     }
+
+//     console.log("Submitted:", { report });
+
+//     toast.success("Reported successfully");
+//     setReport("");
+//     handleCloseModal();
+//   }
+
+//   return (
+//     <Box height={300} width={600}>
+//       <Card
+//         sx={{
+//           borderRadius: 3,
+//           boxShadow: 3,
+//           width: 300,
+//           transition: "transform 0.3s ease-in-out",
+//           "&:hover": {
+//             transform: "scale(1.05)",
+//           },
+//         }}
+//       >
+//         <CardHeader
+//           avatar={
+//             <Avatar sx={{ bgcolor: darkblue[500] }}>
+//               <AccountBoxIcon fontSize="large" />
+//             </Avatar>
+//           }
+//           title="Menushaa"
+//           subheader={
+//             <Rating
+//               name="read-only"
+//               value={initialRating}
+//               readOnly
+//               sx={{
+//                 fontSize: 20,
+//               }}
+//             />
+//           }
+//           sx={{
+//             bgcolor: darkblue[100],
+//             borderBottom: `1px solid ${darkblue[200]}`,
+//           }}
+//         />
+//         <CardContent>
+//           <Typography variant="body2" color="text.secondary">
+//             Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
+//             ex eveniet alias aliquid sequi mollitia autem suscipit, asperiores,
+//             explicabo accusantium dolorum.
+//           </Typography>
+//         </CardContent>
+//         <Box display={"flex"} justifyContent={"flex-end"}>
+//           <CardActions>
+//             <Tooltip title="Review Rating & Report" arrow>
+//               <IconButton
+//                 aria-label="Rating"
+//                 sx={{ color: "darkblue" }}
+//                 onClick={handleReview}
+//               >
+//                 <LocalActivityIcon fontSize="medium" />
+//               </IconButton>
+//             </Tooltip>
+           
+//             <Tooltip title="Chat" arrow>
+//               <IconButton aria-label="Chat" sx={{ color: "darkblue" }}>
+//                 <SmsIcon fontSize="medium" />
+//               </IconButton>
+//             </Tooltip>
+//           </CardActions>
+//         </Box>
+//       </Card>
+
+//       {/* Review and Report Modal */}
+//       <Modal
+//         open={openModal}
+//         onClose={handleCloseModal}
+//         aria-labelledby="modal-modal-title"
+//         aria-describedby="modal-modal-description"
+//         BackdropProps={{
+//           style: { backgroundColor: "transparent" },
+//         }}
+//       >
+//         {/* Modal Content Based on reviewMode */}
+//         <Box
+//           sx={{
+//             position: "absolute",
+//             top: "50%",
+//             left: "50%",
+//             transform: "translate(-50%, -50%)",
+//             width: 700,
+//             height: 450,
+//             bgcolor: "background.paper",
+//             border: "2px solid #000",
+//             boxShadow: 24,
+//             borderRadius: 4,
+//             p: 4,
+//           }}
+//         >
+//           {/* Ask whether user wants to review or report */}
+//           <Typography
+//             id="modal-modal-title"
+//             variant="h6"
+//             component="h6"
+//             align="center"
+//             sx={{ color: "darkblue", fontSize: "24px", mb: 3 }}
+//           >
+//             {reviewMode === "review" ? "Review and Rating" : "Report Tutor"}
+//           </Typography>
+
+//           {/* Buttons for Review and Report */}
+//           <Box
+//             display="flex"
+//             justifyContent="center"
+//             alignItems="center"
+//             mb={3}
+//           >
+//             <Button 
+//               color= "success"
+//               variant={reviewMode === "review" ? "contained" : "outlined"}
+//               onClick={() => setReviewMode("review")}
+//             >
+//               Review
+//             </Button>
+//             <Button
+//                color="error"
+//               variant={reviewMode === "report" ? "contained" : "outlined"}
+//               onClick={() => setReviewMode("report")}
+//               sx={{ ml: 2 }}
+//             >
+//               Report
+//             </Button>
+//           </Box>
+
+//           {/* Content based on selected mode */}
+//           {reviewMode === "review" && (
+//             <Box display={"flex"} alignItems={"center"} flexDirection={"column"}>
+//               <Rating
+//                 name="simple-controlled"
+//                 value={value}
+//                 onChange={(event, newValue) => {
+//                   setValue(newValue);
+//                 }}
+//                 sx={{ fontSize: "50px", mb: 3 }}
+//               />
+
+//               <TextField
+//                 id="outlined"
+//                 label="Add Comment here..."
+//                 multiline
+//                 rows={3}
+//                 value={comment}
+//                 onChange={(e) => setComment(e.target.value)}
+//                 fullWidth
+//                 variant="outlined"
+//                 sx={{ mb: 3 }}
+//               />
+
+//               <Button
+//                 variant="contained"
+//                 size="medium"
+//                 onClick={handleSubmit}
+//               >
+//                 Submit
+//               </Button>
+//               </Box>
+//           )}
+
+//           {reviewMode === "report" && (
+//             <Box display={"flex"} alignItems={"center"} flexDirection={"column"}>
+//                <TextField
+//                 id="outlined"
+//                 label="Report here..."
+//                 multiline
+//                 rows={3}
+//                 value={report}
+//                 onChange={(e) => setReport(e.target.value)}
+//                 fullWidth
+//                 variant="outlined"
+//                 sx={{ mt: 3 }}
+//               />
+
+//               {/* Example Close Button */}
+//               <Button
+//                 color="primary"
+//                 variant="contained"
+//                 size="medium"
+//                 sx={{ mt: 6 }}
+//                 onClick={handleReportsubmit}
+//               >
+//                 Submit
+//               </Button>
+//             </Box>
+//           )}
+//         </Box>
+//       </Modal>
+//     </Box>
+//   );
+// }
+
+import React, { useState } from "react";
+import { Box, Card, CardActions, CardContent, CardHeader, IconButton, Rating, Modal, Avatar, Tooltip, Button, Typography } from "@mui/material";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import SmsIcon from "@mui/icons-material/Sms";
 import LocalActivityIcon from "@mui/icons-material/LocalActivity";
-import {
-  Box,
-  CardHeader,
-  IconButton,
-  Rating,
-  Modal,
-  TextField,
-  Button,
-  Avatar,
-  Tooltip,
-} from "@mui/material";
-import React, { useState } from "react";
 import { toast } from "react-toastify";
+import ReviewSection from "../components/Reviewsection";
+import ReportSection from "../components/ReportSection";
 
 const darkblue = {
   100: "#C9DCF7",
@@ -28,10 +283,13 @@ const darkblue = {
   900: "#001B80",
 };
 
-export default function Tutorcardchat({ initialRating = 3 }) {
-  const [value, setValue] = useState<number | null>(0);
-  const [comment, setComment] = useState("");
-  const [report, setReport] = useState("");
+interface TutorCardchatProps {
+  initialRating?: number;
+  tutorName: string;
+  tutorDescription: string;
+}
+
+const Tutorcardchat: React.FC<TutorCardchatProps> = ({ initialRating = 3, tutorName, tutorDescription }) => {
   const [openModal, setOpenModal] = useState(false);
   const [reviewMode, setReviewMode] = useState<"review" | "report">("review");
 
@@ -47,33 +305,6 @@ export default function Tutorcardchat({ initialRating = 3 }) {
     setReviewMode("report");
     handleOpenModal();
   };
-
-  const handleSubmit = () => {
-    if (comment.trim() === "") {
-      toast.error("Comment is required");
-      return;
-    }
-
-    console.log("Submitted:", { comment, rating: value });
-
-    toast.success("Submitted successfully");
-    setComment("");
-    setValue(initialRating);
-    handleCloseModal();
-  };
-
- const handleReportsubmit = () => {
-    if (report.trim() === "") {
-      toast.error("Report is required");
-      return; 
-    }
-
-    console.log("Submitted:", { report });
-
-    toast.success("Reported successfully");
-    setReport("");
-    handleCloseModal();
-  }
 
   return (
     <Box height={300} width={600}>
@@ -94,7 +325,7 @@ export default function Tutorcardchat({ initialRating = 3 }) {
               <AccountBoxIcon fontSize="large" />
             </Avatar>
           }
-          title="Menushaa"
+          title={tutorName}
           subheader={
             <Rating
               name="read-only"
@@ -112,9 +343,7 @@ export default function Tutorcardchat({ initialRating = 3 }) {
         />
         <CardContent>
           <Typography variant="body2" color="text.secondary">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
-            ex eveniet alias aliquid sequi mollitia autem suscipit, asperiores,
-            explicabo accusantium dolorum.
+            {tutorDescription}
           </Typography>
         </CardContent>
         <Box display={"flex"} justifyContent={"flex-end"}>
@@ -128,7 +357,7 @@ export default function Tutorcardchat({ initialRating = 3 }) {
                 <LocalActivityIcon fontSize="medium" />
               </IconButton>
             </Tooltip>
-           
+
             <Tooltip title="Chat" arrow>
               <IconButton aria-label="Chat" sx={{ color: "darkblue" }}>
                 <SmsIcon fontSize="medium" />
@@ -148,7 +377,6 @@ export default function Tutorcardchat({ initialRating = 3 }) {
           style: { backgroundColor: "transparent" },
         }}
       >
-        {/* Modal Content Based on reviewMode */}
         <Box
           sx={{
             position: "absolute",
@@ -164,7 +392,6 @@ export default function Tutorcardchat({ initialRating = 3 }) {
             p: 4,
           }}
         >
-          {/* Ask whether user wants to review or report */}
           <Typography
             id="modal-modal-title"
             variant="h6"
@@ -175,22 +402,16 @@ export default function Tutorcardchat({ initialRating = 3 }) {
             {reviewMode === "review" ? "Review and Rating" : "Report Tutor"}
           </Typography>
 
-          {/* Buttons for Review and Report */}
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            mb={3}
-          >
-            <Button 
-              color= "success"
+          <Box display="flex" justifyContent="center" alignItems="center" mb={3}>
+            <Button
+              color="success"
               variant={reviewMode === "review" ? "contained" : "outlined"}
               onClick={() => setReviewMode("review")}
             >
               Review
             </Button>
             <Button
-               color="error"
+              color="error"
               variant={reviewMode === "report" ? "contained" : "outlined"}
               onClick={() => setReviewMode("report")}
               sx={{ ml: 2 }}
@@ -199,68 +420,15 @@ export default function Tutorcardchat({ initialRating = 3 }) {
             </Button>
           </Box>
 
-          {/* Content based on selected mode */}
-          {reviewMode === "review" && (
-            <Box display={"flex"} alignItems={"center"} flexDirection={"column"}>
-              <Rating
-                name="simple-controlled"
-                value={value}
-                onChange={(event, newValue) => {
-                  setValue(newValue);
-                }}
-                sx={{ fontSize: "50px", mb: 3 }}
-              />
-
-              <TextField
-                id="outlined"
-                label="Add Comment here..."
-                multiline
-                rows={3}
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                fullWidth
-                variant="outlined"
-                sx={{ mb: 3 }}
-              />
-
-              <Button
-                variant="contained"
-                size="medium"
-                onClick={handleSubmit}
-              >
-                Submit
-              </Button>
-              </Box>
-          )}
-
-          {reviewMode === "report" && (
-            <Box display={"flex"} alignItems={"center"} flexDirection={"column"}>
-               <TextField
-                id="outlined"
-                label="Report here..."
-                multiline
-                rows={3}
-                value={report}
-                onChange={(e) => setReport(e.target.value)}
-                fullWidth
-                variant="outlined"
-                sx={{ mt: 3 }}
-              />
-
-              {/* Example Close Button */}
-              <Button
-                color="primary"
-                variant="contained"
-                size="medium"
-                sx={{ mt: 6 }}
-                onClick={handleReportsubmit}
-              >
-                Submit
-              </Button>
-            </Box>
+          {reviewMode === "review" ? (
+            <ReviewSection initialRating={initialRating} onClose={handleCloseModal} />
+          ) : (
+            <ReportSection onClose={handleCloseModal} />
           )}
         </Box>
       </Modal>
     </Box>
   );
-}
+};
+
+export default Tutorcardchat;
