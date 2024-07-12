@@ -3,6 +3,7 @@ import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import CallReceivedSharpIcon from '@mui/icons-material/CallReceivedSharp';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { keyframes } from '@emotion/react';
 import {
   Box,
   Card,
@@ -28,6 +29,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Variants from "../components/common/sketlan";
+
 
 const darkblue = {
   100: "#C9DCF7",
@@ -113,6 +115,42 @@ export default function Dashboard() {
     }
   };
 
+
+  // Define a keyframe animation
+//   const fadeIn = keyframes`
+//   0% {
+//     opacity: 0;
+//     transform: translateY(-10px);
+//   }
+//   100% {
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+// `;
+//   const runningLetters = keyframes`
+//   0% {
+//     opacity: 0;
+//     transform: translateX(-100%);
+//   }
+//   50% {
+//     opacity: 1;
+//     transform: translateX(0);
+//   }
+//   100% {
+//     opacity: 0;
+//     transform: translateX(100%);
+//   }
+// `;
+
+  const typing = keyframes`
+from { width: 0 }
+to { width: 100% }
+`;
+
+  const typingCaret = keyframes`
+from { border-right-color: black }
+to { border-right-color: transparent }
+`;
   const handleCompleteTodo = async (index: number) => {
     try {
       const updatedTodo = { ...todos[index], isCompleted: true };
@@ -126,20 +164,36 @@ export default function Dashboard() {
   };
 
   if (!tutor) {
-    return <Variants/>;
+    return <Variants />;
   }
 
   return (
     <Grid container sx={{ height: "100vh" }}>
       <Grid item sm={5}>
-        <Box display="flex" alignItems="flex-start" p={2} ml={6}>
+        <Box
+          display="flex"
+          alignItems="flex-start"
+          p={2}
+          ml={6}
+          sx={{
+            overflow: 'hidden', // Ensures that the typing effect stays within the box
+            whiteSpace: 'nowrap', // Prevents text wrapping
+            borderRight: '2px solid', // Creates the caret
+            animation: `
+          ${typing} 4s steps(30, end) 1s forwards, 
+          ${typingCaret} 0s 4s forwards
+        `, // Apply the typing and caret disappearance animations
+            width: 'fit-content',
+          }}
+        >
           <Typography variant="h4" fontWeight="bold" sx={{ color: "darkblue" }}>
-            {`Hi,${tutor.firstName} ${tutor.lastName}!!`}
+            {`Hi, ${tutor.firstName} ${tutor.lastName}!!`}
           </Typography>
           <span role="img" aria-label="smile" style={{ marginLeft: 8, fontSize: '2em' }}>
             👋👋
           </span>
         </Box>
+
         <Box ml={6} p={2}>
           <Card
             sx={{
@@ -187,23 +241,23 @@ export default function Dashboard() {
                   </Avatar>
                 )}
               </Box>
-              
+
 
             </Box>
             <Box
-                display="flex"
-                justifyContent="flex-start"
-                ml={14}
-                my={3}>
-                <Rating
-                  name="read-only"
-                  value={tutor.rating}
-                  readOnly
-                  sx={{
-                    fontSize: 28,
-                  }}
-                />
-              </Box>
+              display="flex"
+              justifyContent="flex-start"
+              ml={14}
+              my={3}>
+              <Rating
+                name="read-only"
+                value={tutor.rating}
+                readOnly
+                sx={{
+                  fontSize: 28,
+                }}
+              />
+            </Box>
 
             <CardContent>
               <Box display="flex" alignItems="center">
