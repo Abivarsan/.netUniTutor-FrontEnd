@@ -1,159 +1,79 @@
-import {
-  FormControl,
-  Grid,
-  Input,
-  inputClasses,
-  Typography,
-} from "@mui/material";
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
-import CopyToClipboardComponent from "./Copyclip";
-import { blue, grey } from "@mui/material/colors";
-import { styled } from "@mui/system";
+import React, { useState } from 'react';
+import { Grid, Typography, Button, TextField, CircularProgress } from '@mui/material';
+import axios from 'axios'; // Import axios for HTTP requests
+import { toast } from 'react-toastify';
+import { set } from 'date-fns';
 
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 700,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  borderRadius: 4, 
-  p: 10,
-};
-export default function InviteFriend() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+const InviteFriend: React.FC = () => {
+  const [email, setEmail] = useState<string>('');
+  const [emailError, setEmailError] = useState<string>('');
+
+  const InvitedById = localStorage.getItem("userId");
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const handleInvite = async () => {
+    // Simple email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError('Invalid email address');
+      return;
+    } else {
+      setEmailError('');
+    }
+
+    try {
+      console.log('Sending invitation to:', email, 'from userId:', InvitedById); // Debug log
+      setIsLoading(true);
+      const response = await axios.post('http://localhost:5025/api/Invitation/invite', { email, InvitedById });
+      console.log('Response:', response.data); // Debug log
+
+      if (response.status === 200) {
+        setEmail('');
+        toast.success('Invitation sent successfully');
+      } else {
+        toast.error('Failed to send invitation');
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error inviting friend:', error);
+      toast.error('Failed to send invitation');
+      setIsLoading(false);
+
+    }
+  };
+
   return (
-    <Grid container sx={{ height: "100vh" }}>
-      <Grid item sm={12}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Typography sx={{ color: "darkblue", fontSize: 35, mt: 3 }}>
-            Invite Friend
-          </Typography>
-        </Box>
-
-        <Typography
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            color: "darkblue",
-            fontSize: 20,
-            mt: 3,
-          }}
-        >
-          Give the gift of coin to your friend
+    <Grid container justifyContent="center">
+      <Grid item xs={12} sm={6} md={4}>
+        <Typography variant="h4" align="center" sx={{ color: 'darkblue', mt: 3 }}>
+          Invite Friend
         </Typography>
-
-        <Typography
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            color: "darkblue",
-            fontSize: 20,
-            mt: 3,
-          }}
-        >
-          You both get the promo when your friend create first account as a
-          tutor <Button onClick={handleOpen}>See more…</Button>
+        <Typography variant="body1" align="center" sx={{ color: 'darkblue', mt: 3 }}>
+          Enter your friend's email address to invite them.
         </Typography>
-        <Typography
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            color: "darkblue",
-            fontSize: 20,
-            mt: 5,
-          }}
-        >
-          You both can get 100 coins
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            color: "darkblue",
-            mt: 25,
-          }}
-        >
-          <CopyToClipboardComponent />
-        </Box>
-
-        <Modal
-          keepMounted
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="keep-mounted-modal-title"
-          aria-describedby="keep-mounted-modal-description"
-        >
-          <Box sx={style}>
-            <Typography
-              id="keep-mounted-modal-title"
-              variant="h4"
-              component="h2"
-              textAlign={"center"}
-              color= "darkblue"
-            >
-              Invite friends
-            </Typography>
-            <Typography textAlign={"center"} id="keep-mounted-modal-description" sx={{ mt: 2,color:"darkblue"
-             }}>
-              Introduce new tutors to our platform and earn rewards together!
-              You can share their unique promo code with friends, instructing
-              them to use it during registration. When the referred friend signs
-              up using the promo code, both the existing tutor and the new tutor
-              will receive coins as a token of appreciation. It's a win-win
-              situation for everyone involved – spread the word, share the
-              benefits, and build a stronger community of tutors. Start sharing
-              your code today and watch your rewards grow as you bring more
-              tutors into our platform
-            </Typography>
-          </Box>
-        </Modal>
+        <Grid container justifyContent="center" mt={3}>
+          <Grid item xs={12}>
+            <TextField
+              type="email"
+              placeholder="Enter friend's email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={!!emailError}
+              helperText={emailError}
+              fullWidth
+              sx={{ mt: 1 }}
+            />
+          </Grid>
+          <Grid item xs={12} sx={{ textAlign: 'center', mt: 2 }}>
+            <Button variant="contained" color="primary" onClick={handleInvite} disabled={isLoading}
+                  startIcon={isLoading ? <CircularProgress size="1rem" /> : null}>
+              {isLoading ? 'Sending...' : 'Send Invitation'}
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );
-}
+};
 
-const StyledInput = styled(Input)(
-  ({ theme }) => `
-
-  .${inputClasses.input} {
-    width: 320px;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1.5;
-    padding: 8px 12px;
-    border-radius: 8px;
-    color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
-    background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
-    border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
-    box-shadow: 0px 2px 2px ${
-      theme.palette.mode === "dark" ? grey[900] : grey[50]
-    };
-
-    &:hover {
-      border-color: ${blue[400]};
-    }
-
-    &:focus {
-      outline: 0;
-      border-color: ${blue[400]};
-      box-shadow: 0 0 0 3px ${
-        theme.palette.mode === "dark" ? blue[600] : blue[200]
-      };
-    }
-  }
-`
-);
+export default InviteFriend;

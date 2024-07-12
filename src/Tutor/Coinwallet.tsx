@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Container,
   Typography,
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -13,7 +12,7 @@ import {
   TablePagination,
   InputBase,
   Box,
-  TableSortLabel
+  Button,
 } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { formatDistanceToNow } from 'date-fns';
@@ -28,6 +27,9 @@ const CoinWallet: React.FC = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
+  const [coinsAdded, setCoinsAdded] = useState(false);
+  const [verificationError, setVerificationError] = useState<string | null>(null);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -38,24 +40,51 @@ const CoinWallet: React.FC = () => {
     setPage(0);
   };
 
+  const handleVerificationCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setVerificationCode(event.target.value);
+  };
+
+  const handleVerifyCode = () => {
+    // Clear previous error message
+    setVerificationError(null);
+
+    // Validate if the verification code is not empty
+    if (!verificationCode.trim()) {
+      setVerificationError('Please paste a valid verification code.');
+      return;
+    }
+
+    // Call backend API to verify the code
+    fetch('http://localhost:5025/api/Coin/verify-code', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ code: verificationCode }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.success) {
+          setCoinsAdded(true);
+          // Optionally, you can update the UI or fetch new data after successful verification
+        } else {
+          setVerificationError('Verification failed. Please check your code and try again.');
+        }
+      })
+      .catch(error => {
+        setVerificationError('An error occurred while verifying the code. Please try again later.');
+      });
+  };
+
   const rows: Transaction[] = [
     { date: new Date(Date.now() - 16 * 60 * 60 * 1000), details: 'Free coins for contacting teachers', coins: 150 },
-    // { date: new Date(Date.now() - 16 * 60 * 60 * 1000), details: 'Free coins for contacting teachers', coins: 150 },
-    // { date: new Date(Date.now() - 16 * 60 * 60 * 1000), details: 'Free coins for contacting teachers', coins: 150 },
-    // { date: new Date(Date.now() - 16 * 60 * 60 * 1000), details: 'Free coins for contacting teachers', coins: 150 },
-    // { date: new Date(Date.now() - 16 * 60 * 60 * 1000), details: 'Free coins for contacting teachers', coins: 150 },
-    // { date: new Date(Date.now() - 16 * 60 * 60 * 1000), details: 'Free coins for contacting teachers', coins: 150 },
-    // { date: new Date(Date.now() - 16 * 60 * 60 * 1000), details: 'Free coins for contacting teachers', coins: 150 },
-    // { date: new Date(Date.now() - 16 * 60 * 60 * 1000), details: 'Free coins for contacting teachers', coins: 150 },
-    // { date: new Date(Date.now() - 16 * 60 * 60 * 1000), details: 'Free coins for contacting teachers', coins: 150 },
-    // { date: new Date(Date.now() - 16 * 60 * 60 * 1000), details: 'Free coins for contacting teachers', coins: 150 },
-    // { date: new Date(Date.now() - 16 * 60 * 60 * 1000), details: 'Free coins for contacting teachers', coins: 150 },
-    // { date: new Date(Date.now() - 16 * 60 * 60 * 1000), details: 'Free coins for contacting teachers', coins: 150 },
-    // { date: new Date(Date.now() - 16 * 60 * 60 * 1000), details: 'Free ', coins: 150 },
-    // { date: new Date(Date.now() - 16 * 60 * 60 * 1000), details: 'nilaxsan', coins: 150 },
-    
-
-];  
+    // Add more rows as needed
+  ];
 
   const filteredRows = rows.filter(row =>
     row.details.toLowerCase().includes(searchTerm.toLowerCase())
@@ -63,13 +92,9 @@ const CoinWallet: React.FC = () => {
 
   return (
     <Container>
-      <Typography variant="h4" sx={{color:"darkblue"}} >
+      <Typography variant="h4" sx={{ color: 'darkblue' }}>
         Coin Wallet
       </Typography>
-      <Typography variant="h6" >
-        Current Balance: {} coins 
-      </Typography>
-     
       <Box display="flex" justifyContent="flex-end" my={3}>
         <InputBase
           placeholder="Search…"
@@ -87,8 +112,37 @@ const CoinWallet: React.FC = () => {
           }}
         />
       </Box>
-      <TableContainer component={Paper} sx={{my:5}}>
-        <Table sx={{width:850}}>
+      <Box sx={{ my: 2 }}>
+        <Typography variant="h6" sx={{ color: 'darkblue' }}>Verification Code</Typography>
+        <InputBase
+          placeholder="Paste verification code here"
+          value={verificationCode}
+          onChange={handleVerificationCodeChange}
+          sx={{
+            padding: '8px',
+            width: 300,
+            border: '1px solid #ccc',
+            borderRadius: 1,
+            bgcolor: 'background.paper'
+          }}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleVerifyCode}
+          sx={{ ml: 2 }}
+        >
+          Verify Code
+        </Button>
+        {verificationError && (
+          <Typography sx={{ mt: 1, color: 'red' }}>{verificationError}</Typography>
+        )}
+        {coinsAdded && (
+          <Typography sx={{ mt: 2, color: 'green' }}>Coins added successfully!</Typography>
+        )}
+      </Box>
+      <TableContainer component={Paper} sx={{ my: 5 }}>
+        <Table sx={{ width: 850 }}>
           <TableHead>
             <TableRow>
               <TableCell>Date</TableCell>
