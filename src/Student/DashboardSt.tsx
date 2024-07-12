@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { keyframes } from '@emotion/react';
 import {
   Box,
   Card,
@@ -47,6 +48,16 @@ interface TodoItem {
   text: string;
   isCompleted: boolean;
 }
+
+const typing = keyframes`
+from { width: 0 }
+to { width: 100% }
+`;
+
+const typingCaret = keyframes`
+from { border-right-color: black }
+to { border-right-color: transparent }
+`;
 
 export default function DashboardSt() {
   const [mySubjectsCount, setMySubjectsCount] = useState<number>(0);
@@ -102,7 +113,7 @@ export default function DashboardSt() {
         const todoResponse = await axios.post<TodoItem>(`http://localhost:5025/api/TodoItem/${type}/${studentId}`, { text: todoInput });
         setTodos([...todos, todoResponse.data]);
         console.log("Todo added:", todoResponse.data);
-        
+
         setTodoInput('');
       }
     } catch (error) {
@@ -125,7 +136,7 @@ export default function DashboardSt() {
     try {
       const updatedTodo = { ...todos[index], isCompleted: true };
       await axios.put(`http://localhost:5025/api/TodoItem/${todos[index]._id}`, updatedTodo);
-      const updatedTodos = todos.map((todo, idx) => 
+      const updatedTodos = todos.map((todo, idx) =>
         idx === index ? updatedTodo : todo
       );
       setTodos(updatedTodos);
@@ -135,13 +146,22 @@ export default function DashboardSt() {
   };
 
   if (!student) {
-    return <div><Variants/></div>;
+    return <div><Variants /></div>;
   }
 
   return (
     <Grid container sx={{ height: "100vh" }}>
       <Grid item sm={5}>
-        <Box display="flex" alignItems="flex-start" p={2} ml={6}>
+        <Box display="flex" alignItems="flex-start" p={2} ml={6} sx={{
+          overflow: 'hidden', // Ensures that the typing effect stays within the box
+          whiteSpace: 'nowrap', // Prevents text wrapping
+          borderRight: '2px solid', // Creates the caret
+          animation: `
+          ${typing} 4s steps(30, end) 1s forwards, 
+          ${typingCaret} 0s 4s forwards
+        `, // Apply the typing and caret disappearance animations
+          width: 'fit-content',
+        }}>
           <Typography variant="h4" fontWeight="bold" sx={{ color: "darkblue" }}>
             {`Hi, ${student.firstName} ${student.lastName}!!`}
           </Typography>
@@ -170,7 +190,7 @@ export default function DashboardSt() {
 
             >
               <Box display="flex">
-                {student.profileUrl ? ( 
+                {student.profileUrl ? (
                   <img
                     alt="profile-user"
                     width="150px"
@@ -360,72 +380,72 @@ export default function DashboardSt() {
           </Card>
         </Grid>
         <Box mb={9}>
-        <Grid item>
-          <Card
-            sx={{
-              borderRadius: 3,
-              boxShadow: 3,
-              width: 800,
-              height: 300,
-              transition: "transform 0.3s ease-in-out",
-              "&:hover": {
-                transform: "scale(1.01)",
-              },
-            }}
-          >
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
+          <Grid item>
+            <Card
               sx={{
-                borderBottom: `2px solid ${darkblue[200]}`,
+                borderRadius: 3,
+                boxShadow: 3,
+                width: 800,
+                height: 300,
+                transition: "transform 0.3s ease-in-out",
+                "&:hover": {
+                  transform: "scale(1.01)",
+                },
               }}
             >
-              <CardHeader
-                subheader={
-                  <Typography variant="subtitle1" fontWeight="bold" sx={{ color: "darkblue" }}>
-                    Todo List
-                  </Typography>
-                }
-              />
-            </Box>
-            <CardContent>
-              <List>
-                {todos.map((todo, index) => (
-                  <ListItem key={index} disablePadding>
-                    <ListItemText primary={todo.text} />
-                    {!todo.isCompleted ? (
-                      <IconButton aria-label="complete" onClick={() => handleCompleteTodo(index)}>
-                        <CheckBoxIcon />
-                      </IconButton>
-                    ) : null}
-                    <IconButton aria-label="delete" onClick={() => handleRemoveTodo(index)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItem>
-                ))}
-              </List>
-              <Box display="flex" alignItems="center" justifyContent="center" mt={2}>
-                <TextField
-                  variant="outlined"
-                  placeholder="Add a new todo"
-                  size="small"
-                  value={todoInput}
-                  onChange={(e) => setTodoInput(e.target.value)}
-                  sx={{ mr: 1, width:800 }}
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                sx={{
+                  borderBottom: `2px solid ${darkblue[200]}`,
+                }}
+              >
+                <CardHeader
+                  subheader={
+                    <Typography variant="subtitle1" fontWeight="bold" sx={{ color: "darkblue" }}>
+                      Todo List
+                    </Typography>
+                  }
                 />
-                <IconButton aria-label="add todo" onClick={handleAddTodo}>
-                  <AddIcon />
-                </IconButton>
               </Box>
-            </CardContent>
-          </Card>
-        </Grid>
+              <CardContent>
+                <List>
+                  {todos.map((todo, index) => (
+                    <ListItem key={index} disablePadding>
+                      <ListItemText primary={todo.text} />
+                      {!todo.isCompleted ? (
+                        <IconButton aria-label="complete" onClick={() => handleCompleteTodo(index)}>
+                          <CheckBoxIcon />
+                        </IconButton>
+                      ) : null}
+                      <IconButton aria-label="delete" onClick={() => handleRemoveTodo(index)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItem>
+                  ))}
+                </List>
+                <Box display="flex" alignItems="center" justifyContent="center" mt={2}>
+                  <TextField
+                    variant="outlined"
+                    placeholder="Add a new todo"
+                    size="small"
+                    value={todoInput}
+                    onChange={(e) => setTodoInput(e.target.value)}
+                    sx={{ mr: 1, width: 800 }}
+                  />
+                  <IconButton aria-label="add todo" onClick={handleAddTodo}>
+                    <AddIcon />
+                  </IconButton>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
         </Box>
 
-        
+
       </Grid>
-      
+
     </Grid>
   );
 }
