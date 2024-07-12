@@ -1,4 +1,5 @@
 import { Home,School,CastForEducation, BarChart,Comment, Checklist, Logout, Settings } from "@mui/icons-material";
+import Charts from "./Pages/ChartsPage/Charts";
 
 
 export const menu = [
@@ -34,6 +35,18 @@ export const menu = [
   },
   {
     id: 3,
+    title: "charts",
+    listItems: [
+      {
+        id: 1,
+        title: "Charts",
+        url: "/Admin/charts",
+        icon: <BarChart/>,
+      },
+    ],
+  },
+  {
+    id: 4,
     title: "faq",
     listItems: [
       {
@@ -45,7 +58,7 @@ export const menu = [
     ],
   },
   {
-    id: 4,
+    id: 5,
     title: "Maintenance",
     listItems: [
       {
@@ -63,7 +76,7 @@ export const menu = [
     ],
   },
   {
-    id: 5,
+    id: 6,
     title: "exit",
     listItems: [
       {
