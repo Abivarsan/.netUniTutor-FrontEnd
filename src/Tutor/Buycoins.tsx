@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState } from 'react';
 import {
   Container,
   Typography,
@@ -9,68 +10,67 @@ import {
   CardContent,
   CardHeader,
   TextField,
-} from "@mui/material";
-import PaymentIcon from "@mui/icons-material/Payment";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+} from '@mui/material';
+import PaymentIcon from '@mui/icons-material/Payment';
+import axios from 'axios';
+import { loadStripe } from '@stripe/stripe-js';
 
-interface BuyCoinsValues {
-  coins: number;
-  description: string;
-}
-
-const initialState: BuyCoinsValues = { coins: 0, description: "" };
-
-const schemaCoin = z.object({
-  coins: z.number().min(1, "Please select the coins"),
-  description: z.string().min(5, "Please enter a description"),
-});
+const stripePromise = loadStripe('pk_test_51PZbYsRu7eJS4wlDs5SYvyMmHA8VrCdbXVxwZ8arKMAyryeRBUT2y5XjVAD5rx5943ugtVHPwq3VhiWgZ6vUnfYR00cyPD8BK9'); // Replace with your Stripe publishable key
 
 const BuyCoins: React.FC = () => {
-  const {
-    control,
-    handleSubmit,
-    register,
-    reset,
-    watch,
-    formState: { errors },
-  } = useForm<BuyCoinsValues>({
-    resolver: zodResolver(schemaCoin),
-    defaultValues: initialState,
-  });
+  const [coins, setCoins] = useState<number>(0);
+  const [description, setDescription] = useState<string>('');
 
-  const onSubmit = (data: BuyCoinsValues) => {
-    console.log(data);
-    reset(initialState);
+  const TutorId = localStorage.getItem("userId"); // Retrieve TutorId from local storage
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post(`http://localhost:5025/api/Payment/create-checkout-session/${TutorId}`, {
+        coins,
+        description
+      });
+      const { sessionId } = response.data;
+
+      // Check session status
+      const statusResponse = await axios.get(`http://localhost:5025/api/Payment/checkout-session-status/${sessionId}`);
+      const { status } = statusResponse.data;
+
+      if (status === "open") {
+        const stripe = await stripePromise;
+        if (stripe) {
+          stripe.redirectToCheckout({ sessionId: sessionId });
+        }
+      } else {
+        console.error('Checkout session is not open:', status);
+      }
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+    }
   };
 
   const calculateLkrAmount = (coins: number) => {
-    return coins * 5; // 1 coin = 5 LKR
+    return coins * 100; // 1 coin = 100 LKR
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Container>
-        <Box textAlign="center" my={3} width={850}>
-          <Typography variant="h4" sx={{ color: "darkblue" }}>
-            How many coins do you want?
-          </Typography>
+    <Container>
+      <Box textAlign="center" my={3} width={850}>
+        <Typography variant="h4" sx={{ color: 'darkblue' }}>
+          How many coins do you want?
+        </Typography>
+        <form onSubmit={handleSubmit}>
           <TextField
             select
             sx={{ width: 400, mt: 3 }}
             id="coin-amount"
             label="Coins"
-            {...control.register("coins")}
-            error={!!errors.coins}
-            helperText={errors.coins?.message}
+            value={coins}
+            onChange={(e) => setCoins(Number(e.target.value))}
           >
-            <MenuItem value={0}>-Select-</MenuItem>
             <MenuItem value={50}>50 coins</MenuItem>
             <MenuItem value={100}>100 coins</MenuItem>
             <MenuItem value={150}>150 coins</MenuItem>
-            {/* <MenuItem value={200}>200 coins</MenuItem>
-            <MenuItem value={250}>250 coins</MenuItem> */}
           </TextField>
 
           <Box display="flex" justifyContent="center" alignItems="center">
@@ -79,14 +79,14 @@ const BuyCoins: React.FC = () => {
                 width: 400,
                 height: 100,
                 mt: 3,
-                backgroundColor: "#f0f0f0",
-                boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                backgroundColor: '#f0f0f0',
+                boxShadow: '0 0 10px rgba(0,0,0,0.1)',
               }}
             >
               <CardHeader subheader="Amount " />
               <CardContent>
-                <Typography variant="h6" sx={{ fontSize: "15px" }}>
-                  {calculateLkrAmount(Number(watch("coins"))).toFixed(2)} LKR
+                <Typography variant="h6" sx={{ fontSize: '15px' }}>
+                  {calculateLkrAmount(coins).toFixed(2)} LKR
                 </Typography>
               </CardContent>
             </Card>
@@ -100,9 +100,8 @@ const BuyCoins: React.FC = () => {
               multiline
               rows={4}
               sx={{ my: 2, width: 400 }}
-              {...register("description")}
-              error={!!errors.description}
-              helperText={errors.description?.message}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </Box>
 
@@ -114,11 +113,11 @@ const BuyCoins: React.FC = () => {
             size="large"
             sx={{ width: 300, mt: 4 }}
           >
-            Get {watch("coins")} coins
+            Get {coins} coins
           </Button>
-        </Box>
-      </Container>
-    </form>
+        </form>
+      </Box>
+    </Container>
   );
 };
 

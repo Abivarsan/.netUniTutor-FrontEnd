@@ -28,6 +28,7 @@ import Paymentdetail from "./Tutor/Paymentdetail";
 import Coinbank from "./Tutor/Coinbank";
 import Invitefriend from "./Tutor/Invitefriend";
 import Settings from "./Tutor/Settings";
+// import BuyCoins from "./Tutor/BuyCoins";
 
 import Sidebarst from "./Student/SidebarSt";
 import DashboardSt from "./Student/DashboardSt";
@@ -55,9 +56,10 @@ import SettingsPage from "./Admin/Pages/SettingsPage/SettingsPage";
 import { Bounce, ToastContainer } from "react-toastify";
 import MyStudents from "./Tutor/MyStudents";
 import MySubjects from "./pages/MySubjects";
-import CheckoutForm from "./Payment";
-import Return from "./Payment";
+// import CheckoutForm from "./Payment";
+//  import Return from "./Payment";
 import Comment from "./Comment";
+
 
 import EditProfilest from "./Student/Editprofile";
 import { Logout } from "@mui/icons-material";
@@ -95,8 +97,8 @@ const TutorRoutes: React.FC = () => (
         <Route path="invitefriend" element={<Invitefriend />} />
         <Route path="settings" element={<Settings />} />
         <Route path="my-subjects" element={<MySubjects />} />
-        <Route path="checkout" element={<CheckoutForm />} />
-        <Route path="return" element={<Return />} />
+        {/* <Route path="checkout" element={<CheckoutForm />} />
+        <Route path="return" element={<Return />} /> */}
       </Routes>
     </div>
   </>
