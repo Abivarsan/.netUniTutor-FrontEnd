@@ -50,8 +50,7 @@ const ReportSection: React.FC<ReportSectionProps> = ({tutorEmail, onClose }) => 
         variant="outlined"
         sx={{ mt: 3 }}
       />
-
-      <Button color="primary" variant="contained" size="medium" sx={{ mt: 6 }} onClick={handleSubmit}>
+       <Button color="primary" variant="contained" size="medium" sx={{ mt: 6 }} onClick={handleSubmit}>
         Submit
       </Button>
     </Box>

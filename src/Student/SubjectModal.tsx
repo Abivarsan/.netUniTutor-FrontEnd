@@ -16,7 +16,7 @@ export default function SubjectModal({
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:8082/review/subject/${selectedSubject._id}`
+        `http://localhost:5025/api/Review/subjectreview/${selectedSubject._id}`
       );
       setFeedbacks(response.data);
 

@@ -49,7 +49,22 @@ export default function RequestCard({
         }}
       >
         <CardHeader
+          avatar={
+            request.studentId.profileUrl ? (
+              <Avatar src={request.studentId.profileUrl} />
+            ) : (
+              <Avatar sx={{ bgcolor: darkblue[500] }}>
+                <AccountBoxIcon fontSize="large" />
+              </Avatar>
+            )
+          }
           title={request.studentId.firstName}
+          titleTypographyProps={
+            {
+              variant: "h5",
+              
+            }
+          }
           subheader={<Typography
             variant="body2"
             fontWeight={"bold"}
@@ -82,8 +97,7 @@ export default function RequestCard({
           <Typography variant="body2" color="text.secondary">
             I’m {request.studentId.firstName}, a {request.studentId.grade} student from {request.studentId.district},
             looking for a dedicated tutor to help me excel in {request.subjectId.title} .
-            I am eager to improve my understanding and performance in this subject to achieve my academic goals.
-
+            I am eager to improve my understanding and performance in this subject to achieve my academic goals.   
 
           </Typography>
 
