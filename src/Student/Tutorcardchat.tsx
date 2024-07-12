@@ -322,7 +322,7 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
         sx={{
           borderRadius: 3,
           boxShadow: 3,
-          width: 300,
+          width: 400,
           transition: "transform 0.3s ease-in-out",
           "&:hover": {
             transform: "scale(1.05)",
@@ -331,18 +331,19 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
       >
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: darkblue[500] }}>
-              <AccountBoxIcon fontSize="large" />
-            </Avatar>
-          }
+            request.tutorId.profileUrl ? <Avatar src={request.tutorId.profileUrl} /> : <Avatar sx={{ bgcolor: darkblue[500] }}>
+               <AccountBoxIcon fontSize="large" />
+             </Avatar>
+           }
           title={request.subjectId.title}
           titleTypographyProps={{
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            fontSize: 20,
           }}
           subheader={
             <Rating
               name="read-only"
-              value={0}
+              // value={request.tutorId.rating}
               readOnly
               sx={{
                 fontSize: 20,
@@ -381,7 +382,7 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
             </Typography>
           </Box>
 
-          <Typography variant="body1" color="text.primary" mt={0.5}>
+          <Typography variant="body1" color="text.primary" mt={3}>
             {request.subjectId.description}
           </Typography>
 

@@ -45,14 +45,10 @@ const TutorCard: React.FC<TutorCardProps> = ({ request, onCancel }) => {
       >
         <CardHeader
           avatar={
-            request.tutorId.ProfileUrl ? (
-              <img src={request.tutorId.ProfileUrl} />
-            ) : (
-              <Avatar sx={{ bgcolor: darkblue[500] }}>
-                <AccountBoxIcon fontSize="large" />
-              </Avatar>
-            )
-          }
+            request.tutorId.profileUrl ? <Avatar src={request.tutorId.profileUrl} /> : <Avatar sx={{ bgcolor: darkblue[500] }}>
+               <AccountBoxIcon fontSize="large" />
+             </Avatar>
+           }
 
           title={
             <Typography variant="h5" component="div">

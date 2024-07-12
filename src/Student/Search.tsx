@@ -307,7 +307,14 @@ const SearchSt = () => {
                           }}
                         />
                       ) : (
-                        <Typography>No rating available</Typography>
+                        <Rating
+                          name="read-only"
+                          value={0}
+                          precision={0.5}
+                          readOnly
+                          sx={{
+                            fontSize: 20,
+                          }}/>
                       )
                     }
                     sx={{
