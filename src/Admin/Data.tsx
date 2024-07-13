@@ -31,6 +31,12 @@ export const menu = [
         url: "/Admin/tutors",
         icon: <CastForEducation/>,
       },
+      {
+        id: 3,
+        title: "Complains",
+        url: "/Admin/reports",
+        icon: <CastForEducation/>,
+      },
     ],
   },
   {

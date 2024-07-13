@@ -59,6 +59,7 @@ import MySubjects from "./pages/MySubjects";
 // import CheckoutForm from "./Payment";
 //  import Return from "./Payment";
 import Comment from "./Comment";
+import ReportPage from "./Admin/Components/Report/Report";
 
 
 import EditProfilest from "./Student/Editprofile";
@@ -152,6 +153,7 @@ function App() {
             <Route path="requests" element={<Requests />} />
             <Route path="comments" element={<CommentsPage />} />
             <Route path="settings" element={<SettingsPage />} />
+            <Route path="reports" element={<ReportPage />} />  
             <Route path="logOut" element={<Logout />} />
           </Route>
           <Route path="/login" element={<Login />} />
