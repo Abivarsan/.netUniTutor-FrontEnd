@@ -21,6 +21,7 @@ import data from "../data";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Dashboard } from "@mui/icons-material";
 import { Avatar, Badge, Menu, MenuItem, Tooltip } from "@mui/material";
+import logo from "../logo unitutor.png";
 
 const drawerWidth = 210;
 
@@ -118,7 +119,7 @@ export default function Sidebar() {
     setOpen(false);
   };
   const tabClickEvent = (route: any, index: number) => {
-    if(route.label==="Logout"){
+    if (route.label === "Logout") {
       localStorage.removeItem("email");
       localStorage.removeItem("token");
       localStorage.removeItem("userId"); // Assuming nameid is the user ID
@@ -183,6 +184,9 @@ export default function Sidebar() {
           >
             <MenuIcon />
           </IconButton>
+
+          {/* <img src={logo} alt="logo"  width={50} height={50} style={{ borderRadius: "50%" }}/> */}
+
           <Typography variant="h6" noWrap component="div">
             Tutor Dashboard
           </Typography>
@@ -217,7 +221,7 @@ export default function Sidebar() {
               sx={{ display: "block" }}
               style={{
                 background:
-                route.path == location.pathname ? "#7DB4D8" : "lightblue",
+                  route.path == location.pathname ? "#7DB4D8" : "lightblue",
               }}
             >
               <ListItemButton
