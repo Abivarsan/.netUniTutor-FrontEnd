@@ -64,6 +64,7 @@ import Comment from "./Comment";
 import EditProfilest from "./Student/Editprofile";
 import { Logout } from "@mui/icons-material";
 import Mysubjects from "./Student/MyTutors";
+import RegistrationSuccess from "./Registrationsux";
 
 const Layout: React.FC = () => {
   return (
@@ -130,6 +131,7 @@ function App() {
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/otp" element={<Otp />} />
           <Route path="/resetpassword" element={<Reset />} />
+          <Route path="/success" element={<RegistrationSuccess />} />
           <Route path="/resetSux" element={<ResetSuccess />} />
           <Route path="/register" element={<Register />} />
           <Route path="/studentForm" element={<StudentForm />} />
