@@ -93,7 +93,7 @@ const CoinWallet: React.FC = () => {
   return (
     <Container>
       <Typography variant="h4" sx={{ color: 'darkblue' }}>
-        Coin Wallet
+        My Coins {}
       </Typography>
       <Box display="flex" justifyContent="flex-end" my={3}>
         <InputBase
