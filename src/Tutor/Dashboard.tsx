@@ -181,8 +181,8 @@ to { border-right-color: transparent }
   }
 
   return (
-    <Grid container sx={{ height: "100vh" }}>
-      <Grid item sm={5}>
+    <Grid container sm={11.5} sx={{ height: "100vh" }}>
+      <Grid item sm={12}>
         <Box
           display="flex"
           alignItems="flex-start"
@@ -210,9 +210,10 @@ to { border-right-color: transparent }
             👋👋
           </span>
         </Box>
+        </Grid>
 
-        <Box ml={6} p={2}>
-          <Card
+        <Grid item sm={5} display={'flex'} justifyContent={'center'}>
+        <Card
             sx={{
               borderRadius: 3,
               boxShadow: 3,
@@ -224,8 +225,8 @@ to { border-right-color: transparent }
               },
             }}
           >
-            <Box display="flex" justifyContent="center" my={5}>
-              <Box display="flex">
+            <Box display="flex" justifyContent="center" flexDirection={'column'}  alignItems={'center'} my={5}>
+              
                 {tutor.profileUrl ? (
                   <img
                     alt="profile-user"
@@ -249,18 +250,20 @@ to { border-right-color: transparent }
                     }}
                   ></Avatar>
                 )}
-              </Box>
-            </Box>
-            <Box display="flex" justifyContent="flex-start" ml={14} my={3}>
+              
+           
+            
               <Rating
                 name="read-only"
                 value={tutor.rating}
                 readOnly
                 sx={{
                   fontSize: 28,
+                  my: 2,
                 }}
               />
-            </Box>
+               </Box>
+           
 
             <CardContent>
               <Box display="flex" alignItems="center">
@@ -292,13 +295,13 @@ to { border-right-color: transparent }
               </Box>
             </CardContent>
           </Card>
-        </Box>
-      </Grid>
+        </Grid>
+      
       <Grid
         item
         container
         sm={7}
-        sx={{ mt: 12, display: "flex", justifyContent: "space-around" }}
+        sx={{ display: "flex", alignItems: "space-around" }}
       >
         <Grid item sm={4}>
           <Card
@@ -444,9 +447,12 @@ to { border-right-color: transparent }
           </Card>
         </Grid>
 
-        <Grid item sm={7}>
+        <Grid item sm={12}>
           <Card
             sx={{
+              mb: 2,
+              width: "100%",
+              minHeight: 350,
               borderRadius: 3,
               boxShadow: 3,
               transition: "transform 0.3s ease-in-out",
@@ -497,18 +503,15 @@ to { border-right-color: transparent }
                   </ListItem>
                 ))}
               </List>
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                mt={2}
-              >
+              <Box display="flex" alignItems="center" justifyContent="flex-end" my={4}>
+
                 <TextField
                   variant="outlined"
                   placeholder="Add a new todo"
                   size="small"
                   value={todoInput}
                   onChange={(e) => setTodoInput(e.target.value)}
+                  fullWidth
                 />
                 <IconButton aria-label="add todo" onClick={handleAddTodo}>
                   <AddIcon />
