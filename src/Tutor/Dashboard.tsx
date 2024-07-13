@@ -71,14 +71,14 @@ export default function Dashboard() {
         const tutorResponse = await axios.get<Tutor>(`http://localhost:5025/api/Tutor/details/${tutorId}`);
         setTutor(tutorResponse.data);
 
-        const mySubjectsResponse = await axios.get<number>(`http://localhost:5025/api/SubjectRequests/${tutorId}/mysubjects`);
+        const mySubjectsResponse = await axios.get<number>(`http://localhost:5025/api/Request/${tutorId}/mystudentcount`);
         setMySubjectsCount(mySubjectsResponse.data);
 
-        const acceptedRequestsResponse = await axios.get<number>(`http://localhost:5025/api/SubjectRequests/${tutorId}/acceptedrequests`);
+        const acceptedRequestsResponse = await axios.get<number>(`http://localhost:5025/api/Request/${tutorId}/pendingrequestcount`);
         setAcceptedRequestsCount(acceptedRequestsResponse.data);
 
-        const rejectedRequestsResponse = await axios.get<number>(`http://localhost:5025/api/SubjectRequests/${tutorId}/rejectedrequests`);
-        setRejectedRequestsCount(rejectedRequestsResponse.data);
+        const rejectedRequestsResponse = await axios.get<number>(`http://localhost:5025/api/Transaction/totalamount/${tutorId}`);
+         setRejectedRequestsCount(rejectedRequestsResponse.data);
 
         const todosResponse = await axios.get<TodoItem[]>(`http://localhost:5025/api/Todos/${tutorId}`);
         setTodos(todosResponse.data);

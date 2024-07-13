@@ -79,17 +79,17 @@ export default function DashboardSt() {
         setStudent(studentResponse.data);
 
         console.log("Fetching my subjects count...");
-        const mySubjectsResponse = await axios.get<number>(`http://localhost:5025/api/SubjectRequests/${studentId}/mysubjects`);
+        const mySubjectsResponse = await axios.get<number>(`http://localhost:5025/api/Request/${studentId}/acceptedrequestscount`);
         console.log("My subjects count:", mySubjectsResponse.data);
         setMySubjectsCount(mySubjectsResponse.data);
 
         console.log("Fetching accepted requests count...");
-        const acceptedRequestsResponse = await axios.get<number>(`http://localhost:5025/api/SubjectRequests/${studentId}/acceptedrequests`);
+        const acceptedRequestsResponse = await axios.get<number>(`http://localhost:5025/api/Request/${studentId}/mypendingsubjectscount`);
         console.log("Accepted requests count:", acceptedRequestsResponse.data);
         setAcceptedRequestsCount(acceptedRequestsResponse.data);
 
         console.log("Fetching rejected requests count...");
-        const rejectedRequestsResponse = await axios.get<number>(`http://localhost:5025/api/SubjectRequests/${studentId}/rejectedrequests`);
+        const rejectedRequestsResponse = await axios.get<number>(`http://localhost:5025/api/SubjectRequests/${studentId}/rejectedrequestscount`);
         console.log("Rejected requests count:", rejectedRequestsResponse.data);
         setRejectedRequestsCount(rejectedRequestsResponse.data);
 
