@@ -62,15 +62,15 @@ export default function Coinbank() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label=" Coin Wallet" {...a11yProps(0)} />
-          <Tab label="Buy Coins" {...a11yProps(1)} />
+          <Tab label=" Buy Coins" {...a11yProps(1)} />
+          <Tab label="Coin Wallet" {...a11yProps(0)} />
         </Tabs>
       </Box>
-      <CustomTabPanel value={value} index={0}>
+      <CustomTabPanel value={value} index={1}>
         <CoinWallet />
       </CustomTabPanel>
 
-      <CustomTabPanel value={value} index={1}>
+      <CustomTabPanel value={value} index={0}>
         
         <BuyCoins />
       </CustomTabPanel>

@@ -55,8 +55,8 @@ to { width: 100% }
 `;
 
 const typingCaret = keyframes`
-from { border-right-color: black }
-to { border-right-color: transparent }
+from { border-right-color: #b0cee !!important }
+to { border-right-color: #b0cee2 }
 `;
 
 export default function DashboardSt() {
@@ -150,15 +150,15 @@ export default function DashboardSt() {
   }
 
   return (
-    <Grid container sx={{ height: "100vh" }}>
-      <Grid item sm={5}>
+    <Grid container sm={11.5} sx={{ height: "100vh" }}>
+      <Grid item sm={12}>
         <Box display="flex" alignItems="flex-start" p={2} ml={6} sx={{
           overflow: 'hidden', // Ensures that the typing effect stays within the box
           whiteSpace: 'nowrap', // Prevents text wrapping
           borderRight: '2px solid', // Creates the caret
           animation: `
-          ${typing} 4s steps(30, end) 1s forwards, 
-          ${typingCaret} 0s 4s forwards
+          ${typing} 4s steps(30, end) 0s forwards, 
+          ${typingCaret} -1s 1s forwards
         `, // Apply the typing and caret disappearance animations
           width: 'fit-content',
         }}>
@@ -169,7 +169,9 @@ export default function DashboardSt() {
             👋👋
           </span>
         </Box>
-        <Box ml={6} p={2}>
+      </Grid>
+      <Grid item sm={5} display={'flex'} justifyContent={'center'}>
+        
           <Card
             sx={{
               borderRadius: 3,
@@ -184,12 +186,11 @@ export default function DashboardSt() {
           >
             <Box
               display="flex"
-              justifyContent="flex-start"
-              ml={14}
+              justifyContent="center"
               my={5}
 
             >
-              <Box display="flex">
+              <Box display="flex" >
                 {student.profileUrl ? (
                   <img
                     alt="profile-user"
@@ -240,15 +241,15 @@ export default function DashboardSt() {
               </Box>
             </CardContent>
           </Card>
-        </Box>
+        
       </Grid>
       <Grid
         item
         sm={7}
         container
-        sx={{ mt: 12, display: "flex", justifyContent: "space-around" }}
+        sx={{  display: "flex", alignItems: "space-around" }}
       >
-        <Grid item>
+         <Grid item sm={4}>
           <Card
             sx={{
               borderRadius: 3,
@@ -292,7 +293,7 @@ export default function DashboardSt() {
           </Card>
         </Grid>
 
-        <Grid item>
+        <Grid item sm={4}>
           <Card
             sx={{
               borderRadius: 3,
@@ -336,7 +337,7 @@ export default function DashboardSt() {
           </Card>
         </Grid>
 
-        <Grid item>
+        <Grid item sm={4}>
           <Card
             sx={{
               borderRadius: 3,
@@ -379,14 +380,15 @@ export default function DashboardSt() {
             </CardContent>
           </Card>
         </Grid>
-        <Box mb={9}>
-          <Grid item>
+        
+          <Grid item sm={12} >
             <Card
               sx={{
+                mb:2,
+                width: "100%",
+                minHeight:350,
                 borderRadius: 3,
                 boxShadow: 3,
-                width: 800,
-                height: 300,
                 transition: "transform 0.3s ease-in-out",
                 "&:hover": {
                   transform: "scale(1.01)",
@@ -425,14 +427,15 @@ export default function DashboardSt() {
                     </ListItem>
                   ))}
                 </List>
-                <Box display="flex" alignItems="center" justifyContent="center" mt={2}>
+                <Box display="flex" alignItems="center" justifyContent="flex-end" my={4}>
+                  
                   <TextField
                     variant="outlined"
                     placeholder="Add a new todo"
                     size="small"
                     value={todoInput}
                     onChange={(e) => setTodoInput(e.target.value)}
-                    sx={{ mr: 1, width: 800 }}
+                    fullWidth
                   />
                   <IconButton aria-label="add todo" onClick={handleAddTodo}>
                     <AddIcon />
@@ -441,7 +444,7 @@ export default function DashboardSt() {
               </CardContent>
             </Card>
           </Grid>
-        </Box>
+        
 
 
       </Grid>

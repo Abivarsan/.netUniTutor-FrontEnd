@@ -79,7 +79,7 @@ const InviteFriend: React.FC = () => {
             align="center"
             sx={{ color: "darkblue", mt: 3 }}
           >
-            Enter your friend's email address to invite them.
+            Invite a friend to our platform and both earn 50 coins as a reward!
             <Typography
            
             color="primary"
@@ -88,13 +88,17 @@ const InviteFriend: React.FC = () => {
           >
             Seemore..
           </Typography>
+          <Typography variant="body1" align="center" sx={{ color: "darkblue", mt: 3 }}>
+          Enter your friend's email address to invite them 
+          </Typography>
+
             
           </Typography>
 
          
 
           <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-            <DialogTitle>Invite friends</DialogTitle>
+            <DialogTitle textAlign={'center'}>Invite friend</DialogTitle>
 
             <DialogContent>
               <Typography variant="body1"  textAlign="center" sx={{ color: "darkblue", mt: 3 }}>

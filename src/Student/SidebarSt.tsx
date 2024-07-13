@@ -17,11 +17,23 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import LogoutIcon from "@mui/icons-material/Logout";
 import data from "../dataStu";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, To } from "react-router-dom";
 import { Dashboard } from "@mui/icons-material";
-import { Avatar, Badge, Menu, MenuItem, Tooltip } from "@mui/material";
+import {
+  Avatar,
+  Badge,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Menu,
+  MenuItem,
+  Tooltip,
+} from "@mui/material";
+import { useState } from "react";
 
 const drawerWidth = 210;
 
@@ -104,6 +116,7 @@ const initialNotifications = [
 export default function Sidebarst() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [logoutConfirmationOpen, setLogoutConfirmationOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -119,21 +132,34 @@ export default function Sidebarst() {
     setOpen(false);
   };
 
-  const tabClickEvent = (route: any, index: number) => {
-    if(route.label==="Logout"){
-      localStorage.removeItem("email");
-      localStorage.removeItem("token");
-      localStorage.removeItem("userId"); // Assuming nameid is the user ID
-      localStorage.removeItem("userRole"); // Assuming role is the user role
-    }
-    navigate(route.path);
-  };
-
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
   const [anchorElNotifications, setAnchorElNotifications] =
     React.useState<null | HTMLElement>(null);
+
+  const handleLogoutConfirmationOpen = () => {
+    setLogoutConfirmationOpen(true);
+  };
+
+  const handleLogoutConfirmationClose = () => {
+    setLogoutConfirmationOpen(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("email");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userRole");
+    navigate("/"); // Redirect to login or home page after logout
+  };
+  const tabClickEvent = (route: { label: string; path: To }, index: number) => {
+    if (route.label === "Logout") {
+      handleLogoutConfirmationOpen();
+    } else {
+      navigate(route.path);
+    }
+  };
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -250,6 +276,38 @@ export default function Sidebarst() {
           ))}
         </List>
       </Drawer>
+      <Dialog
+        open={logoutConfirmationOpen}
+        onClose={handleLogoutConfirmationClose}
+        
+        
+      >
+        <DialogTitle>Logout Confirmation</DialogTitle>
+        <DialogContent>
+          <Box display="flex" alignItems="center">
+            <LogoutIcon color="error"sx={{
+              size:'large '
+            }}/>
+            <Typography variant="body1" sx={{ marginLeft: 1 }}>
+              Are you sure you want to logout?
+            </Typography>
+          </Box>
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            onClick={handleLogoutConfirmationClose}
+            color="primary"
+            variant="outlined"
+            size="small"
+          >
+            Cancel
+          </Button>
+          <Button onClick={handleLogout} color="error" variant="contained" size="small">
+            Logout
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

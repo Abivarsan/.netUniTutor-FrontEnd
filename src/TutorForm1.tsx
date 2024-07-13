@@ -40,6 +40,7 @@ import { storage } from "./firebase";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { districts, occupations } from "./data/data";
+import { useNavigate } from "react-router-dom";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -120,6 +121,8 @@ const TutorForm1 = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
+  const navigate = useNavigate();
+
   const {
     control,
     register,
@@ -147,6 +150,7 @@ const TutorForm1 = () => {
       if (response.status === 201) {
         toast.success("Form submitted successfully");
         reset(initialState);
+        navigate("/success")
       } else {
         toast.error("Form submission failed");
       }

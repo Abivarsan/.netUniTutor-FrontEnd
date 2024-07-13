@@ -58,7 +58,7 @@ const BuyCoins: React.FC = () => {
   };
 
   const calculateLkrAmount = (coins: number) => {
-    return coins * 100; // 1 coin = 100 LKR
+    return coins * 20; // 1 coin = 100 LKR
   };
 
   return (

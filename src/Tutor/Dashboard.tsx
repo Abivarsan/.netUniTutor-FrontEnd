@@ -1,9 +1,8 @@
-
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import CallReceivedSharpIcon from '@mui/icons-material/CallReceivedSharp';
+import CallReceivedSharpIcon from "@mui/icons-material/CallReceivedSharp";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { keyframes } from '@emotion/react';
+import { keyframes } from "@emotion/react";
 import {
   Box,
   Card,
@@ -19,17 +18,16 @@ import {
   Avatar,
   Rating,
 } from "@mui/material";
-import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
-import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import BlockIcon from '@mui/icons-material/Block';
+import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
+import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import BlockIcon from "@mui/icons-material/Block";
 import CallIcon from "@mui/icons-material/Call";
 import EmailIcon from "@mui/icons-material/Email";
-import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import PersonIcon from "@mui/icons-material/Person";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import Variants from "../components/common/sketlan";
-
 
 const darkblue = {
   100: "#C9DCF7",
@@ -61,26 +59,36 @@ export default function Dashboard() {
   const [rejectedRequestsCount, setRejectedRequestsCount] = useState<number>(0);
   const [tutor, setTutor] = useState<Tutor | null>(null);
   const [todos, setTodos] = useState<TodoItem[]>([]);
-  const [todoInput, setTodoInput] = useState<string>('');
+  const [todoInput, setTodoInput] = useState<string>("");
 
   const tutorId = localStorage.getItem("userId");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const tutorResponse = await axios.get<Tutor>(`http://localhost:5025/api/Tutor/details/${tutorId}`);
+        const tutorResponse = await axios.get<Tutor>(
+          `http://localhost:5025/api/Tutor/details/${tutorId}`
+        );
         setTutor(tutorResponse.data);
 
-        const mySubjectsResponse = await axios.get<number>(`http://localhost:5025/api/Request/${tutorId}/mystudentcount`);
+        const mySubjectsResponse = await axios.get<number>(
+          `http://localhost:5025/api/Request/${tutorId}/mystudentcount`
+        );
         setMySubjectsCount(mySubjectsResponse.data);
 
-        const acceptedRequestsResponse = await axios.get<number>(`http://localhost:5025/api/Request/${tutorId}/pendingrequestcount`);
+        const acceptedRequestsResponse = await axios.get<number>(
+          `http://localhost:5025/api/Request/${tutorId}/pendingrequestcount`
+        );
         setAcceptedRequestsCount(acceptedRequestsResponse.data);
 
-        const rejectedRequestsResponse = await axios.get<number>(`http://localhost:5025/api/Transaction/totalamount/${tutorId}`);
-         setRejectedRequestsCount(rejectedRequestsResponse.data);
+        const rejectedRequestsResponse = await axios.get<number>(
+          `http://localhost:5025/api/Transaction/totalamount/${tutorId}`
+        );
+        setRejectedRequestsCount(rejectedRequestsResponse.data);
 
-        const todosResponse = await axios.get<TodoItem[]>(`http://localhost:5025/api/Todos/${tutorId}`);
+        const todosResponse = await axios.get<TodoItem[]>(
+          `http://localhost:5025/api/Todos/${tutorId}`
+        );
         setTodos(todosResponse.data);
       } catch (error) {
         console.error("Error fetching data", error);
@@ -94,10 +102,13 @@ export default function Dashboard() {
 
   const handleAddTodo = async () => {
     try {
-      if (todoInput.trim() !== '') {
-        const todoResponse = await axios.post<TodoItem>(`http://localhost:5025/api/Todos/${tutorId}`, { text: todoInput });
+      if (todoInput.trim() !== "") {
+        const todoResponse = await axios.post<TodoItem>(
+          `http://localhost:5025/api/Todos/${tutorId}`,
+          { text: todoInput }
+        );
         setTodos([...todos, todoResponse.data]);
-        setTodoInput('');
+        setTodoInput("");
       }
     } catch (error) {
       console.error("Error adding todo", error);
@@ -115,32 +126,31 @@ export default function Dashboard() {
     }
   };
 
-
   // Define a keyframe animation
-//   const fadeIn = keyframes`
-//   0% {
-//     opacity: 0;
-//     transform: translateY(-10px);
-//   }
-//   100% {
-//     opacity: 1;
-//     transform: translateY(0);
-//   }
-// `;
-//   const runningLetters = keyframes`
-//   0% {
-//     opacity: 0;
-//     transform: translateX(-100%);
-//   }
-//   50% {
-//     opacity: 1;
-//     transform: translateX(0);
-//   }
-//   100% {
-//     opacity: 0;
-//     transform: translateX(100%);
-//   }
-// `;
+  //   const fadeIn = keyframes`
+  //   0% {
+  //     opacity: 0;
+  //     transform: translateY(-10px);
+  //   }
+  //   100% {
+  //     opacity: 1;
+  //     transform: translateY(0);
+  //   }
+  // `;
+  //   const runningLetters = keyframes`
+  //   0% {
+  //     opacity: 0;
+  //     transform: translateX(-100%);
+  //   }
+  //   50% {
+  //     opacity: 1;
+  //     transform: translateX(0);
+  //   }
+  //   100% {
+  //     opacity: 0;
+  //     transform: translateX(100%);
+  //   }
+  // `;
 
   const typing = keyframes`
 from { width: 0 }
@@ -154,7 +164,10 @@ to { border-right-color: transparent }
   const handleCompleteTodo = async (index: number) => {
     try {
       const updatedTodo = { ...todos[index], isCompleted: true };
-      await axios.put(`http://localhost:5025/api/Todos/${todos[index].id}`, updatedTodo);
+      await axios.put(
+        `http://localhost:5025/api/Todos/${todos[index].id}`,
+        updatedTodo
+      );
       const updatedTodos = [...todos];
       updatedTodos[index] = updatedTodo;
       setTodos(updatedTodos);
@@ -176,20 +189,24 @@ to { border-right-color: transparent }
           p={2}
           ml={6}
           sx={{
-            overflow: 'hidden', // Ensures that the typing effect stays within the box
-            whiteSpace: 'nowrap', // Prevents text wrapping
-            borderRight: '2px solid', // Creates the caret
+            overflow: "hidden", // Ensures that the typing effect stays within the box
+            whiteSpace: "nowrap", // Prevents text wrapping
+            borderRight: "2px solid", // Creates the caret
             animation: `
-          ${typing} 4s steps(30, end) 1s forwards, 
-          ${typingCaret} 0s 4s forwards
+           ${typing} 4s steps(30, end) 0s forwards, 
+          ${typingCaret} -1s 1s forwards
         `, // Apply the typing and caret disappearance animations
-            width: 'fit-content',
+            width: "fit-content",
           }}
         >
           <Typography variant="h4" fontWeight="bold" sx={{ color: "darkblue" }}>
             {`Hi, ${tutor.firstName} ${tutor.lastName}!!`}
           </Typography>
-          <span role="img" aria-label="smile" style={{ marginLeft: 8, fontSize: '2em' }}>
+          <span
+            role="img"
+            aria-label="smile"
+            style={{ marginLeft: 8, fontSize: "2em" }}
+          >
             👋👋
           </span>
         </Box>
@@ -207,13 +224,7 @@ to { border-right-color: transparent }
               },
             }}
           >
-            <Box
-              display="flex"
-              justifyContent="flex-start"
-              ml={14}
-              my={5}
-
-            >
+            <Box display="flex" justifyContent="center" my={5}>
               <Box display="flex">
                 {tutor.profileUrl ? (
                   <img
@@ -236,19 +247,11 @@ to { border-right-color: transparent }
                       cursor: "pointer",
                       border: "3px solid black",
                     }}
-                  >
-
-                  </Avatar>
+                  ></Avatar>
                 )}
               </Box>
-
-
             </Box>
-            <Box
-              display="flex"
-              justifyContent="flex-start"
-              ml={14}
-              my={3}>
+            <Box display="flex" justifyContent="flex-start" ml={14} my={3}>
               <Rating
                 name="read-only"
                 value={tutor.rating}
@@ -261,20 +264,29 @@ to { border-right-color: transparent }
 
             <CardContent>
               <Box display="flex" alignItems="center">
-                < PersonIcon sx={{ fontSize: 28, color: "darkblue" }} />
-                <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+                <PersonIcon sx={{ fontSize: 28, color: "darkblue" }} />
+                <Typography
+                  variant="body1"
+                  sx={{ marginLeft: 1, color: "darkblue" }}
+                >
                   Tutor
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center" sx={{ marginTop: 3 }}>
                 <EmailIcon sx={{ fontSize: 28, color: "darkblue" }} />
-                <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+                <Typography
+                  variant="body1"
+                  sx={{ marginLeft: 1, color: "darkblue" }}
+                >
                   {tutor.universityMail}
                 </Typography>
               </Box>
               <Box display="flex" alignItems="center" sx={{ marginTop: 3 }}>
                 <CallIcon sx={{ fontSize: 28, color: "darkblue" }} />
-                <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+                <Typography
+                  variant="body1"
+                  sx={{ marginLeft: 1, color: "darkblue" }}
+                >
                   {tutor.phoneNumber}
                 </Typography>
               </Box>
@@ -284,11 +296,11 @@ to { border-right-color: transparent }
       </Grid>
       <Grid
         item
-        sm={7}
         container
+        sm={7}
         sx={{ mt: 12, display: "flex", justifyContent: "space-around" }}
       >
-        <Grid item>
+        <Grid item sm={4}>
           <Card
             sx={{
               borderRadius: 3,
@@ -311,7 +323,11 @@ to { border-right-color: transparent }
             >
               <CardHeader
                 subheader={
-                  <Typography variant="subtitle1" fontWeight="bold" sx={{ color: "darkblue" }}>
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight="bold"
+                    sx={{ color: "darkblue" }}
+                  >
                     Current Students
                   </Typography>
                 }
@@ -332,7 +348,7 @@ to { border-right-color: transparent }
           </Card>
         </Grid>
 
-        <Grid item>
+        <Grid item sm={4}>
           <Card
             sx={{
               borderRadius: 3,
@@ -355,7 +371,11 @@ to { border-right-color: transparent }
             >
               <CardHeader
                 subheader={
-                  <Typography variant="subtitle1" fontWeight="bold" sx={{ color: "darkblue" }}>
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight="bold"
+                    sx={{ color: "darkblue" }}
+                  >
                     Requests
                   </Typography>
                 }
@@ -376,7 +396,7 @@ to { border-right-color: transparent }
           </Card>
         </Grid>
 
-        <Grid item>
+        <Grid item sm={4}>
           <Card
             sx={{
               borderRadius: 3,
@@ -399,7 +419,11 @@ to { border-right-color: transparent }
             >
               <CardHeader
                 subheader={
-                  <Typography variant="subtitle1" fontWeight="bold" sx={{ color: "darkblue" }}>
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight="bold"
+                    sx={{ color: "darkblue" }}
+                  >
                     Coins
                   </Typography>
                 }
@@ -419,73 +443,81 @@ to { border-right-color: transparent }
             </CardContent>
           </Card>
         </Grid>
-        <Box mb={9}>
-          <Grid item>
-            <Card
+
+        <Grid item sm={7}>
+          <Card
+            sx={{
+              borderRadius: 3,
+              boxShadow: 3,
+              transition: "transform 0.3s ease-in-out",
+              "&:hover": {
+                transform: "scale(1.01)",
+              },
+            }}
+          >
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
               sx={{
-                borderRadius: 3,
-                boxShadow: 3,
-                width: 800,
-                height: 300,
-                transition: "transform 0.3s ease-in-out",
-                "&:hover": {
-                  transform: "scale(1.01)",
-                },
+                borderBottom: `2px solid ${darkblue[200]}`,
               }}
             >
+              <CardHeader
+                subheader={
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight="bold"
+                    sx={{ color: "darkblue" }}
+                  >
+                    Todo List
+                  </Typography>
+                }
+              />
+            </Box>
+            <CardContent>
+              <List>
+                {todos.map((todo, index) => (
+                  <ListItem key={index} disablePadding>
+                    <ListItemText primary={todo.text} />
+                    {!todo.isCompleted ? (
+                      <IconButton
+                        aria-label="complete"
+                        onClick={() => handleCompleteTodo(index)}
+                      >
+                        <CheckBoxIcon />
+                      </IconButton>
+                    ) : null}
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => handleRemoveTodo(index)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </ListItem>
+                ))}
+              </List>
               <Box
                 display="flex"
-                justifyContent="center"
                 alignItems="center"
-                sx={{
-                  borderBottom: `2px solid ${darkblue[200]}`,
-                }}
+                justifyContent="center"
+                mt={2}
               >
-                <CardHeader
-                  subheader={
-                    <Typography variant="subtitle1" fontWeight="bold" sx={{ color: "darkblue" }}>
-                      Todo List
-                    </Typography>
-                  }
+                <TextField
+                  variant="outlined"
+                  placeholder="Add a new todo"
+                  size="small"
+                  value={todoInput}
+                  onChange={(e) => setTodoInput(e.target.value)}
                 />
+                <IconButton aria-label="add todo" onClick={handleAddTodo}>
+                  <AddIcon />
+                </IconButton>
               </Box>
-              <CardContent>
-                <List>
-                  {todos.map((todo, index) => (
-                    <ListItem key={index} disablePadding>
-                      <ListItemText primary={todo.text} />
-                      {!todo.isCompleted ? (
-                        <IconButton aria-label="complete" onClick={() => handleCompleteTodo(index)}>
-                          <CheckBoxIcon />
-                        </IconButton>
-                      ) : null}
-                      <IconButton aria-label="delete" onClick={() => handleRemoveTodo(index)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </ListItem>
-                  ))}
-                </List>
-                <Box display="flex" alignItems="center" justifyContent="center" mt={2}>
-                  <TextField
-                    variant="outlined"
-                    placeholder="Add a new todo"
-                    size="small"
-                    value={todoInput}
-                    onChange={(e) => setTodoInput(e.target.value)}
-                    sx={{ mr: 1, width: 800 }}
-                  />
-                  <IconButton aria-label="add todo" onClick={handleAddTodo}>
-                    <AddIcon />
-                  </IconButton>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Box>
-
-
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
-
     </Grid>
   );
 }
