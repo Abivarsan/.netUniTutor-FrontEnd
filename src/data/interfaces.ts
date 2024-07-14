@@ -30,7 +30,6 @@ export interface RequestResponse {
   timestamp: string;
 }
 
-
 export interface SubjectRequest {
   rating: number | undefined;
   description: string;
@@ -45,13 +44,12 @@ export interface SubjectRequest {
   studentId: number;
   tutorId: {
     _id: number;
-    profileUrl : string;
+    profileUrl: string;
     firstName: string;
     lastName: string;
     district: string;
     universityMail: string;
     phoneNumber: string;
-                    
   };
   studentEmail: string;
   status: string;
@@ -74,12 +72,12 @@ export interface TutorAccept {
     lastName: string;
     email: string;
     phoneNumber: string;
-    profileUrl : string;
+    profileUrl: string;
     district: string;
     schoolName: string;
     grade: string;
   };
-  
+
   tutorId: {
     _id: number;
     ProfileUrl: string;
@@ -88,7 +86,6 @@ export interface TutorAccept {
     district: string;
     universityMail: string;
     phoneNumber: string;
-                    
   };
   studentEmail: string;
   status: string;
@@ -108,5 +105,10 @@ export interface ReviewResponse {
   averageRating: number;
 }
 
-
-
+export interface CommentResponse {
+  _id: number;
+  commentText: string;
+  timestamp: string;
+  fullName: string;
+  profileUrl?: string;
+}
