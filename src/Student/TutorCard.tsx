@@ -84,11 +84,11 @@ const TutorCard: React.FC<TutorCardProps> = ({ request, onCancel }) => {
             {request.status}
           </Typography>
         </CardContent>
-        <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
+        {/* <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Button color="error" size="small" onClick={onCancel}>
             Cancel
           </Button>
-        </CardActions>
+        </CardActions> */}
       </Card>
     </Box>
   );

@@ -56,7 +56,7 @@ const initialValues: SubjectInputs = {
 
 const schema = z.object({
   title: z.string().min(1, "Title is required"),
-  description: z.string().min(1, "Description is required"),
+  description: z.string().min(1, "Description is required").max(350,"Description should be less than 500 characters") ,
   coverImage: z.string().min(1, "Cover Image is required"),
   medium: z.array(z.string()).min(1, "Medium is required"),
   mode: z.string().min(1, "Mode is required"),
