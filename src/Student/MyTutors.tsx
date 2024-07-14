@@ -44,7 +44,7 @@ export default function Mysubjects() {
       ) : (
         <Grid container spacing={2}>
           {mySubjects.map((request) => (
-            <Grid item sm={4} key={request._id}>
+            <Grid item sm={4} key={request._id} xs={12}  lg={4} >
               <Tutorcardchat
                 request={request}
               />
