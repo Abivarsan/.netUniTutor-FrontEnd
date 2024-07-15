@@ -125,8 +125,8 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<CoverPage />} />
-          <Route path="/signin" element={<SignInSide />} />
+          {/* <Route path="/" element={<CoverPage />} /> */}
+          <Route path="/" element={<SignInSide />} />
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/otp" element={<Otp />} />
           <Route path="/resetpassword" element={<Reset />} />

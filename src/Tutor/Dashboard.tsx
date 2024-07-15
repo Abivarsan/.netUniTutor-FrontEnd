@@ -124,33 +124,6 @@ export default function Dashboard() {
       console.error("Error deleting todo", error);
     }
   };
-
-  // Define a keyframe animation
-  //   const fadeIn = keyframes`
-  //   0% {
-  //     opacity: 0;
-  //     transform: translateY(-10px);
-  //   }
-  //   100% {
-  //     opacity: 1;
-  //     transform: translateY(0);
-  //   }
-  // `;
-  //   const runningLetters = keyframes`
-  //   0% {
-  //     opacity: 0;
-  //     transform: translateX(-100%);
-  //   }
-  //   50% {
-  //     opacity: 1;
-  //     transform: translateX(0);
-  //   }
-  //   100% {
-  //     opacity: 0;
-  //     transform: translateX(100%);
-  //   }
-  // `;
-
   const typing = keyframes`
 from { width: 0 }
 to { width: 100% }
@@ -209,93 +182,95 @@ to { border-right-color: transparent }
             👋👋
           </span>
         </Box>
-        </Grid>
+      </Grid>
 
-        <Grid item sm={5} display={'flex'} justifyContent={'center'}>
+      <Grid item sm={5} display={"flex"} justifyContent={"center"}>
         <Card
-            sx={{
-              borderRadius: 3,
-              boxShadow: 3,
-              width: "70%",
-              height: 500,
-              transition: "transform 0.3s ease-in-out",
-              "&:hover": {
-                transform: "scale(1.01)",
-              },
-            }}
+          sx={{
+            borderRadius: 3,
+            boxShadow: 3,
+            width: "70%",
+            height: 500,
+            transition: "transform 0.3s ease-in-out",
+            "&:hover": {
+              transform: "scale(1.01)",
+            },
+          }}
+        >
+          <Box
+            display="flex"
+            justifyContent="center"
+            flexDirection={"column"}
+            alignItems={"center"}
+            my={5}
           >
-            <Box display="flex" justifyContent="center" flexDirection={'column'}  alignItems={'center'} my={5}>
-              
-                {tutor.profileUrl ? (
-                  <img
-                    alt="profile-user"
-                    width="150px"
-                    height="150px"
-                    src={tutor.profileUrl}
-                    style={{
-                      cursor: "pointer",
-                      borderRadius: "50%",
-                      border: "3px solid black",
-                    }}
-                  />
-                ) : (
-                  <Avatar
-                    alt="default-avatar"
-                    sx={{
-                      width: 150,
-                      height: 150,
-                      cursor: "pointer",
-                      border: "3px solid black",
-                    }}
-                  ></Avatar>
-                )}
-              
-           
-            
-              <Rating
-                name="read-only"
-                value={tutor.rating}
-                readOnly
-                sx={{
-                  fontSize: 28,
-                  my: 2,
+            {tutor.profileUrl ? (
+              <img
+                alt="profile-user"
+                width="150px"
+                height="150px"
+                src={tutor.profileUrl}
+                style={{
+                  cursor: "pointer",
+                  borderRadius: "50%",
+                  border: "3px solid black",
                 }}
               />
-               </Box>
-           
+            ) : (
+              <Avatar
+                alt="default-avatar"
+                sx={{
+                  width: 150,
+                  height: 150,
+                  cursor: "pointer",
+                  border: "3px solid black",
+                }}
+              ></Avatar>
+            )}
 
-            <CardContent>
-              <Box display="flex" alignItems="center">
-                <PersonIcon sx={{ fontSize: 28, color: "darkblue" }} />
-                <Typography
-                  variant="body1"
-                  sx={{ marginLeft: 1, color: "darkblue" }}
-                >
-                  Tutor
-                </Typography>
-              </Box>
-              <Box display="flex" alignItems="center" sx={{ marginTop: 3 }}>
-                <EmailIcon sx={{ fontSize: 28, color: "darkblue" }} />
-                <Typography
-                  variant="body1"
-                  sx={{ marginLeft: 1, color: "darkblue" }}
-                >
-                  {tutor.universityMail}
-                </Typography>
-              </Box>
-              <Box display="flex" alignItems="center" sx={{ marginTop: 3 }}>
-                <CallIcon sx={{ fontSize: 28, color: "darkblue" }} />
-                <Typography
-                  variant="body1"
-                  sx={{ marginLeft: 1, color: "darkblue" }}
-                >
-                  {tutor.phoneNumber}
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-      
+            <Rating
+              name="read-only"
+              value={tutor.rating}
+              readOnly
+              sx={{
+                fontSize: 28,
+                my: 2,
+              }}
+            />
+          </Box>
+
+          <CardContent>
+            <Box display="flex" alignItems="center">
+              <PersonIcon sx={{ fontSize: 28, color: "darkblue" }} />
+              <Typography
+                variant="body1"
+                sx={{ marginLeft: 1, color: "darkblue" }}
+              >
+                Tutor
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center" sx={{ marginTop: 3 }}>
+              <EmailIcon sx={{ fontSize: 28, color: "darkblue" }} />
+              <Typography
+                variant="body1"
+                sx={{ marginLeft: 1, color: "darkblue" }}
+              >
+                {tutor.universityMail}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center" sx={{ marginTop: 3 }}>
+              <CallIcon sx={{ fontSize: 28, color: "darkblue" }} />
+              <Typography
+                variant="body1"
+                sx={{ marginLeft: 1, color: "darkblue" }}
+              >
+                {tutor.phoneNumber}
+              </Typography>
+            </Box>
+          </CardContent>
+        </Card>
+      </Grid>
+
       <Grid
         item
         container
@@ -502,8 +477,12 @@ to { border-right-color: transparent }
                   </ListItem>
                 ))}
               </List>
-              <Box display="flex" alignItems="center" justifyContent="flex-end" my={4}>
-
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="flex-end"
+                my={4}
+              >
                 <TextField
                   variant="outlined"
                   placeholder="Add a new todo"

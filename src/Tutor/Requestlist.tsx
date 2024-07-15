@@ -95,9 +95,23 @@ export default function Requestlist() {
     useState<RequestResponse | null>(null);
 
   const [isFetching, setIsFetching] = useState(true);
+  const [coinsCount, setCoinsCount] = useState<number>(0);
 
+  const fetchcoins = async () => {
+    const tutorId = localStorage.getItem("userId");
+    try {
+      const coinsCountResponse = await axios.get<number>(
+        `http://localhost:5025/api/Transaction/totalamount/${tutorId}`
+      );
+      setCoinsCount(coinsCountResponse.data);
+    } catch (error) {
+      console.error(error);
+      // toast.error("");
+    }
+  };
   const fetchRequests = async () => {
     const tutorId = localStorage.getItem("userId");
+
     try {
       const response = await axios.get(
         `http://localhost:5025/api/Request/tutor/${tutorId}`
@@ -118,29 +132,34 @@ export default function Requestlist() {
 
   const handleRequest = async (id: number, isAccept: boolean) => {
     if (isAccept) {
-      try {
-        const response = await axios.put(
-          `http://localhost:5025/api/Request/request/${id}`,
-          {
-            status: "ACCEPTED",
+      if (coinsCount > 0) {
+        try {
+          const response = await axios.put(
+            `http://localhost:5025/api/Request/request/${id}`,
+            {
+              status: "ACCEPTED",
+            }
+          );
+          if (response.status === 200) {
+            toast.success("Request accepted");
+            fetchRequests();
+            setSelectedRequest(null);
           }
-        );
-        if (response.status === 200) {
-          toast.success("Request accepted");
-          fetchRequests();
-          setSelectedRequest(null);
+        } catch (error) {
+          console.error(error);
+          toast.error("Failed to accept request");
         }
-      } catch (error) {
-        console.error(error);
-        toast.error("Failed to accept request");
+      } else {
+        toast.error("You don't have enough coins to accept the request");
       }
       return;
     }
     try {
       const response = await axios.put(
-        `http://localhost:5025/api/Request/request/${id}`, {
-        status: "REJECTED",
-      }
+        `http://localhost:5025/api/Request/request/${id}`,
+        {
+          status: "REJECTED",
+        }
       );
       if (response.status === 200) {
         toast.success("Request rejected");
