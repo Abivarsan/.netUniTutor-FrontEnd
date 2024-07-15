@@ -98,6 +98,7 @@ export default function Requestlist() {
 
   const fetchRequests = async () => {
     const tutorId = localStorage.getItem("userId");
+
     try {
       const response = await axios.get(
         `http://localhost:5025/api/Request/tutor/${tutorId}`
@@ -118,6 +119,7 @@ export default function Requestlist() {
 
   const handleRequest = async (id: number, isAccept: boolean) => {
     if (isAccept) {
+
       try {
         const response = await axios.put(
           `http://localhost:5025/api/Request/request/${id}`,
@@ -134,13 +136,15 @@ export default function Requestlist() {
         console.error(error);
         toast.error("Failed to accept request");
       }
+
       return;
     }
     try {
       const response = await axios.put(
-        `http://localhost:5025/api/Request/request/${id}`, {
-        status: "REJECTED",
-      }
+        `http://localhost:5025/api/Request/request/${id}`,
+        {
+          status: "REJECTED",
+        }
       );
       if (response.status === 200) {
         toast.success("Request rejected");

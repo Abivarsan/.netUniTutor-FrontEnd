@@ -36,16 +36,17 @@
     transform: rotate(360deg);
   }
 } */
+  /* background-image: linear-gradient(to bottom, #ffffff, #99ccff); */
+  /* background-color: #9abacf !important;  */
+  /* background-repeat: no-repeat; */
+  /* height: 100vh; */
 
 body {
   margin: 0;
   padding: 0;
 
   background-color: #b0cee2 !important;
-  /* background-image: linear-gradient(to bottom, #ffffff, #99ccff); */
-  /* background-color: #9abacf !important;  */
-  /* background-repeat: no-repeat; */
-  /* height: 100vh; */
+ 
 }
 
 /* Scroll bar styles */
