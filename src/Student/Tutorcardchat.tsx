@@ -466,7 +466,7 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
             <ReviewSection initialRating={0} subjectid={request.subjectId._id} studentid={Number(localStorage.getItem("userId"))} onClose={handleCloseModal} />)
             :
             (
-              <ReportSection tutorEmail={request.tutorId.universityMail} onClose={handleCloseModal} />
+              <ReportSection reportedId={request.tutorId._id} onClose={handleCloseModal} />
             )}
         </Box>
       </Modal>
