@@ -53,11 +53,15 @@ export default function RequestDetails({
           </Typography>
 
           <Divider sx={{ my: 2 }} />
+          
           <Typography variant="body2" sx={{ color: "#1976d2" }}>
             {moment(request.timestamp).format("MMMM Do YYYY, h:mm A")}
           </Typography>
           <Typography variant="body2" sx={{ color: "#1976d2" }}>
             {request.status}
+          </Typography>
+          <Typography variant="body1" color="text.primary" textAlign={'center'} fontWeight={'bold'}>
+            To accept this request, you must pay 20 coins.
           </Typography>
         </CardContent>
         <CardActions sx={{ justifyContent: "flex-end" }}>

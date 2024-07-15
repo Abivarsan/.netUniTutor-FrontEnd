@@ -8,6 +8,7 @@ import {
   Chip,
   Divider,
   IconButton,
+  Rating,
   Typography,
 } from "@mui/material";
 import { SubjectInputs } from "./SubjectForm";
@@ -21,7 +22,10 @@ export default function SubjectCard({
   subject: SubjectInputs;
   setEditData: (subject: SubjectInputs) => void;
   setDeleteData: (id: number) => void;
-}) {
+}) 
+
+
+{
   return (
     <Card sx={{}}>
       <CardHeader
@@ -36,7 +40,7 @@ export default function SubjectCard({
           </>
         }
         // title={subject.availability.join(", ")}
-        subheader={
+        title={
           <Typography
             sx={{
               color: "#1976d2",
@@ -47,6 +51,16 @@ export default function SubjectCard({
             {subject.mode}
           </Typography>
         }
+        // subheader={
+        //   <Rating
+        //     name="read-only"
+        //     // value={subject.rating}
+        //     precision={0.5}
+        //     readOnly
+        //     sx={{
+        //       fontSize: 20,
+        //     }}
+        // }
       />
       <CardMedia
         component="img"
