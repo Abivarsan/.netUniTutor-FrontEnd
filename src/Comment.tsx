@@ -48,7 +48,7 @@ export default function Comment() {
         `http://localhost:5025/Comment/getforside`,
       );
       if (response.status === 200) {
-        // setCommentText(response.data);
+       
         const sortedComments = response.data.sort(
           (
             a: { timestamp: string | number | Date },
