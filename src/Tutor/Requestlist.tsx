@@ -95,20 +95,7 @@ export default function Requestlist() {
     useState<RequestResponse | null>(null);
 
   const [isFetching, setIsFetching] = useState(true);
-  const [coinsCount, setCoinsCount] = useState<number>(0);
 
-  const fetchcoins = async () => {
-    const tutorId = localStorage.getItem("userId");
-    try {
-      const coinsCountResponse = await axios.get<number>(
-        `http://localhost:5025/api/Transaction/totalamount/${tutorId}`
-      );
-      setCoinsCount(coinsCountResponse.data);
-    } catch (error) {
-      console.error(error);
-      // toast.error("");
-    }
-  };
   const fetchRequests = async () => {
     const tutorId = localStorage.getItem("userId");
 
@@ -132,26 +119,24 @@ export default function Requestlist() {
 
   const handleRequest = async (id: number, isAccept: boolean) => {
     if (isAccept) {
-      if (coinsCount > 0) {
-        try {
-          const response = await axios.put(
-            `http://localhost:5025/api/Request/request/${id}`,
-            {
-              status: "ACCEPTED",
-            }
-          );
-          if (response.status === 200) {
-            toast.success("Request accepted");
-            fetchRequests();
-            setSelectedRequest(null);
+
+      try {
+        const response = await axios.put(
+          `http://localhost:5025/api/Request/request/${id}`,
+          {
+            status: "ACCEPTED",
           }
-        } catch (error) {
-          console.error(error);
-          toast.error("Failed to accept request");
+        );
+        if (response.status === 200) {
+          toast.success("Request accepted");
+          fetchRequests();
+          setSelectedRequest(null);
         }
-      } else {
-        toast.error("You don't have enough coins to accept the request");
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to accept request");
       }
+
       return;
     }
     try {
