@@ -177,6 +177,7 @@ import {
   InputBase,
   Typography,
   tableCellClasses,
+  Divider,
 } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 
@@ -184,6 +185,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.white,
     color: theme.palette.primary.main,
+    fontSize: 16,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -200,7 +202,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 interface Transaction {
-  date: string;
+  timestamp: string;
   description: string;
   coins: number;
 }
@@ -210,7 +212,7 @@ const TransactionTable: React.FC = () => {
   const [searchTerm, setSearchTerm] = React.useState('');
 
   React.useEffect(() => {
-    axios.get('http://localhost:5025/api/Transactions')
+    axios.get(`http://localhost:5025/api/Transaction/getall/${localStorage.getItem("userId")}`)
       .then(response => {
         setTransactions(response.data);
       })
@@ -247,6 +249,7 @@ const TransactionTable: React.FC = () => {
           }}
         />
       </Box>
+      <Divider/>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -259,7 +262,7 @@ const TransactionTable: React.FC = () => {
           {filteredTransactions.map((transaction, index) => (
             <StyledTableRow key={index}>
               <StyledTableCell component="th" scope="row">
-                {new Date(transaction.date).toLocaleDateString()}
+                {new Date(transaction.timestamp).toLocaleDateString()}
               </StyledTableCell>
               <StyledTableCell>{transaction.description}</StyledTableCell>
               <StyledTableCell align="right">{transaction.coins}</StyledTableCell>

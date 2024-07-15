@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -46,10 +45,10 @@ export default function Comment() {
   const fetchAllComments = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5025/Comment/getforside`
+        `http://localhost:5025/Comment/getforside`,
       );
       if (response.status === 200) {
-        // setCommentText(response.data);
+       
         const sortedComments = response.data.sort(
           (
             a: { timestamp: string | number | Date },
@@ -93,7 +92,7 @@ export default function Comment() {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        `http://localhost:5025/Comment/create/${id}/${type}`,
+       ` http://localhost:5025/Comment/create/${id}/${type}`,
         {
           commentText: data.commentText,
         }
@@ -199,6 +198,3 @@ export default function Comment() {
     </Box>
   );
 }
-
-      
-

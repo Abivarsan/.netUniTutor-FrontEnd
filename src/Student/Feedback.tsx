@@ -22,7 +22,7 @@ import {
           name="rating"
           size="small"
           precision={0.5}
-          value={feedback?.rating || 0}
+          value={feedback?.rating  || 0}
           readOnly
         />
       </Box>
