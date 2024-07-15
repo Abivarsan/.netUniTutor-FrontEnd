@@ -163,10 +163,10 @@ const SignInSide = () => {
               component="h1"
               variant="h2"
               sx={{
-                color: "#1565c0",
+                color: "Darkblue",
               }}
             >
-              <h2>Uni Tutor</h2>
+               Welcome to  UniTutor!
             </Typography>
           </Box>
 
@@ -180,7 +180,7 @@ const SignInSide = () => {
             <Typography
               sx={{
                 fontSize: 30,
-                color: "#1a237e",
+                color: "Darkblue",
                 textAlign: "center",
               }}
             >

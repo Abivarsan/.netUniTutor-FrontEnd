@@ -14,11 +14,7 @@ import Reset from "./reset";
 import ResetSuccess from "./resetSux";
 import Register from "./Register";
 import StudentForm from "./StudentForm";
-import Conform from "./StuConfirmation";
-import CreateAcc from "./CreareAcc";
 import TutorForm1 from "./TutorForm1";
-import TutorForm2 from "./TutorForm2";
-import TutorForm3 from "./TutorForm3";
 import Sidebar from "./Tutor/Sidebar";
 import Dashboard from "./Tutor/Dashboard";
 import Editprofile from "./Tutor/Editprofile";
@@ -56,6 +52,7 @@ import SettingsPage from "./Admin/Pages/SettingsPage/SettingsPage";
 import { Bounce, ToastContainer } from "react-toastify";
 import MyStudents from "./Tutor/MyStudents";
 import MySubjects from "./pages/MySubjects";
+import CoverPage from "./Advertise"
 // import CheckoutForm from "./Payment";
 //  import Return from "./Payment";
 import Comment from "./Comment";
@@ -128,7 +125,8 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<SignInSide />} />
+          <Route path="/" element={<CoverPage />} />
+          <Route path="/signin" element={<SignInSide />} />
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/otp" element={<Otp />} />
           <Route path="/resetpassword" element={<Reset />} />
