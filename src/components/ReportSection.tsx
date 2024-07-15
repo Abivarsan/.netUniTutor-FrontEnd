@@ -4,12 +4,15 @@ import { Box, Button, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 
 interface ReportSectionProps {
-  tutorEmail: string;
+  reportedId: number;
   onClose: () => void;
 }
 
-const ReportSection: React.FC<ReportSectionProps> = ({tutorEmail, onClose }) => {
-  const [description,setDescription] = useState("");
+const ReportSection: React.FC<ReportSectionProps> = ({
+  reportedId,
+  onClose,
+}) => {
+  const [description, setDescription] = useState("");
 
   const handleSubmit = async () => {
     if (description.trim() === "") {
@@ -19,11 +22,19 @@ const ReportSection: React.FC<ReportSectionProps> = ({tutorEmail, onClose }) => 
 
     try {
       // Replace with your actual backend URL and endpoint
-      
-      const mail=localStorage.getItem("email");
-      const response = await axios.post(`http://localhost:5025/api/Report/create/${mail}/${tutorEmail}`, { description });
+
+      const reporterType = localStorage.getItem("userRole");
+      const reporterId = localStorage.getItem("userId");
+      const reportedType = "Tutor";
+      const response = await axios.post(`http://localhost:5025/api/Reports`, {
+        description,
+        reportedId,
+        reporterType,
+        reporterId,
+        reportedType,
+      });
       console.log(response);
-      
+
       if (response.status === 201) {
         toast.success("Reported successfully");
         setDescription("");
@@ -50,7 +61,13 @@ const ReportSection: React.FC<ReportSectionProps> = ({tutorEmail, onClose }) => 
         variant="outlined"
         sx={{ mt: 3 }}
       />
-       <Button color="primary" variant="contained" size="medium" sx={{ mt: 6 }} onClick={handleSubmit}>
+      <Button
+        color="primary"
+        variant="contained"
+        size="medium"
+        sx={{ mt: 6 }}
+        onClick={handleSubmit}
+      >
         Submit
       </Button>
     </Box>

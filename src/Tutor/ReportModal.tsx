@@ -13,12 +13,12 @@ const darkblue = {
 };
 
 interface ReportModalProps {
-  studentEmail: string;
+  reportedId: number;
   open: boolean;
   onClose: () => void;
 }
 
-const ReportModal: React.FC<ReportModalProps> = ({ studentEmail,open, onClose }) => {
+const ReportModal: React.FC<ReportModalProps> = ({ reportedId,open, onClose }) => {
   const [description,setDescription] = useState("");
 
   const handleSubmit = async () => {
@@ -29,9 +29,10 @@ const ReportModal: React.FC<ReportModalProps> = ({ studentEmail,open, onClose })
 
     try {
       // Replace with your actual backend URL and endpoint
-      
-      const mail=localStorage.getItem("email");
-      const response = await axios.post(`http://localhost:5025/api/Report/create/${mail}/${studentEmail}`, { description });
+      const reporterType=localStorage.getItem("userRole");
+      const reporterId=localStorage.getItem("userId");
+      const reportedType="Student" ;
+      const response = await axios.post(`http://localhost:5025/api/Reports`, { description,reportedId,reporterType,reporterId,reportedType});
       console.log(response);
       
       if (response.status === 201) {

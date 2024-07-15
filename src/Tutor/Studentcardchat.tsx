@@ -324,7 +324,7 @@ const StudentCardChat: React.FC<StudentCardChatProps> = ({ accept }) => {
         </Box>
       </Card>
 
-      <ReportModal open={open} studentEmail={accept.studentId.email} onClose={handleClose} />
+      <ReportModal open={open} reportedId={accept.studentId._id} onClose={handleClose} />
     </Box>
   );
 };
