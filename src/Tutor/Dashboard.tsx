@@ -56,7 +56,7 @@ interface TodoItem {
 export default function Dashboard() {
   const [mySubjectsCount, setMySubjectsCount] = useState<number>(0);
   const [acceptedRequestsCount, setAcceptedRequestsCount] = useState<number>(0);
-  const [rejectedRequestsCount, setRejectedRequestsCount] = useState<number>(0);
+  const [coinsCount, setCoinsCount] = useState<number>(0);
   const [tutor, setTutor] = useState<Tutor | null>(null);
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [todoInput, setTodoInput] = useState<string>("");
@@ -81,10 +81,10 @@ export default function Dashboard() {
         );
         setAcceptedRequestsCount(acceptedRequestsResponse.data);
 
-        const rejectedRequestsResponse = await axios.get<number>(
+        const coinsCountResponse = await axios.get<number>(
           `http://localhost:5025/api/Transaction/totalamount/${tutorId}`
         );
-        setRejectedRequestsCount(rejectedRequestsResponse.data);
+        setCoinsCount(coinsCountResponse.data);
 
         const todosResponse = await axios.get<TodoItem[]>(
           `http://localhost:5025/api/Todos/${tutorId}`
@@ -99,7 +99,6 @@ export default function Dashboard() {
       fetchData();
     }
   }, [tutorId]);
-
   const handleAddTodo = async () => {
     try {
       if (todoInput.trim() !== "") {
@@ -441,7 +440,7 @@ to { border-right-color: transparent }
             >
               <MonetizationOnIcon sx={{ color: "#E5B80B", fontSize: 30 }} />
               <Typography sx={{ color: "Darkblue", fontSize: 25 }}>
-                {rejectedRequestsCount}
+                {coinsCount}
               </Typography>
             </CardContent>
           </Card>
