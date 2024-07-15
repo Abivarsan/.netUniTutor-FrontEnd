@@ -98,7 +98,7 @@ export default function Comment() {
         }
       );
       console.log(response.data);
-      toast.success("Comment added successfully");
+      // toast.success("Comment added successfully");
       reset(initialState);
       setIsLoading(false);
     } catch (error) {
