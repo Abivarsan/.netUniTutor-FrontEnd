@@ -279,6 +279,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CallIcon from "@mui/icons-material/Call";
 import EmailIcon from "@mui/icons-material/Email";
+import { useNavigate } from "react-router-dom";
+
+
 
 const darkblue = {
   100: "#C9DCF7",
@@ -300,6 +303,8 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
+  const navigate = useNavigate();
+
 
   const handleReview = () => {
     setReviewMode("review");
@@ -401,7 +406,7 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
             </Tooltip>
 
             <Tooltip title="Chat" arrow>
-              <IconButton aria-label="Chat" sx={{ color: "darkblue" }}>
+              <IconButton aria-label="Chat" sx={{ color: "darkblue" }}  onClick={() => navigate("/chat")}>
                 <SmsIcon fontSize="medium" />
               </IconButton>
             </Tooltip>
