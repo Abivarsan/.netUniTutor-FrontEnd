@@ -52,9 +52,7 @@ import SettingsPage from "./Admin/Pages/SettingsPage/SettingsPage";
 import { Bounce, ToastContainer } from "react-toastify";
 import MyStudents from "./Tutor/MyStudents";
 import MySubjects from "./pages/MySubjects";
-import CoverPage from "./Advertise"
-// import CheckoutForm from "./Payment";
-//  import Return from "./Payment";
+// import CoverPage from "./Advertise";
 import Comment from "./Comment";
 import ReportPage from "./Admin/Components/Report/Report";
 
@@ -96,8 +94,6 @@ const TutorRoutes: React.FC = () => (
         <Route path="invitefriend" element={<Invitefriend />} />
         <Route path="settings" element={<Settings />} />
         <Route path="my-subjects" element={<MySubjects />} />
-        {/* <Route path="checkout" element={<CheckoutForm />} />
-        <Route path="return" element={<Return />} /> */}
       </Routes>
     </div>
   </>

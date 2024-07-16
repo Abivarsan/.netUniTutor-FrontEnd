@@ -16,6 +16,7 @@ import axios from "axios";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { TodoResponse } from "../data/interfaces";
 
 interface Transaction {
   date: Date;
@@ -36,6 +37,8 @@ const TodoSchema = z.object({
 const CoinWallet: React.FC = () => {
   const [coinsCount, setCoinsCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [transactions, setTransactions] = React.useState<Transaction[]>([]);
+
 
   const tutorId = localStorage.getItem("userId");
 
@@ -84,6 +87,7 @@ const CoinWallet: React.FC = () => {
       if (response.status === 200) {
         console.log(response.data);
         toast.success("You got 50 coins");
+        fetchAllTransactions();
         reset(initialState);
         setIsLoading(false);
       }
@@ -99,6 +103,23 @@ const CoinWallet: React.FC = () => {
     }
   };
 
+
+  //Transcation fetching
+
+  const fetchAllTransactions = async () => {
+    try {
+      const response = await axios.get<Transaction[]>
+        (`http://localhost:5025/api/Transaction/getall/${localStorage.getItem("userId")}`)
+      if (response.status === 200) {
+        setTransactions(response.data);
+        return;
+      }
+     // toast.error("Failed to fetch");
+    } catch (error) {
+      console.error(error);
+      //toast.error("Something went wrong");
+    }
+  };
   const rows: Transaction[] = [
     {
       date: new Date(Date.now() - 16 * 60 * 60 * 1000),
