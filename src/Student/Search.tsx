@@ -17,6 +17,7 @@ import {
   Checkbox,
   ListItemText,
   FormHelperText,
+  Tooltip,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
@@ -32,6 +33,7 @@ import { mediums, modes, weekdays } from "../data/data";
 import AlertBox from "../components/common/Alert";
 import PopupModal from "../components/common/PopupModal";
 import SubjectModal from "./SubjectModal";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 // Define the type for a tutor
 interface Tutor {
@@ -68,7 +70,7 @@ const SearchSt = () => {
   const [tutorId, setTutorId] = useState<number | null>(null);
 
   const [selectedSubject, setSelectedSubject] =
-  useState<SubjectResponse | null>(null);
+    useState<SubjectResponse | null>(null);
 
   const handleSearch = () => {
     setIsFiltering(true);
@@ -291,8 +293,8 @@ const SearchSt = () => {
                       transform: "scale(1.01)",
                     },
                   }}
-                  onClick={() => setSelectedSubject(subject)}
                 >
+          
                   <CardHeader
                     title={subject.title}
                     subheader={
@@ -302,9 +304,7 @@ const SearchSt = () => {
                           value={parseFloat(subject.averageRating.toFixed(1))}
                           precision={0.5}
                           readOnly
-                          sx={{
-                            fontSize: 20,
-                          }}
+                          sx={{ fontSize: 20 }}
                         />
                       ) : (
                         <Rating
@@ -312,10 +312,16 @@ const SearchSt = () => {
                           value={0}
                           precision={0.5}
                           readOnly
-                          sx={{
-                            fontSize: 20,
-                          }}/>
+                          sx={{ fontSize: 20 }}
+                        />
                       )
+                    }
+                    action={
+                      <Tooltip title="View more">
+                      <IconButton aria-label="settings" onClick={() => setSelectedSubject(subject)}>
+                        <MoreVertIcon />
+                      </IconButton>
+                      </Tooltip>
                     }
                     sx={{
                       borderBottom: `2px solid ${darkblue[200]}`,
@@ -345,6 +351,7 @@ const SearchSt = () => {
                   </CardContent>
                   <Box display={"flex"} justifyContent={"flex-end"}>
                     <CardActions>
+                      
                       <Button
                         onClick={() => {
                           setIsRequestAlertOpen(true);
