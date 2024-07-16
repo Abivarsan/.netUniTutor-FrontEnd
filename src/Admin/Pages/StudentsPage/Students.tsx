@@ -4,6 +4,7 @@ import DataTable from "../../Components/DataTable/DataTable";
 import "./Students.scss";
 import axios from "axios";
 import CustomAvatar from "../../Components/Avatar/CustomAvatar";
+import moment from "moment";
 
 
 const columns: GridColDef[] = [
@@ -33,6 +34,8 @@ const columns: GridColDef[] = [
     headerName: "Created At",
     width: 200,
     type: "string",
+    valueGetter: (params: GridRenderCellParams<any>) =>
+      moment(params.row.createdAt).format("DD MMM YYYY - hh:mm A"),
   },
   {
     field: "complaints",

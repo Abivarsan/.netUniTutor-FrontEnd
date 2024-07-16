@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Button, Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField, Typography } from "@mui/material";
+import moment from "moment";
 
 
 interface Report {
   reportId: number;
   description: string;
-  reportedDate: string;
+  date: string;
   reporterId: number;
   reportedId: number;
   reporterType: string;
@@ -45,7 +46,7 @@ const ReportList: React.FC = () => {
     const tempReport: Report = {
       reportId: 0, // Set appropriate default value or placeholder
       description: "",
-      reportedDate: "",
+      date: "",
       reporterId: 0,
       reportedId,
       reporterType: "",
@@ -75,7 +76,7 @@ const ReportList: React.FC = () => {
     const tempReport: Report = {
       reportId: 0, // Set appropriate default value or placeholder
       description: "",
-      reportedDate: "",
+      date: "",
       reporterId: 0,
       reportedId,
       reporterType: "",
@@ -161,7 +162,7 @@ const ReportList: React.FC = () => {
                   Reported Date
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {report.reportedDate}
+                  {moment(report.date).format("DD MMM YYYY - hh:mm A")}
                 </Typography>
                 <Typography variant="body1" component="div" sx={{ mt: 2 }}>
                   Reporter ID
