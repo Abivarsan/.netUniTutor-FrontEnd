@@ -302,6 +302,7 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
   const [reviewMode, setReviewMode] = useState<"review" | "report">("review");
   const [review, setReview] = useState<string>("");
 
+
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
   const navigate = useNavigate();
@@ -354,6 +355,7 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
           },
         }}
       >
+
         <Box position="relative">
 
           <CardHeader
@@ -382,6 +384,7 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
               borderBottom: `1px solid ${darkblue[200]}`,
             }}
           />
+
           </Box>
 
           <CardContent>

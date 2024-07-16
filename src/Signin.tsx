@@ -292,7 +292,9 @@ const SignInSide = () => {
                 type="submit"
                 fullWidth
                 disabled={isLoading}
+
                 endIcon={isLoading ? <CircularProgress size="1.4rem" /> : null}
+
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >

@@ -5,6 +5,7 @@ import "./Tutors.scss";
 import Add from "../../Components/Add/Add";
 import axios from "axios";
 import CustomAvatar from "../../Components/Avatar/CustomAvatar";
+import moment from "moment";
 
 const columns: GridColDef[] = [
   { field: "_id", headerName: "ID", width: 90 },
@@ -33,6 +34,8 @@ const columns: GridColDef[] = [
     headerName: "Created At",
     width: 120,
     type: "string",
+    valueGetter: (params: GridRenderCellParams<any>) =>
+      moment(params.row.createdAt).format("DD MMM YYYY - hh:mm A"),
   },
   {
     field: "verified",
