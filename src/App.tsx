@@ -63,9 +63,15 @@ import EditProfilest from "./Student/Editprofile";
 import { Logout } from "@mui/icons-material";
 import Mysubjects from "./Student/MyTutors";
 import RegistrationSuccess from "./Registrationsux";
+import NavBar from "./ChatApp/components/NavBar";
+import { auth1 } from "./firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import UserList from "./ChatApp/components/UserList";
+import Welcome from "./ChatApp/components/Welcome";
 
 
 const Layout: React.FC = () => {
+ 
   return (
     <div className="main">
       <Navbar />
@@ -99,6 +105,7 @@ const TutorRoutes: React.FC = () => (
         <Route path="my-subjects" element={<MySubjects />} />
         {/* <Route path="checkout" element={<CheckoutForm />} />
         <Route path="return" element={<Return />} /> */}
+        
       </Routes>
     </div>
   </>
@@ -122,6 +129,7 @@ const StudentRoutes: React.FC = () => (
 );
 
 function App() {
+  const [user] = useAuthState(auth1);
   return (
     <>
       <Router>
@@ -136,7 +144,26 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/studentForm" element={<StudentForm />} />
           <Route path="/TutorForm1" element={<TutorForm1 />} />
-         
+
+          {/* chat Box routing */}
+
+          <Route
+            path="/chat"
+            element={
+              <>
+                <NavBar />
+                {!user ? (
+                  <Welcome />
+                ) : (
+                  <>
+                    <UserList />
+                  </>
+                )}
+                {/* You might need to pass some props to ChatBox here */}
+                {/* <ChatBox recipUser={...} /> */}
+              </>
+            }
+          />
 
           {/* Tutor Routes */}
           <Route path="/Tutor/*" element={<TutorRoutes />} />
