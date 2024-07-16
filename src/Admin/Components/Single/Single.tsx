@@ -448,6 +448,8 @@ import CustomAvatar from "../../Components/Avatar/CustomAvatar";
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 type Person = {
   id: number;
@@ -485,6 +487,8 @@ const Single: React.FC<SinglePersonProps> = ({ apiEndpoint, personType }) => {
   const [adminCredentials, setAdminCredentials] = useState({ username: '', password: '' });
   const [emailMessage, setEmailMessage] = useState('');
 
+  const navigate = useNavigate(); 
+
   useEffect(() => {
     const fetchPerson = async () => {
       try {
@@ -510,7 +514,7 @@ const Single: React.FC<SinglePersonProps> = ({ apiEndpoint, personType }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:5025/api/Admin/relogin', adminCredentials);
+      const response = await axios.post(`http://localhost:5025/api/Admin/relogin`, adminCredentials);
       if (response.data.success) {
         setLoginDialogOpen(false);
         setEmailDialogOpen(true);
@@ -524,13 +528,14 @@ const Single: React.FC<SinglePersonProps> = ({ apiEndpoint, personType }) => {
 
   const handleSendEmail = async () => {
     try {
-      await axios.post('http://localhost:5025/api/Admin/Report/send-email', {
+      await axios.post(`http://localhost:5025/api/Admin/Report/send-email`, {
         to: person.email || person.universityMail,
         message: emailMessage
       }); 
       await axios.delete(`${apiEndpoint}/${id}`);
       setEmailDialogOpen(false);
-      alert('Profile deleted and email sent successfully');
+      toast.success('Profile deleted and email sent successfully');
+      navigate("/Admin");
     } catch (error) {
       console.error("Error deleting profile or sending email:", error);
     }
