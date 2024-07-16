@@ -7,11 +7,6 @@ import {
   CardContent,
   CardHeader,
   Grid,
-  List,
-  ListItem,
-  ListItemText,
-  IconButton,
-  TextField,
   Typography,
   Avatar,
 } from "@mui/material";
@@ -21,10 +16,8 @@ import BlockIcon from '@mui/icons-material/Block';
 import CallIcon from "@mui/icons-material/Call";
 import EmailIcon from "@mui/icons-material/Email";
 import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Variants from "../components/common/sketlan";
+import Todostudent from "./TodoStudent";
 
 const darkblue = {
   100: "#C9DCF7",
@@ -43,11 +36,6 @@ interface Student {
   profileUrl: string;
 }
 
-interface TodoItem {
-  _id: number;
-  text: string;
-  isCompleted: boolean;
-}
 
 const typing = keyframes`
 from { width: 0 }
@@ -64,8 +52,8 @@ export default function DashboardSt() {
   const [acceptedRequestsCount, setAcceptedRequestsCount] = useState<number>(0);
   const [rejectedRequestsCount, setRejectedRequestsCount] = useState<number>(0);
   const [student, setStudent] = useState<Student | null>(null);
-  const [todos, setTodos] = useState<TodoItem[]>([]);
-  const [todoInput, setTodoInput] = useState<string>('');
+ 
+  
 
   const studentId = localStorage.getItem("userId");
   const type = localStorage.getItem("userRole");
@@ -93,10 +81,7 @@ export default function DashboardSt() {
         console.log("Rejected requests count:", rejectedRequestsResponse.data);
         setRejectedRequestsCount(rejectedRequestsResponse.data);
 
-        console.log("Fetching todo items...");
-        const todosResponse = await axios.get<TodoItem[]>(`http://localhost:5025/api/TodoItem/student/${studentId}`);
-        console.log("Todo items:", todosResponse.data);
-        setTodos(todosResponse.data);
+        
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -107,43 +92,11 @@ export default function DashboardSt() {
     }
   }, [studentId]);
 
-  const handleAddTodo = async () => {
-    try {
-      if (todoInput.trim() !== '') {
-        const todoResponse = await axios.post<TodoItem>(`http://localhost:5025/api/TodoItem/${type}/${studentId}`, { text: todoInput });
-        setTodos([...todos, todoResponse.data]);
-        console.log("Todo added:", todoResponse.data);
+ 
 
-        setTodoInput('');
-      }
-    } catch (error) {
-      console.error("Error adding todo", error);
-    }
-  };
+ 
 
-  const handleRemoveTodo = async (index: number) => {
-    try {
-      await axios.delete(`http://localhost:5025/api/TodoItem/${todos[index]._id}`);
-      const updatedTodos = [...todos];
-      updatedTodos.splice(index, 1);
-      setTodos(updatedTodos);
-    } catch (error) {
-      console.error("Error deleting todo", error);
-    }
-  };
 
-  const handleCompleteTodo = async (index: number) => {
-    try {
-      const updatedTodo = { ...todos[index], isCompleted: true };
-      await axios.put(`http://localhost:5025/api/TodoItem/${todos[index]._id}`, updatedTodo);
-      const updatedTodos = todos.map((todo, idx) =>
-        idx === index ? updatedTodo : todo
-      );
-      setTodos(updatedTodos);
-    } catch (error) {
-      console.error("Error completing todo", error);
-    }
-  };
 
   if (!student) {
     return <div><Variants /></div>;
@@ -382,67 +335,7 @@ export default function DashboardSt() {
         </Grid>
         
           <Grid item sm={12} >
-            <Card
-              sx={{
-                mb:2,
-                width: "100%",
-                minHeight:350,
-                borderRadius: 3,
-                boxShadow: 3,
-                transition: "transform 0.3s ease-in-out",
-                "&:hover": {
-                  transform: "scale(1.01)",
-                },
-              }}
-            >
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                sx={{
-                  borderBottom: `2px solid ${darkblue[200]}`,
-                }}
-              >
-                <CardHeader
-                  subheader={
-                    <Typography variant="subtitle1" fontWeight="bold" sx={{ color: "darkblue" }}>
-                      Todo List
-                    </Typography>
-                  }
-                />
-              </Box>
-              <CardContent>
-                <List>
-                  {todos.map((todo, index) => (
-                    <ListItem key={index} disablePadding>
-                      <ListItemText primary={todo.text} />
-                      {!todo.isCompleted ? (
-                        <IconButton aria-label="complete" onClick={() => handleCompleteTodo(index)}>
-                          <CheckBoxIcon />
-                        </IconButton>
-                      ) : null}
-                      <IconButton aria-label="delete" onClick={() => handleRemoveTodo(index)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </ListItem>
-                  ))}
-                </List>
-                <Box display="flex" alignItems="center" justifyContent="flex-end" my={4}>
-                  
-                  <TextField
-                    variant="outlined"
-                    placeholder="Add a new todo"
-                    size="small"
-                    value={todoInput}
-                    onChange={(e) => setTodoInput(e.target.value)}
-                    fullWidth
-                  />
-                  <IconButton aria-label="add todo" onClick={handleAddTodo}>
-                    <AddIcon />
-                  </IconButton>
-                </Box>
-              </CardContent>
-            </Card>
+          <Todostudent/>
           </Grid>
         
 

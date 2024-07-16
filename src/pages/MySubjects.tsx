@@ -62,7 +62,7 @@ export default function MySubjects() {
         </Button>
         {isFetching ? (
           <Box textAlign={"center"}>
-            <CircularProgress sx={{}} />
+            <CircularProgress sx={{ textAlign:"center"}} />
           </Box>
         ) : (
           <>
