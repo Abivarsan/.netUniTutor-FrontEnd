@@ -70,12 +70,10 @@ const CoinWallet: React.FC = () => {
   });
 
   const onSubmit = async (data: PromocodeValues) => {
-    const id = localStorage.getItem("userId");
-    const type = localStorage.getItem("userRole");
     try {
       setIsLoading(true);
       const response = await axios.post(
-        `http://localhost:5025/api/TodoItem/${type}/${id}`,
+        `http://localhost:5025/api/Coin/verify-code`,
         {
           VerificationCode: data.VerificationCode,
         }
