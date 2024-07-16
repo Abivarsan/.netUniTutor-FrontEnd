@@ -25,29 +25,29 @@ const CoinWallet: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
   const [coinsAdded, setCoinsAdded] = useState(false);
-  // const [coinsCount, setCoinsCount] = useState<number | null>(null);
+  const [coinsCount, setCoinsCount] = useState<number>(0);
   const [verificationError, setVerificationError] = useState<string | null>(
     null
   );
 
   const tutorId = localStorage.getItem("userId");
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const coinsCountResponse = await axios.get<number>(
-  //         `http://localhost:5025/api/Transaction/totalamount/${tutorId}`
-  //       );
-  //       setCoinsCount(coinsCountResponse.data);
-  //     } catch (error) {
-  //       console.error("Error fetching data", error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const coinsCountResponse = await axios.get<number>(
+          `http://localhost:5025/api/Transaction/totalamount/${tutorId}`
+        );
+        setCoinsCount(coinsCountResponse.data);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
 
-  //   if (tutorId) {
-  //     fetchData();
-  //   }
-  // }, [tutorId]);
+    if (tutorId) {
+      fetchData();
+    }
+  }, [tutorId]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -119,7 +119,7 @@ const CoinWallet: React.FC = () => {
   return (
     <Container>
       <Typography variant="h4" sx={{ color: "darkblue" }}>
-        {/* My Coins {coinsCount}  */}
+        My Coins {coinsCount} 
       </Typography>
 
       <Box sx={{ my: 5 }}>
