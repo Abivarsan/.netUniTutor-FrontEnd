@@ -1,5 +1,4 @@
-import { Home,School,CastForEducation, BarChart,Comment, Checklist, Logout, Settings } from "@mui/icons-material";
-import Charts from "./Pages/ChartsPage/Charts";
+import { Home,School,CastForEducation, BarChart,Comment, Checklist, Logout, Settings, Report } from "@mui/icons-material";
 
 
 export const menu = [
@@ -33,9 +32,9 @@ export const menu = [
       },
       {
         id: 3,
-        title: "Complains",
+        title: "Reports",
         url: "/Admin/reports",
-        icon: <CastForEducation/>,
+        icon: <Report/>,
       },
     ],
   },

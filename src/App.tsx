@@ -56,7 +56,7 @@ import CoverPage from "./Advertise"
 // import CheckoutForm from "./Payment";
 //  import Return from "./Payment";
 import Comment from "./Comment";
-import ReportPage from "./Admin/Components/Report/Report";
+
 
 
 import EditProfilest from "./Student/Editprofile";
@@ -68,6 +68,7 @@ import { auth1 } from "./firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import UserList from "./ChatApp/components/UserList";
 import Welcome from "./ChatApp/components/Welcome";
+import ReportList from "./Admin/Pages/ReportPage/Report";
 
 
 const Layout: React.FC = () => {
@@ -180,8 +181,8 @@ function App() {
             <Route path="charts" element={<Charts />} />
             <Route path="requests" element={<Requests />} />
             <Route path="comments" element={<CommentsPage />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="reports" element={<ReportPage />} />  
+            <Route path="settings" element={<SettingsPage />} />
+            <Route path="reports" element={<ReportList />} />  
             <Route path="logOut" element={<Logout />} />
           </Route>
           <Route path="/login" element={<Login />} />
