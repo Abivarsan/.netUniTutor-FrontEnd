@@ -150,6 +150,9 @@ type RequestTableProps = {
     ProfileUrl: string;
     cv: string;
     universityID: string;
+    CreatedAt: string;  
+
+   
   }>;
   onAccept: (_id: number) => void;
   onReject: (_id: number) => void;
@@ -190,6 +193,9 @@ const RequestTable: React.FC<RequestTableProps> = ({
                     {request.universityMail}
                   </Typography>
                 </Box>
+              </Box>
+              <Box>
+              <Typography variant="h6">{request.CreatedAt}</Typography>
               </Box>
               <Box display="flex" alignItems="space-between" gap={2}>
                 <Button onClick={() => onViewCv(request.cv)}>View CV</Button>

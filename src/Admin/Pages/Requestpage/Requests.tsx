@@ -219,6 +219,7 @@ const Requests: React.FC = () => {
       ProfileUrl: string;
       cv: string;
       universityID: string;
+      CreatedAt : string;
     }[]
   >([]);
   const [loading, setLoading] = useState<boolean>(true);
