@@ -1,6 +1,3 @@
-
-
-
 // import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid } from "@mui/material";
 // import RequestCard from "./RequestCardN";
 // import { useEffect, useState } from "react";
@@ -20,6 +17,7 @@
 //   const [isFetching, setIsFetching] = useState(true);
 //   const [coinsCount, setCoinsCount] = useState<number>(0);
 //   const [buyCoinOpen, setBuyCoinOpen] = useState(false);
+//   const [isAccepting, setIsAccepting] = useState(false); // New state for tracking loading
 
 //   const handleBuyCoinClose = () => {
 //     setBuyCoinOpen(false);
@@ -66,7 +64,8 @@
 
 //   const handleRequest = async (id: number, isAccept: boolean) => {
 //     if (isAccept) {
-//       if (coinsCount >= 20) {
+//       if (coinsCount > 0) {
+//         setIsAccepting(true); // Set loading state to true
 //         try {
 //           const response = await axios.put(
 //             `http://localhost:5025/api/Request/request/${id}`,
@@ -82,6 +81,8 @@
 //         } catch (error) {
 //           console.error(error);
 //           toast.error("Failed to accept request");
+//         } finally {
+//           setIsAccepting(false); // Set loading state to false
 //         }
 //       } else {
 //         setBuyCoinOpen(true);
@@ -146,12 +147,7 @@
 //             handleRequest={handleRequest}
 //           />
 //         </PopupModal>
-//       )}:
-        
-        
-      
-
-      
+//       )}
 
 //       <Dialog
 //         open={buyCoinOpen}
@@ -165,21 +161,36 @@
 //         </DialogContent>
 //         <DialogActions>
 //           <Button onClick={() => navigate("/Tutor/Coinbank")} color="primary">
-//             Buy Coins
+//             Add Coins
 //           </Button>
 //           <Button onClick={handleBuyCoinClose} color="primary">
 //             Cancel
 //           </Button>
 //         </DialogActions>
 //       </Dialog>
+
+//       {isAccepting &&  (
+//         <Dialog
+//           open={isAccepting}
+//           onClose={() => {}}
+//           sx={{ textAlign: "center" }}
+//         >
+//           <DialogContent>
+//             <CircularProgress />
+//             <DialogContentText>
+//               Processing request, please wait...
+//             </DialogContentText>
+//           </DialogContent>
+//         </Dialog>
+//       )}
 //     </>
 //   );
 // }
 
-
-import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid } from "@mui/material";
+import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField } from "@mui/material";
 import RequestCard from "./RequestCardN";
 import { useEffect, useState } from "react";
+import SearchIcon from '@mui/icons-material/Search';
 import axios from "axios";
 import { RequestResponse } from "../data/interfaces";
 import { toast } from "react-toastify";
@@ -191,6 +202,7 @@ export default function Requestlist() {
   const [requests, setRequests] = useState<RequestResponse[]>([]);
   const [selectedRequest, setSelectedRequest] =
     useState<RequestResponse | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>(""); // New state for search query
   const navigate = useNavigate();
 
   const [isFetching, setIsFetching] = useState(true);
@@ -287,6 +299,10 @@ export default function Requestlist() {
     }
   };
 
+  const filteredRequests = requests.filter(request => 
+    request.status.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   if (isFetching) {
     return (
       <Box p={1}>
@@ -298,9 +314,24 @@ export default function Requestlist() {
   return (
     <>
       <Box p={2}>
+        <TextField 
+           
+          variant="outlined" 
+         placeholder="Search requests..." 
+          value={searchQuery} 
+          onChange={(e) => setSearchQuery(e.target.value)} 
+          margin="normal"
+          InputProps={{
+            startAdornment: <SearchIcon sx={{ color: "#bbb", mr: 1 }} />,
+          }}
+          sx={{
+            bgcolor: "#D6E6F0",
+            
+          }}
+        />
         <Grid container spacing={2}>
-          {requests.length > 0 ? (
-            requests.map((request) => (
+          {filteredRequests.length > 0 ? (
+            filteredRequests.map((request) => (
               <Grid key={request._id} item sm={12} md={3}>
                 <RequestCard
                   request={request}
@@ -348,7 +379,7 @@ export default function Requestlist() {
         </DialogActions>
       </Dialog>
 
-      {isAccepting && (
+      {isAccepting &&  (
         <Dialog
           open={isAccepting}
           onClose={() => {}}

@@ -34,6 +34,7 @@ import {
 } from "@mui/material";
 import logo from "../logo unitutor.png";
 import { useState } from "react";
+import logoUnitutor from "../logoUnitutor.png";
 
 const drawerWidth = 210;
 
@@ -212,8 +213,15 @@ export default function Sidebar() {
           >
             <MenuIcon />
           </IconButton>
-
-          <Typography variant="h6" noWrap component="div">
+          <Box height={50} width={50}>
+          <img
+            src={logoUnitutor}
+            alt="logo"
+            style={{ maxHeight: "100%", maxWidth: "100%", borderRadius: 10, marginTop:3 }}
+          />
+          </Box>
+          
+          <Typography variant="h6" noWrap component="div" sx={{ml:2}}>
             Tutor Dashboard
           </Typography>
         </Toolbar>

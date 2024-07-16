@@ -274,7 +274,7 @@ import { toast } from "react-toastify";
 import ReviewSection from "../components/Reviewsection";
 import ReportSection from "../components/ReportSection";
 import { request } from "http";
-import { SubjectRequest } from "../data/interfaces";
+import { SubjectRequest, SubjectResponse } from "../data/interfaces";
 import PersonIcon from '@mui/icons-material/Person';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CallIcon from "@mui/icons-material/Call";
@@ -300,6 +300,7 @@ interface TutorCardchatProps {
 const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
   const [openModal, setOpenModal] = useState(false);
   const [reviewMode, setReviewMode] = useState<"review" | "report">("review");
+  const [review, setReview] = useState<SubjectResponse[]>([]);
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
@@ -348,7 +349,7 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
           subheader={
             <Rating
               name="read-only"
-              // value={request.tutorId.rating}
+              // value={request.subjectId}
               readOnly
               sx={{
                 fontSize: 20,
