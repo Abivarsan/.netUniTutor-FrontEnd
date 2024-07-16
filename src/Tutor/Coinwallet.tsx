@@ -6,12 +6,17 @@ import {
   Box,
   Button,
   TextField,
+  CircularProgress,
 } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 import { formatDistanceToNow } from "date-fns";
 import TransactionTable from "./TransactionTable";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TodoResponse } from "../data/interfaces";
 
 interface Transaction {
   date: Date;
@@ -19,16 +24,21 @@ interface Transaction {
   coins: number;
 }
 
+interface PromocodeValues {
+  VerificationCode: string;
+}
+const initialState: PromocodeValues = {
+  VerificationCode: "",
+};
+const TodoSchema = z.object({
+  VerificationCode: z.string().min(1, "Cannot be empty"),
+});
+
 const CoinWallet: React.FC = () => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [verificationCode, setVerificationCode] = useState("");
-  const [coinsAdded, setCoinsAdded] = useState(false);
   const [coinsCount, setCoinsCount] = useState<number>(0);
-  const [verificationError, setVerificationError] = useState<string | null>(
-    null
-  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [transactions, setTransactions] = React.useState<Transaction[]>([]);
+
 
   const tutorId = localStorage.getItem("userId");
 
@@ -49,131 +59,115 @@ const CoinWallet: React.FC = () => {
     }
   }, [tutorId]);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
+  const {
+    control,
+    reset,
+    watch,
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<PromocodeValues>({
+    resolver: zodResolver(TodoSchema),
+    defaultValues: initialState,
+  });
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const handleVerificationCodeChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setVerificationCode(event.target.value);
-  };
-
-  const handleVerifyCode = () => {
-    // Clear previous error message
-    setVerificationError(null);
-
-    // Validate if the verification code is not empty
-    if (!verificationCode.trim()) {
-      setVerificationError("Please paste a valid verification code.");
-      return;
+  const onSubmit = async (data: PromocodeValues) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.post(
+        `http://localhost:5025/api/Coin/verify-code`,
+        {
+          VerificationCode: data.VerificationCode,
+        }
+      );
+      console.log(response.data);
+      reset(initialState);
+      setIsLoading(false);
+      if (response.status === 200) {
+        console.log(response.data);
+        toast.success("You got 50 coins");
+        fetchAllTransactions();
+        reset(initialState);
+        setIsLoading(false);
+      }
+      else{
+        toast.error("Your verifycode is incorrect");
+      }
+      
+    } catch (error) {
+      toast.error("Failed to verify code");
+      reset(initialState);
+      console.log(error);
+      setIsLoading(false);
     }
-
-    // Call backend API to verify the code
-    fetch("http://localhost:5025/api/Coin/verify-code", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ code: verificationCode }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data.success) {
-          setCoinsAdded(true);
-          // Optionally, you can update the UI or fetch new data after successful verification
-        } else {
-          setVerificationError(
-            "Verification failed. Please check your code and try again."
-          );
-        }
-      })
-      .catch((error) => {
-        setVerificationError(
-          "An error occurred while verifying the code. Please try again later."
-        );
-      });
   };
 
+
+  //Transcation fetching
+
+  const fetchAllTransactions = async () => {
+    try {
+      const response = await axios.get<Transaction[]>
+        (`http://localhost:5025/api/Transaction/getall/${localStorage.getItem("userId")}`)
+      if (response.status === 200) {
+        setTransactions(response.data);
+        return;
+      }
+     // toast.error("Failed to fetch");
+    } catch (error) {
+      console.error(error);
+      //toast.error("Something went wrong");
+    }
+  };
   const rows: Transaction[] = [
     {
       date: new Date(Date.now() - 16 * 60 * 60 * 1000),
       details: "Free coins for contacting teachers",
       coins: 150,
     },
-    // Add more rows as needed
+    
   ];
 
   return (
     <Container>
       <Typography variant="h4" sx={{ color: "darkblue" }}>
-        My Coins {coinsCount} 
+        My Coins {coinsCount}
       </Typography>
-
-      <Box sx={{ my: 5 }}>
-        <Typography variant="h6" sx={{ color: "darkblue" }}>
-          Enter Your Promo Code Below
-        </Typography>
-        {/* <Typography variant="h6" sx={{ color: "darkblue" }} display={'flex'} alignContent={'center'}>
-          To claim your 50 coins for inviting a friend, please enter the promo
-          code you received. Once verified, the coins will be credited to your
-          UniTutor account immediately.
-        </Typography> */}
-
-        <TextField
-          placeholder="Paste verification code here"
-          value={verificationCode}
-          onChange={handleVerificationCodeChange}
-          sx={{
-            padding: "8px",
-            width: 300,
-            mt: 2,
-            border: "1px solid #ccc",
-            borderRadius: 1,
-            bgcolor: "background.paper",
-          }}
-        />
-        <Button
-          variant="contained"
-          size="small"
-          color="primary"
-          onClick={handleVerifyCode}
-          sx={{ ml: 2, mt: 5 }}
-        >
-          Verify Code
-        </Button>
-        {verificationError && (
-          <Typography sx={{ mt: 1, color: "red" }}>
-            {verificationError}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box sx={{ my: 5 }}>
+          <Typography variant="h6" sx={{ color: "darkblue" }}>
+            Enter Your Promo Code Below
           </Typography>
-        )}
-        {coinsAdded && (
-          <Typography sx={{ mt: 2, color: "green" }}>
-            Coins added successfully!
-          </Typography>
-          // toast.success('Coins added successfully!', { position: 'top-center' })
-        )}
-      </Box>
-      {/* <TransactionTable
-        rows={rows}
-        filteredRows={filteredRows}
-        page={page}
-        rowsPerPage={rowsPerPage}
-        handleChangePage={handleChangePage}
-        handleChangeRowsPerPage={handleChangeRowsPerPage}
-      /> */}
+
+          <TextField
+            placeholder="Paste verification code here"
+            {...register("VerificationCode")}
+            error={!!errors.VerificationCode}
+            helperText={errors.VerificationCode?.message}
+            sx={{
+              padding: "8px",
+              width: 300,
+              mt: 2,
+              border: "1px solid #ccc",
+              borderRadius: 1,
+              bgcolor: "background.paper",
+            }}
+          />
+          <Button
+            variant="contained"
+            type="submit"
+            size="small"
+            color="primary"
+            sx={{ ml: 2, mt: 5 }}
+            disabled={isLoading}
+            endIcon={isLoading ? <CircularProgress size="1rem" /> : null}
+          >
+            {isLoading ? "Verifying..." : "Verify Code"}
+          </Button>
+        </Box>
+      </form>
+
       <Box sx={{ my: 10 }}>
         <TransactionTable />
       </Box>

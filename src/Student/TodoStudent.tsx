@@ -102,10 +102,11 @@ export default function Todostudent() {
         }
       );
       console.log(response.data);
+      fetchAllTodos(); 
       toast.success("Todo added successfully");
       reset(initialState);
       setIsLoading(false);
-      fetchAllTodos(); // Refresh the todo list after adding a new todo
+      // Refresh the todo list after adding a new todo
     } catch (error) {
       toast.error("Failed to add Todo");
       console.log(error);
@@ -215,6 +216,7 @@ export default function Todostudent() {
               ) : null}
               <IconButton
                 aria-label="delete"
+                color="error"
                 onClick={() => handleDeleteDialogOpen(todo._id)}
               >
                 <DeleteIcon />

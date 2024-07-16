@@ -98,6 +98,7 @@ export default function Comment() {
         }
       );
       console.log(response.data);
+      fetchAllComments();
       // toast.success("Comment added successfully");
       reset(initialState);
       setIsLoading(false);
