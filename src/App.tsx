@@ -64,6 +64,7 @@ import { Logout } from "@mui/icons-material";
 import Mysubjects from "./Student/MyTutors";
 import RegistrationSuccess from "./Registrationsux";
 
+
 const Layout: React.FC = () => {
   return (
     <div className="main">
@@ -152,7 +153,7 @@ function App() {
             <Route path="charts" element={<Charts />} />
             <Route path="requests" element={<Requests />} />
             <Route path="comments" element={<CommentsPage />} />
-            <Route path="settings" element={<SettingsPage />} />
+            <Route path="settings" element={<Settings />} />
             <Route path="reports" element={<ReportPage />} />  
             <Route path="logOut" element={<Logout />} />
           </Route>
