@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
- import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import { toast } from "react-toastify";
 import { set } from "date-fns";
+import logoUnitutor from "./logoUnitutor.png";
 
 function isValidEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -102,12 +103,12 @@ const SignInSide = () => {
 
       if (response.ok) {
         const responseData = await response.json();
-        
+
         console.log("Login successful:", responseData);
 
         const decodedToken: any = jwtDecode(responseData.token);
-        const email=decodedToken?.unique_name;
-        
+        const email = decodedToken?.unique_name;
+
         localStorage.setItem("email", email);
         localStorage.setItem("token", responseData.token);
         localStorage.setItem("userId", decodedToken.nameid); // Assuming nameid is the user ID
@@ -121,13 +122,10 @@ const SignInSide = () => {
           navigate("/Admin");
         }
       } else {
-        
         console.error("Login failed:", response.statusText);
         toast.error("Invalid email or password. Please try again.");
       }
       setIsLoading(false);
-     
-
     } catch (error) {
       console.error("Error:", error);
       setIsLoading(false);
@@ -136,11 +134,11 @@ const SignInSide = () => {
   };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailError(""); 
+    setEmailError("");
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswordError(""); 
+    setPasswordError("");
   };
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -151,40 +149,64 @@ const SignInSide = () => {
     <ThemeProvider theme={createTheme()}>
       <Grid container sx={{ height: "100vh" }}>
         <CssBaseline />
-        <Grid item container sm={8}>
+        <Grid
+          container
+          sm={8}
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          flexDirection="column"
+          sx={{ margin: "0 auto", padding: 2 }}
+        >
           <Box
-            height={350}
-            width={1000}
-            display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
+            height={120}
+            width={120}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            sx={{ mt: 3 }}
+          >
+            <img
+              src={logoUnitutor}
+              alt="logo"
+              style={{ maxHeight: "100%", maxWidth: "100%", borderRadius: 10 }}
+            />
+          </Box>
+          <Box
+            width="100%"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ marginBottom: 5 }}
           >
             <Typography
               component="h1"
               variant="h2"
               sx={{
                 color: "Darkblue",
+                fontWeight: 700,
+                
               }}
             >
-               Welcome to  UniTutor!
+              Welcome to UniTutor!
             </Typography>
           </Box>
-
           <Box
-            height={200}
-            marginLeft={3}
-            display={"flex"}
-            justifyContent={"center"}
-            alignItems={"flex-start"}
+            height={400}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
           >
             <Typography
               sx={{
                 fontSize: 30,
                 color: "Darkblue",
                 textAlign: "center",
+                mb:10  
               }}
             >
-              “Empower students through interactive personalized online learning.”
+              “Empower students through interactive
+              <br /> personalized online learning.”
             </Typography>
           </Box>
         </Grid>
@@ -270,7 +292,9 @@ const SignInSide = () => {
                 type="submit"
                 fullWidth
                 disabled={isLoading}
-                startIcon={isLoading ? <CircularProgress size="1.4rem" /> : null}
+                startIcon={
+                  isLoading ? <CircularProgress size="1.4rem" /> : null
+                }
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >

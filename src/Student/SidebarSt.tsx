@@ -34,6 +34,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { useState } from "react";
+import logoUnitutor from "../logoUnitutor.png";
 
 const drawerWidth = 210;
 
@@ -213,7 +214,20 @@ export default function Sidebarst() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Box height={50} width={50}>
+            <img
+              src={logoUnitutor}
+              alt="logo"
+              style={{
+                maxHeight: "100%",
+                maxWidth: "100%",
+                borderRadius: 10,
+                marginTop: 3,
+              }}
+            />
+          </Box>
+
+          <Typography variant="h6" noWrap component="div" sx={{ ml: 2 }}>
             Student Dashboard
           </Typography>
         </Toolbar>
@@ -279,15 +293,16 @@ export default function Sidebarst() {
       <Dialog
         open={logoutConfirmationOpen}
         onClose={handleLogoutConfirmationClose}
-        
-        
       >
         <DialogTitle>Logout Confirmation</DialogTitle>
         <DialogContent>
           <Box display="flex" alignItems="center">
-            <LogoutIcon color="error"sx={{
-              size:'large '
-            }}/>
+            <LogoutIcon
+              color="error"
+              sx={{
+                size: "large ",
+              }}
+            />
             <Typography variant="body1" sx={{ marginLeft: 1 }}>
               Are you sure you want to logout?
             </Typography>
@@ -303,7 +318,12 @@ export default function Sidebarst() {
           >
             Cancel
           </Button>
-          <Button onClick={handleLogout} color="error" variant="contained" size="small">
+          <Button
+            onClick={handleLogout}
+            color="error"
+            variant="contained"
+            size="small"
+          >
             Logout
           </Button>
         </DialogActions>
