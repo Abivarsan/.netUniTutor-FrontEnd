@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "./../firebase"; // Adjust the path based on your actual setup
+import { storage2 } from "./../firebase"; // Adjust the path based on your actual setup
 import axios from "axios";
 import {
   Box,
@@ -73,7 +73,7 @@ const EditProfile: React.FC = () => {
       // Upload image to Firebase Storage if a new image is selected
       if (formData.profileImage) {
         const storageRef = ref(
-          storage,
+          storage2,
           `profile_images/${userId}_${formData.profileImage.name}`
         );
         await uploadBytes(storageRef, formData.profileImage);

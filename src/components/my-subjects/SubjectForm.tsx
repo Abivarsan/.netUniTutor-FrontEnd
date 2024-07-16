@@ -28,7 +28,7 @@ import {
   uploadBytes,
   UploadResult,
 } from "firebase/storage";
-import { storage } from "../../firebase";
+import { storage2 } from "../../firebase";
 import { toast } from "react-toastify";
 import { Close } from "@mui/icons-material";
 import axios from "axios";
@@ -148,7 +148,7 @@ export default function SubjectForm({
     if (event.target.files === null) return;
     const file = event.target.files[0];
     if (file === undefined) return;
-    const imgRef = ref(storage, "/subjects/" + file?.name);
+    const imgRef = ref(storage2, "/subjects/" + file?.name);
     const snapshot = uploadBytes(imgRef, file).then(
       async (snapshot: UploadResult) => {
         const url = await getDownloadURL(snapshot.ref);

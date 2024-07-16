@@ -36,7 +36,7 @@ import {
   uploadBytes,
   UploadResult,
 } from "firebase/storage";
-import { storage } from "./firebase";
+import { storage2 } from "./firebase";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { districts, occupations } from "./data/data";
@@ -177,7 +177,7 @@ const TutorForm1 = () => {
     if (event.target.files === null) return;
     const file = event.target.files[0];
     if (file === undefined) return;
-    const imgRef = ref(storage, "/cv/" + file?.name);
+    const imgRef = ref(storage2, "/cv/" + file?.name);
     const snapshot = uploadBytes(imgRef, file).then(
       async (snapshot: UploadResult) => {
         const url = await getDownloadURL(snapshot.ref);
@@ -194,7 +194,7 @@ const TutorForm1 = () => {
     if (event.target.files === null) return;
     const file = event.target.files[0];
     if (file === undefined) return;
-    const imgRef = ref(storage, "/ids/" + file?.name);
+    const imgRef = ref(storage2, "/ids/" + file?.name);
     const snapshot = uploadBytes(imgRef, file).then(
       async (snapshot: UploadResult) => {
         const url = await getDownloadURL(snapshot.ref);
