@@ -101,16 +101,8 @@ const TutorRoutes: React.FC = () => (
         <Route path="invitefriend" element={<Invitefriend />} />
         <Route path="settings" element={<Settings />} />
         <Route path="my-subjects" element={<MySubjects />} />
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-        {/* <Route path="checkout" element={<CheckoutForm />} />
-        <Route path="return" element={<Return />} /> */}
-        
->>>>>>> 3eeefa42c4a7ffcf02036fbe23d179d01e0efc5f
-=======
 
->>>>>>> 849eb00636d770b3df43429a45420294fd5a115e
+
       </Routes>
     </div>
   </>
