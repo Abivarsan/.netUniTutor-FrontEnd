@@ -73,7 +73,7 @@ const InviteFriend: React.FC = () => {
           >
             Invite a Friend
           </Typography>
-          <img src={handshake} alt="invite" style={{width:"200px",height:"200px"}}/>
+          <img src={handshake} alt="invite" style={{ width: "200px", height: "200px" }} />
           <Typography
             variant="body1"
             align="center"
@@ -81,36 +81,35 @@ const InviteFriend: React.FC = () => {
           >
             Invite a friend to our platform and both earn 50 coins as a reward!
             <Typography
-           
-            color="primary"
-            onClick={() => setIsModalOpen(true)}
-            sx={{ mt: 2,cursor:"pointer" }}
-          >
-            Seemore..
-          </Typography>
-          <Typography variant="body1" align="center" sx={{ color: "darkblue", mt: 3 }}>
-          Enter your friend's email address to invite them 
+
+              color="primary"
+              onClick={() => setIsModalOpen(true)}
+              sx={{ mt: 2, cursor: "pointer" }}
+            >
+              Seemore..
+            </Typography>
+            <Typography variant="body1" align="center" sx={{ color: "darkblue", mt: 3 }}>
+              Enter your friend's email address to invite them
+            </Typography>
+
+
           </Typography>
 
-            
-          </Typography>
 
-         
 
           <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
             <DialogTitle textAlign={'center'}>Invite friend</DialogTitle>
 
             <DialogContent>
-              <Typography variant="body1"  textAlign="center" sx={{ color: "darkblue", mt: 3 }}>
-                Introduce new tutors to our platform and earn rewards together!
-                You can share their unique promo code with friends, instructing
-                them to use it during registration. When the referred friend
-                signs up using the promo code, both the existing tutor and the
-                new tutor will receive coins as a token of appreciation. It's a
-                win-win situation for everyone involved – spread the word, share
-                the benefits, and build a stronger community of tutors. Start
-                sharing your code today and watch your rewards grow as you bring
-                more tutors into our platform.
+              <Typography variant="body1" textAlign="center" sx={{ color: "darkblue", mt: 3 }}>
+                Introduce new tutors to our platform and earn rewards together! Enter your new tutor's
+                email and complete the email verification, and both of you will receive a reward. When the referred
+                friend signs up and verifies their account using the promo code, both the existing tutor and the new tutor will
+                receive coins in their coin wallet as a token of appreciation. It's a win-win situation for everyone involved –
+                spread the word, share the benefits, and build a stronger community of tutors. Start sharing your code
+                today and watch your rewards grow as you bring more tutors into our platform.
+
+
               </Typography>
             </DialogContent>
             <DialogActions>
