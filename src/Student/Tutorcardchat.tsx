@@ -265,7 +265,7 @@
 //   );
 // }
 import axios from 'axios';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Card, CardActions, CardContent, CardHeader, IconButton, Rating, Modal, Avatar, Tooltip, Button, Typography } from "@mui/material";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import SmsIcon from "@mui/icons-material/Sms";
@@ -300,7 +300,7 @@ interface TutorCardchatProps {
 const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
   const [openModal, setOpenModal] = useState(false);
   const [reviewMode, setReviewMode] = useState<"review" | "report">("review");
-  const [review, setReview] = useState<SubjectResponse[]>([]);
+  const [review, setReview] = useState<string>("");
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
@@ -317,6 +317,25 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
     handleOpenModal();
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const reviewResponse = await axios.get(
+          `http://localhost:5025/api/Review/subjectavgrating/${request.subjectId._id}`
+        );
+        console.log(reviewResponse.data);
+
+        setReview(reviewResponse.data);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+
+
+    }
+    if (request.subjectId._id) {
+      fetchData();
+    }
+  }, [request.subjectId._id]);
 
 
 
@@ -335,84 +354,87 @@ const Tutorcardchat: React.FC<TutorCardchatProps> = ({ request }) => {
           },
         }}
       >
-        <CardHeader
-          avatar={
-            request.tutorId.profileUrl ? <Avatar src={request.tutorId.profileUrl} /> : <Avatar sx={{ bgcolor: darkblue[500] }}>
-               <AccountBoxIcon fontSize="large" />
-             </Avatar>
-           }
-          title={request.subjectId.title}
-          titleTypographyProps={{
-            fontWeight: 'bold',
-            fontSize: 20,
-          }}
-          subheader={
-            <Rating
-              name="read-only"
-              // value={request.subjectId}
-              readOnly
-              sx={{
-                fontSize: 20,
-              }}
-            />
-          }
-          sx={{
-            bgcolor: darkblue[100],
-            borderBottom: `1px solid ${darkblue[200]}`,
-          }}
-        />
+        <Box position="relative">
 
-        <CardContent>
-          <Box display="flex" alignItems="center" mt={0.5}>
-            < PersonIcon sx={{ fontSize: 25, color: "darkblue" }} />
-            <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
-              {request.tutorId.firstName + " " + request.tutorId.lastName}
-            </Typography>
-          </Box>
-          <Box display="flex" alignItems="center" mt={0.5}>
-            <LocationOnIcon sx={{ fontSize: 22, color: "darkblue" }} />
-            <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
-              {request.tutorId.district}
-            </Typography>
-          </Box>
-          <Box display="flex" alignItems="center" mt={0.5}>
-            <CallIcon sx={{ fontSize: 20, color: "darkblue" }} />
-            <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
-              {request.tutorId.phoneNumber}
-            </Typography>
-          </Box>
-          <Box display="flex" alignItems="center" mt={0.5}>
-            <EmailIcon sx={{ fontSize: 20, color: "darkblue" }} />
-            <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
-              {request.tutorId.universityMail}
-            </Typography>
+          <CardHeader
+            avatar={
+              request.tutorId.profileUrl ? <Avatar src={request.tutorId.profileUrl} /> : <Avatar sx={{ bgcolor: darkblue[500] }}>
+                <AccountBoxIcon fontSize="large" />
+              </Avatar>
+            }
+            title={request.subjectId.title}
+            titleTypographyProps={{
+              fontWeight: 'bold',
+              fontSize: 20,
+            }}
+            subheader={
+              <Rating
+                name="read-only"
+                value={parseFloat(review)}
+                readOnly
+                sx={{
+                  fontSize: 20,
+                }}
+              />
+            }
+            sx={{
+              bgcolor: darkblue[100],
+              borderBottom: `1px solid ${darkblue[200]}`,
+            }}
+          />
           </Box>
 
-          <Typography variant="body1" color="text.primary" mt={3}>
-            {request.subjectId.description}
-          </Typography>
+          <CardContent>
+            <Box display="flex" alignItems="center" mt={0.5}>
+              < PersonIcon sx={{ fontSize: 25, color: "darkblue" }} />
+              <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+                {request.tutorId.firstName + " " + request.tutorId.lastName}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center" mt={0.5}>
+              <LocationOnIcon sx={{ fontSize: 22, color: "darkblue" }} />
+              <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+                {request.tutorId.district}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center" mt={0.5}>
+              <CallIcon sx={{ fontSize: 20, color: "darkblue" }} />
+              <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+                {request.tutorId.phoneNumber}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center" mt={0.5}>
+              <EmailIcon sx={{ fontSize: 20, color: "darkblue" }} />
+              <Typography variant="body1" sx={{ marginLeft: 1, color: "darkblue" }}>
+                {request.tutorId.universityMail}
+              </Typography>
+            </Box>
+
+            {/* <Typography variant="body1" color="text.primary" mt={3}>
+              {request.subjectId.description}
+            </Typography> */}
 
 
-        </CardContent>
-        <Box display={"flex"} justifyContent={"flex-end"}>
-          <CardActions>
-            <Tooltip title="Review Rating & Report" arrow>
-              <IconButton
-                aria-label="Rating"
-                sx={{ color: "darkblue" }}
-                onClick={handleReview}
-              >
-                <LocalActivityIcon fontSize="medium" />
-              </IconButton>
-            </Tooltip>
+          </CardContent>
+          <Box display={"flex"} justifyContent={"flex-end"}>
+            <CardActions>
+              <Tooltip title="Review Rating & Report" arrow>
+                <IconButton
+                  aria-label="Rating"
+                  sx={{ color: "darkblue" }}
+                  onClick={handleReview}
+                >
+                  <LocalActivityIcon fontSize="medium" />
+                </IconButton>
+              </Tooltip>
 
-            <Tooltip title="Chat" arrow>
-              <IconButton aria-label="Chat" sx={{ color: "darkblue" }}  onClick={() => navigate("/chat")}>
-                <SmsIcon fontSize="medium" />
-              </IconButton>
-            </Tooltip>
-          </CardActions>
-        </Box>
+              <Tooltip title="Chat" arrow>
+                <IconButton aria-label="Chat" sx={{ color: "darkblue" }} onClick={() => navigate("/chat")}>
+                  <SmsIcon fontSize="medium" />
+                </IconButton>
+              </Tooltip>
+            </CardActions>
+          </Box>
       </Card>
 
       {/* Review and Report Modal */}

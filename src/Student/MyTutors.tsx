@@ -42,9 +42,9 @@ export default function Mysubjects() {
           No subjects yet
         </Typography>
       ) : (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{}}>
           {mySubjects.map((request) => (
-            <Grid item sm={4} key={request._id} xs={12}  lg={4} >
+            <Grid item sm={4} key={request._id}>
               <Tutorcardchat
                 request={request}
               />
