@@ -214,6 +214,7 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CallIcon from "@mui/icons-material/Call";
 import EmailIcon from "@mui/icons-material/Email";
+import { useNavigate } from "react-router-dom";
 
 const darkblue = {
   100: "#C9DCF7",
@@ -234,6 +235,8 @@ const StudentCardChat: React.FC<StudentCardChatProps> = ({ accept }) => {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const navigate = useNavigate();
+
 
   return (
     <Box height={300} width={600}>
@@ -316,7 +319,7 @@ const StudentCardChat: React.FC<StudentCardChatProps> = ({ accept }) => {
         <Box display="flex" justifyContent="flex-end">
           <CardActions>
             <Tooltip title="Chat">
-              <IconButton aria-label="Chat" sx={{ color: darkblue[600] }}>
+              <IconButton aria-label="Chat" sx={{ color: darkblue[600] }} onClick={() => navigate("/chat")} >
                 <SmsIcon fontSize="medium" />
               </IconButton>
             </Tooltip>
