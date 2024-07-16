@@ -112,3 +112,8 @@ export interface CommentResponse {
   fullName: string;
   profileUrl?: string;
 }
+export interface TodoResponse {
+  _id: number;
+  text: string;
+  isCompleted: boolean;
+}

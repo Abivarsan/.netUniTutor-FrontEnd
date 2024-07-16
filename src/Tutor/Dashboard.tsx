@@ -28,6 +28,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import Variants from "../components/common/sketlan";
+import Todotutor from "./TodoTutor";
 
 const darkblue = {
   100: "#C9DCF7",
@@ -62,6 +63,7 @@ export default function Dashboard() {
   const [todoInput, setTodoInput] = useState<string>("");
 
   const tutorId = localStorage.getItem("userId");
+  //  const tutorId=2;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,10 +88,7 @@ export default function Dashboard() {
         );
         setCoinsCount(coinsCountResponse.data);
 
-        const todosResponse = await axios.get<TodoItem[]>(
-          `http://localhost:5025/api/Todos/${tutorId}`
-        );
-        setTodos(todosResponse.data);
+        
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -99,31 +98,9 @@ export default function Dashboard() {
       fetchData();
     }
   }, [tutorId]);
-  const handleAddTodo = async () => {
-    try {
-      if (todoInput.trim() !== "") {
-        const todoResponse = await axios.post<TodoItem>(
-          `http://localhost:5025/api/Todos/${tutorId}`,
-          { text: todoInput }
-        );
-        setTodos([...todos, todoResponse.data]);
-        setTodoInput("");
-      }
-    } catch (error) {
-      console.error("Error adding todo", error);
-    }
-  };
 
-  const handleRemoveTodo = async (index: number) => {
-    try {
-      await axios.delete(`http://localhost:5025/api/Todos/${todos[index].id}`);
-      const updatedTodos = [...todos];
-      updatedTodos.splice(index, 1);
-      setTodos(updatedTodos);
-    } catch (error) {
-      console.error("Error deleting todo", error);
-    }
-  };
+
+
   const typing = keyframes`
 from { width: 0 }
 to { width: 100% }
@@ -133,20 +110,7 @@ to { width: 100% }
 from { border-right-color: black }
 to { border-right-color: transparent }
 `;
-  const handleCompleteTodo = async (index: number) => {
-    try {
-      const updatedTodo = { ...todos[index], isCompleted: true };
-      await axios.put(
-        `http://localhost:5025/api/Todos/${todos[index].id}`,
-        updatedTodo
-      );
-      const updatedTodos = [...todos];
-      updatedTodos[index] = updatedTodo;
-      setTodos(updatedTodos);
-    } catch (error) {
-      console.error("Error completing todo", error);
-    }
-  };
+
 
   if (!tutor) {
     return <Variants />;
@@ -165,7 +129,7 @@ to { border-right-color: transparent }
             whiteSpace: "nowrap", // Prevents text wrapping
             borderRight: "2px solid", // Creates the caret
             animation: `
-           ${typing} 4s steps(30, end) 0s forwards, 
+           ${typing} 4s steps(30, end) 0s forwards,
           ${typingCaret} -1s 1s forwards
         `, // Apply the typing and caret disappearance animations
             width: "fit-content",
@@ -422,81 +386,8 @@ to { border-right-color: transparent }
         </Grid>
 
         <Grid item sm={12}>
-          <Card
-            sx={{
-              mb: 2,
-              width: "100%",
-              minHeight: 350,
-              borderRadius: 3,
-              boxShadow: 3,
-              transition: "transform 0.3s ease-in-out",
-              "&:hover": {
-                transform: "scale(1.01)",
-              },
-            }}
-          >
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              sx={{
-                borderBottom: `2px solid ${darkblue[200]}`,
-              }}
-            >
-              <CardHeader
-                subheader={
-                  <Typography
-                    variant="subtitle1"
-                    fontWeight="bold"
-                    sx={{ color: "darkblue" }}
-                  >
-                    Todo List
-                  </Typography>
-                }
-              />
-            </Box>
-            <CardContent>
-              <List>
-                {todos.map((todo, index) => (
-                  <ListItem key={index} disablePadding>
-                    <ListItemText primary={todo.text} />
-                    {!todo.isCompleted ? (
-                      <IconButton
-                        aria-label="complete"
-                        onClick={() => handleCompleteTodo(index)}
-                      >
-                        <CheckBoxIcon />
-                      </IconButton>
-                    ) : null}
-                    <IconButton
-                      aria-label="delete"
-                      onClick={() => handleRemoveTodo(index)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItem>
-                ))}
-              </List>
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="flex-end"
-                my={4}
-              >
-                <TextField
-                  variant="outlined"
-                  placeholder="Add a new todo"
-                  size="small"
-                  value={todoInput}
-                  onChange={(e) => setTodoInput(e.target.value)}
-                  fullWidth
-                />
-                <IconButton aria-label="add todo" onClick={handleAddTodo}>
-                  <AddIcon />
-                </IconButton>
-              </Box>
-            </CardContent>
-          </Card>
+          
+          <Todotutor/>
         </Grid>
       </Grid>
     </Grid>
