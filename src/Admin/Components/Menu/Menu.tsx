@@ -126,7 +126,7 @@ const Menu = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    navigate("/");
+    navigate("/signin");
     setOpen(false);
   };
 

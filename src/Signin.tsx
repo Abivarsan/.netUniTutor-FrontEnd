@@ -119,7 +119,7 @@ const SignInSide = () => {
         } else if (type === "20") {
           navigate("./Tutor/Dashboard");
         } else {
-          navigate("/Admin");
+          navigate("/signin/Admin");
         }
       } else {
         console.error("Login failed:", response.statusText);

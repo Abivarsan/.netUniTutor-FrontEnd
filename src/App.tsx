@@ -52,7 +52,7 @@ import SettingsPage from "./Admin/Pages/SettingsPage/SettingsPage";
 import { Bounce, ToastContainer } from "react-toastify";
 import MyStudents from "./Tutor/MyStudents";
 import MySubjects from "./pages/MySubjects";
-// import CoverPage from "./Advertise";
+import CoverPage from "./Advertise";
 import Comment from "./Comment";
 
 
@@ -132,8 +132,10 @@ function App() {
     <>
       <Router>
         <Routes>
-          {/* <Route path="/" element={<CoverPage />} /> */}
-          <Route path="/" element={<SignInSide />} />
+         
+          
+          <Route path ="/" element={<CoverPage />} />
+          <Route path="/signin" element={<SignInSide />} />
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/otp" element={<Otp />} />
           <Route path="/resetpassword" element={<Reset />} />
@@ -164,12 +166,12 @@ function App() {
           />
 
           {/* Tutor Routes */}
-          <Route path="/Tutor/*" element={<TutorRoutes />} />
+          <Route path="/signin/Tutor/*" element={<TutorRoutes />} />
           {/* Student Routes */}
-          <Route path="/Student/*" element={<StudentRoutes />} />
+          <Route path="/signin/Student/*" element={<StudentRoutes />} />
 
           {/* Admin Routes */}
-          <Route path="/Admin" element={<Layout />}>
+          <Route path="/signin/Admin" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="students" element={<Students />} />
             <Route path="tutors" element={<Tutors />} />

@@ -25,35 +25,35 @@ const data = [
     label: "Dashboard",
     icon: <DashboardIcon />,
     component: <Dashboard />,
-    path: "/Tutor/Dashboard",
+    path: "/signin/Tutor/Dashboard",
   },
   {
     id: 1,
     label: "Editprofile",
     icon: <Edit />,
     component: <Editprofile />,
-    path: "/Tutor/Editprofile",
+    path: "/signin/Tutor/Editprofile",
   },
   {
     id: 1,
     label: "My Subjects",
     icon: <MenuBook />,
     component: <Editprofile />,
-    path: "/Tutor/my-subjects",
+    path: "/signin/Tutor/my-subjects",
   },
   {
     id: 2,
     label: "Requestlist",
     icon: <List />,
     component: <Requestlist />,
-    path: "/Tutor/requestlist",
+    path: "/signin/Tutor/requestlist",
   },
   {
     id: 3,
     label: "My Students",
     icon: <Groups2Icon />,
     component: <MyStudents />,
-    path: "/Tutor/MyStudents",
+    path: "/signin/Tutor/MyStudents",
   },
 
   {
@@ -61,7 +61,7 @@ const data = [
     label: "Coinbank",
     icon: <AttachMoney />,
     component: <Coinbank />,
-    path: "/Tutor/Coinbank",
+    path: "/signin/Tutor/Coinbank",
   },
 
   {
@@ -69,7 +69,7 @@ const data = [
     label: "Invitefriend",
     icon: <PeopleAlt />,
     component: <Invitefriend />,
-    path: "/Tutor/Invitefriend",
+    path: "/signin/Tutor/Invitefriend",
   },
   
   {
@@ -77,14 +77,14 @@ const data = [
     label: "Comments",
     icon: <ForumIcon />,
     component: <Comment />,
-    path: "/Tutor/Comment",
+    path: "/signin/Tutor/Comment",
   },
   {
     id: 7,
     label: "Logout",
     icon: <Logout />,
     component: <SignInSide />,
-    path: "/",
+    path: "/signin",
   },
 ];
 
