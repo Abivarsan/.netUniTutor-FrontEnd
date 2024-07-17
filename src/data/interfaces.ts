@@ -3,6 +3,8 @@ import { SubjectInputs } from "../components/my-subjects/SubjectForm";
 export interface SubjectResponse extends SubjectInputs {
   _id: number;
   averageRating: number;
+  firstName: string;
+  lastName: string;
   tutorName: string;
   tutorId: number;
 }
