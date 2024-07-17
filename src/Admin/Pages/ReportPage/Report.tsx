@@ -159,22 +159,19 @@ const ReportList: React.FC = () => {
                   {report.description}
                 </Typography>
                 <Typography variant="body1" component="div" sx={{ mt: 2 }}>
-                  Reported Date
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {moment(report.date).format("DD MMM YYYY - hh:mm A")}
+                  Reported Date:  {moment(report.date).format("DD MMM YYYY - hh:mm A")}
                 </Typography>
                 <Typography variant="body1" component="div" sx={{ mt: 2 }}>
-                  Reporter ID
+                  Reporter ID : {report.reporterId}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {report.reporterId}
+                  Reporter Type : {report.reporterType}
                 </Typography>
                 <Typography variant="body1" component="div" sx={{ mt: 2 }}>
-                  Reported ID
+                  Reported ID : {report.reportedId}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {report.reportedId}
+                   Reported Type : {report.reportedType} 
                 </Typography>
                 <Grid
                   container

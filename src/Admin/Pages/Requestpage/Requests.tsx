@@ -215,11 +215,12 @@ const Requests: React.FC = () => {
     {
       _id: number;
       name: string;
+      createdAt : string;
       universityMail: string;
       ProfileUrl: string;
       cv: string;
       universityID: string;
-      CreatedAt : string;
+      
     }[]
   >([]);
   const [loading, setLoading] = useState<boolean>(true);

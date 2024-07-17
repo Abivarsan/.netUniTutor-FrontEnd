@@ -25,14 +25,14 @@ const columns: GridColDef[] = [
     headerName: "Full name",
     description: "This column has a value getter and is not sortable.",
     sortable: false,
-    width: 160,
+    width: 200,
     valueGetter: (params: GridRenderCellParams<any>) =>
       `${params.row.firstName || ""} ${params.row.lastName || ""}`,
   },
   {
     field: "createdAt",
     headerName: "Created At",
-    width: 120,
+    width: 180,
     type: "string",
     valueGetter: (params: GridRenderCellParams<any>) =>
       moment(params.row.createdAt).format("DD MMM YYYY - hh:mm A"),

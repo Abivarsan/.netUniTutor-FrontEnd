@@ -146,11 +146,12 @@ type RequestTableProps = {
   requests: Array<{
     _id: number;
     name: string;
+    createdAt: string;  
     universityMail: string;
     ProfileUrl: string;
     cv: string;
-    universityID: string;
-    CreatedAt: string;  
+    universityID :string;
+    
 
    
   }>;
@@ -168,6 +169,7 @@ const RequestTable: React.FC<RequestTableProps> = ({
   onViewUniversityId,
 }) => {
   return (
+    
     <Grid item sm={12} mt={3}>
       {requests.map((request) => (
         <Card
@@ -191,15 +193,17 @@ const RequestTable: React.FC<RequestTableProps> = ({
                   <Typography variant="h6">{request.name}</Typography>
                   <Typography variant="body2" fontWeight="bold">
                     {request.universityMail}
+
                   </Typography>
+                  <Typography variant="body2" color="primary" >
+                    {moment(request.createdAt).format("DD MMM YYYY - hh:mm A")}
+                    </Typography>
                 </Box>
               </Box>
-              <Box>
-              <Typography variant="h6">{request.CreatedAt}</Typography>
-              </Box>
+             
               <Box display="flex" alignItems="space-between" gap={2}>
                 <Button onClick={() => onViewCv(request.cv)}>View CV</Button>
-                <Button onClick={() => onViewCv(request.cv)}>View ID</Button>
+                <Button onClick={() => onViewUniversityId(request.universityID)}>View ID</Button>
               </Box>
               <Box display="flex" alignItems="center" gap={2}>
                 <Button
