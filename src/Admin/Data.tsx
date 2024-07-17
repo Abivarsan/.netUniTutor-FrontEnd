@@ -68,12 +68,6 @@ export const menu = [
     listItems: [
       {
         id: 1,
-        title: "Settings",
-        url: "/signin/Admin/settings",
-        icon: <Settings />,
-      },
-      {
-        id: 2,
         title: "requests",
         url: "/signin/Admin/requests",
         icon: <Checklist />,

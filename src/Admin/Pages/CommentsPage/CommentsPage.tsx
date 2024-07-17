@@ -119,7 +119,7 @@ const CommentsPage: React.FC = () => {
         <DataGrid
           rows={comments}
           columns={columns}
-          pageSizeOptions={[5, 10, 20]}
+          pageSizeOptions={[5, 10, 25]}
           paginationModel={{ pageSize, page: 0 }}
           onPaginationModelChange={(newModel) => setPageSize(newModel.pageSize)}
           getRowId={(row) => row._id}
