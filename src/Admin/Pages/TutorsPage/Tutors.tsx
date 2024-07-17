@@ -43,13 +43,7 @@ const columns: GridColDef[] = [
     width: 80,
     type: "boolean",
   },
-  {
-    field: "complaints",
-    headerName: "No. of Complaints",
-    width: 150,
-    type: "number",
-    valueGetter: (params: GridRenderCellParams<any>) => params.row.complaints || 0,
-  },
+ 
 ];
 
 const Tutors = () => {

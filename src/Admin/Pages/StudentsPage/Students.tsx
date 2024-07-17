@@ -37,13 +37,7 @@ const columns: GridColDef[] = [
     valueGetter: (params: GridRenderCellParams<any>) =>
       moment(params.row.createdAt).format("DD MMM YYYY - hh:mm A"),
   },
-  {
-    field: "complaints",
-    headerName: "No. of Complaints",
-    width: 150,
-    type: "number",
-    valueGetter: (params: GridValueGetterParams) => params.row.complaints || 0,
-  },
+  
 ];
 
 const Students = () => {

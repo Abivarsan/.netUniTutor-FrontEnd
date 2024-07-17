@@ -177,12 +177,7 @@ const ChartBox: React.FC<Props> = (props) => {
           </ResponsiveContainer>
         </div>
         <div className="texts">
-          <span
-            className="percentage"
-            style={{ color: props.percentage < 0 ? "tomato" : "limegreen" }}
-          >
-            {props.percentage}%
-          </span>
+          
           <span className="duration">Last 7 days</span>
         </div>
       </div>
