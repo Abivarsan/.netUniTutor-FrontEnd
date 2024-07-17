@@ -192,15 +192,15 @@ to { border-right-color: transparent }
               ></Avatar>
             )}
 
-            <Rating
+            {/* <Rating
               name="read-only"
-              value={tutor.rating}
+              value={3.5}
               readOnly
               sx={{
                 fontSize: 28,
                 my: 2,
               }}
-            />
+            /> */}
           </Box>
 
           <CardContent>

@@ -334,7 +334,7 @@ const SearchSt = () => {
                     image={subject.coverImage}
                   />
                   <CardContent sx={{ p: 2, pb: 2 }}>
-                    <Typography variant="body1">{subject.tutorName}</Typography>
+                    <Typography variant="body1" >{subject.tutorName}</Typography>
                     <Typography variant="body2" color="text.secondary">
                       {subject.description}
                     </Typography>
