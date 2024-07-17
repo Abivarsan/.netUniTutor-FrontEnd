@@ -80,7 +80,7 @@ const columns: GridColDef[] = [
   {
     field: 'timestamp',
     headerName: 'Date',
-    width: 150,
+    width: 200,
     valueGetter: (params: GridRenderCellParams<any>) =>
       moment(params.row.timestamp).format('DD MMM YYYY - hh:mm A'),
   },
@@ -112,10 +112,10 @@ const CommentsPage: React.FC = () => {
 
   return (
     <Container className="commentsPage">
-      <Typography variant="h5" gutterBottom>
-        <h1>Comments</h1>
+      <Typography variant="h4" gutterBottom>
+        <h1>COMMENTS</h1>
       </Typography>
-      <div style={{ height: 400, width: '100%' }}>
+      <div style={{ height: 600, width: '100%' }}>
         <DataGrid
           rows={comments}
           columns={columns}

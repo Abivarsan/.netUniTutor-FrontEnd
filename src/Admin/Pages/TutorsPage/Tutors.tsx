@@ -6,6 +6,7 @@ import Add from "../../Components/Add/Add";
 import axios from "axios";
 import CustomAvatar from "../../Components/Avatar/CustomAvatar";
 import moment from "moment";
+import { Typography } from "@mui/material";
 
 const columns: GridColDef[] = [
   { field: "_id", headerName: "ID", width: 90 },
@@ -67,8 +68,11 @@ const Tutors = () => {
   return (
     <div className="tutors">
       <div className="info">
-        <h1>Tutors</h1>
+      <Typography variant="h4">
+          <h2>TUTORS</h2>
+          </Typography>
       </div>
+      
       <DataTable columns={columns} rows={tutors} slug="tutor" />
       {open && <Add slug="tutors" columns={columns} setOpen={setOpen} />}
     </div>

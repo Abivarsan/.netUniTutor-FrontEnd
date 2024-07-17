@@ -9,6 +9,7 @@ import {
 } from "recharts";
 import axios from "axios";
 import "./Charts.scss";
+import { Typography } from "@mui/material";
 
 interface ChartData {
   month: string;
@@ -34,7 +35,9 @@ const Charts: React.FC = () => {
 
   return (
     <div className="charts">
-      <h1>Charts</h1>
+        <Typography variant="h4">
+          <h2>CHARTS</h2>
+          </Typography>
       <div className="chart">
         <ResponsiveContainer width="99%" height="100%">
           <AreaChart

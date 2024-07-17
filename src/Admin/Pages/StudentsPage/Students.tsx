@@ -5,6 +5,7 @@ import "./Students.scss";
 import axios from "axios";
 import CustomAvatar from "../../Components/Avatar/CustomAvatar";
 import moment from "moment";
+import { Typography } from "@mui/material";
 
 
 const columns: GridColDef[] = [
@@ -59,7 +60,10 @@ const Students = () => {
   return (
     <div className="students">
       <div className="info">
-        <h1>Students</h1>
+        <Typography variant="h4">
+          <h2>STUDENTS</h2>
+          </Typography>
+        
       </div>
       <DataTable columns={columns} rows={students} slug="student" />
       {/* Add your Add component or any other components here */}
