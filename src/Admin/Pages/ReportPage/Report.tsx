@@ -431,9 +431,9 @@ const ReportList: React.FC = () => {
         `http://localhost:5025/api/Admin/relogin`,
         adminCredentials
       );
-  
+
       console.log("API Response:", response.data);
-  
+
       if (response.data.success) {
         setLoginDialogOpen(false);
         setEmailDialogOpen(true);
@@ -501,62 +501,87 @@ const ReportList: React.FC = () => {
   return (
     <div>
       <Typography variant="h4" color={"darkblue"}>
-        Reports
+        <h2>REPORTS</h2>
       </Typography>
       <Grid container spacing={3} sx={{ mt: 3 }}>
-        <Grid item xs={12} md={6} lg={4}>
-          {/* Filter Inputs */}
-          <TextField
-            margin="dense"
-            label="Filter ReportId"
-            type="text"
-            fullWidth
-            variant="standard"
-            name="reportId"
-            value={filters.reportId}
-            onChange={handleFilterChange}
-          />
-          <TextField
-            margin="dense"
-            label="Filter ReportedId"
-            type="text"
-            fullWidth
-            variant="standard"
-            name="reportedId"
-            value={filters.reportedId}
-            onChange={handleFilterChange}
-          />
-          <TextField
-            margin="dense"
-            label="Filter ReportedType"
-            type="text"
-            fullWidth
-            variant="standard"
-            name="reportedType"
-            value={filters.reportedType}
-            onChange={handleFilterChange}
-          />
-          <TextField
-            margin="dense"
-            label="Filter ReporterId"
-            type="text"
-            fullWidth
-            variant="standard"
-            name="reporterId"
-            value={filters.reporterId}
-            onChange={handleFilterChange}
-          />
-          <TextField
-            margin="dense"
-            label="Filter ReporterType"
-            type="text"
-            fullWidth
-            variant="standard"
-            name="reporterType"
-            value={filters.reporterType}
-            onChange={handleFilterChange}
-          />
+        <Grid container spacing={2} alignItems="center" ml={3}>
+          <Grid item xs={2}>
+            <TextField
+              margin="dense"
+              label="Filter ReportId"
+              type="text"
+              fullWidth
+              variant="outlined"
+              name="reportId"
+              value={filters.reportId}
+              onChange={handleFilterChange}
+              sx={{
+                bgcolor:"#F3F4F6"
+              }}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              margin="dense"
+              label="Filter ReportedId"
+              type="text"
+              fullWidth
+              variant="outlined"
+              name="reportedId"
+              value={filters.reportedId}
+              onChange={handleFilterChange}
+              sx={{
+                bgcolor:"#F3F4F6"
+              }}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              margin="dense"
+              label="Filter ReportedType"
+              type="text"
+              fullWidth
+              variant="outlined"
+              name="reportedType"
+              value={filters.reportedType}
+              onChange={handleFilterChange}
+              sx={{
+                bgcolor:"#F3F4F6"
+              }}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              margin="dense"
+              label="Filter ReporterId"
+              type="text"
+              fullWidth
+              variant="outlined"
+              name="reporterId"
+              value={filters.reporterId}
+              onChange={handleFilterChange}
+              sx={{
+                bgcolor:"#F3F4F6"
+              }}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              margin="dense"
+              label="Filter ReporterType"
+              type="text"
+              fullWidth
+              variant="outlined"
+              name="reporterType"
+              value={filters.reporterType}
+              onChange={handleFilterChange}
+              sx={{
+                bgcolor:"#F3F4F6"
+              }}
+            />
+          </Grid>
         </Grid>
+
         {filteredReports.map((report) => (
           <Grid item xs={12} md={6} lg={4} key={report._id}>
             <Card
@@ -771,7 +796,7 @@ const ReportList: React.FC = () => {
             disabled={isLoading}
             endIcon={isLoading ? <CircularProgress size="1.4rem" /> : null}
           >
-           {isLoading ? "Sending..." : "Send Email"}
+            {isLoading ? "Sending..." : "Send Email"}
           </Button>
         </DialogActions>
       </Dialog>
