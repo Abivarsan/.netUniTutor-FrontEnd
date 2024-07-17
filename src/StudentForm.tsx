@@ -106,7 +106,7 @@ const StudentForm = () => {
       if (response.status === 201) {
         toast.success("Form submitted successfully");
         reset(initialState);
-        navigate("/");
+        navigate("/signin");
       } else {
         toast.error("Form submission failed");
       }
