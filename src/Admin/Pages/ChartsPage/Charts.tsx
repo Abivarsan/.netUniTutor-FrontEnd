@@ -11,7 +11,7 @@ import axios from "axios";
 import "./Charts.scss";
 
 interface ChartData {
-  day: string;
+  month: string;
   students: number;
   tutors: number;
 }
@@ -20,13 +20,13 @@ const Charts: React.FC = () => {
   const [data, setData] = useState<ChartData[]>([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5025/api/ChartData/weekly/AreaChart")
+    axios.get("http://localhost:5025/api/ChartData/monthly")
       .then(response => setData(response.data))
       .catch(error => console.error("Error fetching chart data:", error));
   }, []);
 
-  const modifiedData = data.map(({ day, students, tutors }) => ({
-    name: day,
+  const modifiedData = data.map(({ month, students, tutors }) => ({
+    name: month,
     Students: students,
     Tutors: tutors,
     Users: students + tutors,
