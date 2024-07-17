@@ -96,7 +96,7 @@ export default function RegistrationSuccess() {
                     type="submit"
                     variant="contained"
                     component={RouterLink}
-                    to="/"
+                    to="/signin"
                     sx={{ mt: 2, mb: 2 }}
                   >
                     Ok

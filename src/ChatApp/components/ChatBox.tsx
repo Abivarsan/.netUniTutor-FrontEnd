@@ -104,7 +104,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ recipUser }) => {
               <p>{recipientUser.name || '...'}</p>
             </div>
         </div>
-          <Button
+          {/* <Button
             variant="outlined"
             color="primary"
             onClick={navigateToHome}
@@ -112,7 +112,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ recipUser }) => {
               width: 30,
               height: 30}}/>}
             title="Switch User"
-        ></Button>
+        ></Button> */}
       </Typography>
       <Box sx={{ maxHeight: '480px', overflowY: 'auto', marginBottom: 2 }}>
         <List>

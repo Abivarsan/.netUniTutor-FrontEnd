@@ -1,5 +1,4 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
@@ -93,7 +92,7 @@ export default function ResetSuccess() {
                     type="submit"
                     variant="contained"
                     component={RouterLink}
-                    to="/"
+                    to="/signin"
                     sx={{ mt: 11, mb: 2 }}
                   >
                     Log in
