@@ -13,7 +13,7 @@ const columns: GridColDef[] = [
   {
     field: "profileUrl",
     headerName: "Avatar",
-    width: 100,
+    width: 150,
     renderCell: (params: GridRenderCellParams<any>) => (
       <CustomAvatar
         name={`${params.row.firstName || ""} ${params.row.lastName || ""}`}
@@ -26,7 +26,7 @@ const columns: GridColDef[] = [
     headerName: "Full name",
     description: "This column has a value getter and is not sortable.",
     sortable: false,
-    width: 200,
+    width: 250,
     valueGetter: (params: GridRenderCellParams<any>) =>
       `${params.row.firstName || ""} ${params.row.lastName || ""}`,
   },
@@ -41,9 +41,16 @@ const columns: GridColDef[] = [
   {
     field: "verified",
     headerName: "Verified",
-    width: 80,
+    width: 150,
     type: "boolean",
   },
+  {
+    field: "isSuspended",
+    headerName: "Suspended",
+    width: 150,
+    type: "boolean",
+  },
+  
  
 ];
 

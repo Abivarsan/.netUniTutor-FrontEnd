@@ -314,9 +314,10 @@ import {
   Grid,
   TextField,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import moment from "moment";
-import { CircularProgress } from "@mui/material";
+import "./ReportList.scss"; // Import the corresponding SCSS file
 
 interface Report {
   _id: number;
@@ -499,11 +500,11 @@ const ReportList: React.FC = () => {
   );
 
   return (
-    <div>
-      <Typography variant="h4" color={"darkblue"}>
-        <h2>REPORTS</h2>
+    <div className="report-list">
+      <Typography variant="h4" color="#333333" className="report-header">
+       <h3>REPORTS</h3> 
       </Typography>
-      <Grid container spacing={3} sx={{ mt: 3 }}>
+      <Grid container spacing={3} className="report-grid">
         <Grid container spacing={2} alignItems="center" ml={3}>
           <Grid item xs={2}>
             <TextField
@@ -515,9 +516,6 @@ const ReportList: React.FC = () => {
               name="reportId"
               value={filters.reportId}
               onChange={handleFilterChange}
-              sx={{
-                bgcolor:"#F3F4F6"
-              }}
             />
           </Grid>
           <Grid item xs={2}>
@@ -530,9 +528,6 @@ const ReportList: React.FC = () => {
               name="reportedId"
               value={filters.reportedId}
               onChange={handleFilterChange}
-              sx={{
-                bgcolor:"#F3F4F6"
-              }}
             />
           </Grid>
           <Grid item xs={2}>
@@ -545,9 +540,6 @@ const ReportList: React.FC = () => {
               name="reportedType"
               value={filters.reportedType}
               onChange={handleFilterChange}
-              sx={{
-                bgcolor:"#F3F4F6"
-              }}
             />
           </Grid>
           <Grid item xs={2}>
@@ -560,9 +552,6 @@ const ReportList: React.FC = () => {
               name="reporterId"
               value={filters.reporterId}
               onChange={handleFilterChange}
-              sx={{
-                bgcolor:"#F3F4F6"
-              }}
             />
           </Grid>
           <Grid item xs={2}>
@@ -575,84 +564,54 @@ const ReportList: React.FC = () => {
               name="reporterType"
               value={filters.reporterType}
               onChange={handleFilterChange}
-              sx={{
-                bgcolor:"#F3F4F6"
-              }}
             />
           </Grid>
         </Grid>
 
         {filteredReports.map((report) => (
           <Grid item xs={12} md={6} lg={4} key={report._id}>
-            <Card
-              sx={{
-                borderRadius: 3,
-                transition: "transform 0.3s ease-in-out",
-                "&:hover": {
-                  transform: "scale(1.05)",
-                },
-              }}
-            >
+            <Card className="report-card">
               <CardContent>
                 <Typography variant="body1">Description</Typography>
                 <Typography variant="body2" color="text.secondary">
                   {report.description}
                 </Typography>
-                <Typography variant="body1" component="div" sx={{ mt: 2 }}>
-                  Reported Date:{" "}
-                  {moment(report.date).format("DD MMM YYYY - hh:mm A")}
+                <Typography variant="body1" component="div" className="report-date">
+                  Reported Date: {moment(report.date).format("DD MMM YYYY - hh:mm A")}
                 </Typography>
-                <Typography variant="body1" component="div" sx={{ mt: 2 }}>
-                  Reporter ID : {report.reporterId}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Reporter Type : {report.reporterType}
-                </Typography>
-                <Typography variant="body1" component="div" sx={{ mt: 2 }}>
-                  Reported ID : {report.reportedId}
+                <Typography variant="body1" component="div">
+                  Reporter ID: {report.reporterId}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Reported Type : {report.reportedType}
+                  Reporter Type: {report.reporterType}
                 </Typography>
-                <Grid
-                  container
-                  spacing={2}
-                  sx={{ mt: 2 }}
-                  display={"flex"}
-                  alignItems={"space-between"}
-                  justifyContent={"space-between"}
-                >
-                  <Grid item>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      color="error"
-                      onClick={() =>
-                        handleSuspendClick(
-                          report.reportedId,
-                          report.reportedType
-                        )
-                      }
-                    >
-                      Suspend
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      color="success"
-                      onClick={() =>
-                        handleRestoreClick(
-                          report.reportedId,
-                          report.reportedType
-                        )
-                      }
-                    >
-                      Restore
-                    </Button>
-                  </Grid>
-                </Grid>
+                <Typography variant="body1" component="div">
+                  Reported ID: {report.reportedId}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Reported Type: {report.reportedType}
+                </Typography>
+                {report.reportedType === "student" && (
+                  <Typography variant="body1" component="div">
+                    University Email: {report.universityMail}
+                  </Typography>
+                )}
+                <div className="report-actions">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleSuspendClick(report.reportedId, report.reportedType)}
+                  >
+                    Suspend
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleRestoreClick(report.reportedId, report.reportedType)}
+                  >
+                    Restore
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </Grid>
@@ -676,7 +635,7 @@ const ReportList: React.FC = () => {
           <Button onClick={() => setSuspendDialogOpen(false)} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleSuspendConfirm} color="error" autoFocus>
+          <Button onClick={handleSuspendConfirm} color="primary" autoFocus>
             Suspend
           </Button>
         </DialogActions>
@@ -699,7 +658,7 @@ const ReportList: React.FC = () => {
           <Button onClick={() => setRestoreDialogOpen(false)} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleRestoreConfirm} color="success" autoFocus>
+          <Button onClick={handleRestoreConfirm} color="primary" autoFocus>
             Restore
           </Button>
         </DialogActions>
@@ -709,14 +668,10 @@ const ReportList: React.FC = () => {
       <Dialog
         open={loginDialogOpen}
         onClose={() => setLoginDialogOpen(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="alert-dialog-title">Admin Login</DialogTitle>
+        <DialogTitle id="form-dialog-title">Admin Login</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Please enter your admin credentials to continue.
-          </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
@@ -724,13 +679,10 @@ const ReportList: React.FC = () => {
             label="Username"
             type="text"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={adminCredentials.username}
             onChange={(e) =>
-              setAdminCredentials({
-                ...adminCredentials,
-                username: e.target.value,
-              })
+              setAdminCredentials({ ...adminCredentials, username: e.target.value })
             }
           />
           <TextField
@@ -739,13 +691,10 @@ const ReportList: React.FC = () => {
             label="Password"
             type="password"
             fullWidth
-            variant="standard"
+            variant="outlined"
             value={adminCredentials.password}
             onChange={(e) =>
-              setAdminCredentials({
-                ...adminCredentials,
-                password: e.target.value,
-              })
+              setAdminCredentials({ ...adminCredentials, password: e.target.value })
             }
           />
         </DialogContent>
@@ -753,34 +702,33 @@ const ReportList: React.FC = () => {
           <Button onClick={() => setLoginDialogOpen(false)} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleLogin} color="success" autoFocus>
+          <Button onClick={handleLogin} color="primary">
             Login
           </Button>
         </DialogActions>
       </Dialog>
 
-      {/* Send Email Dialog */}
+      {/* Email Sending Dialog */}
       <Dialog
         open={emailDialogOpen}
         onClose={() => setEmailDialogOpen(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="alert-dialog-title">Send Email</DialogTitle>
+        <DialogTitle id="form-dialog-title">Send Email</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Write your message to{" "}
-            {selectedReport?.reportedType === "student" ? "student" : "tutor"}{" "}
-            {selectedReport?.reportedId}:
+          <DialogContentText>
+            Enter your message below to send an email to the reported user:
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="emailMessage"
-            label="Email Message"
+            label="Message"
             type="text"
             fullWidth
-            variant="standard"
+            multiline
+            rows={4}
+            variant="outlined"
             value={emailMessage}
             onChange={(e) => setEmailMessage(e.target.value)}
           />
@@ -789,14 +737,8 @@ const ReportList: React.FC = () => {
           <Button onClick={() => setEmailDialogOpen(false)} color="primary">
             Cancel
           </Button>
-          <Button
-            onClick={handleSendEmail}
-            color="success"
-            autoFocus
-            disabled={isLoading}
-            endIcon={isLoading ? <CircularProgress size="1.4rem" /> : null}
-          >
-            {isLoading ? "Sending..." : "Send Email"}
+          <Button onClick={handleSendEmail} color="primary" disabled={isLoading}>
+            {isLoading ? <CircularProgress size={24} /> : "Send"}
           </Button>
         </DialogActions>
       </Dialog>

@@ -1,0 +1,41 @@
+.report-list {
+    .report-header {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  
+    .report-grid {
+      margin-top: 20px;
+    }
+  
+    .report-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.8); /* Glass effect */
+    backdrop-filter: blur(10px); /* Glass effect */
+    border-radius: 8px;
+    overflow: hidden; /* Ensure content doesn't overflow */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-5px); /* Move up slightly on hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+      opacity: 0.9; /* Slightly darken on hover */
+    }
+    
+    }
+  
+    .report-date {
+      margin-top: 10px;
+    }
+  
+    .report-actions {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  

@@ -1,5 +1,13 @@
 @import "../../styles/responsive.scss";
 
+@keyframes skeleton-wave {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
 .chartBox {
   display: flex;
   height: 100%;

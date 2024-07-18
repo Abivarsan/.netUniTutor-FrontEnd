@@ -16,7 +16,7 @@ const DataTable: React.FC<Props> = ({ columns, rows, slug }) => {
     width: 150,
     renderCell: (params) => (
       <div className="action">
-        <Link to={`/Admin/${slug}/${params.row._id}`}>
+        <Link to={`/signin/Admin/${slug}/${params.row._id}`}>
           <img src="/view.svg" alt="view" />
         </Link>
       </div>

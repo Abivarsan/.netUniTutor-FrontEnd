@@ -549,7 +549,7 @@ const Single: React.FC<SinglePersonProps> = ({ apiEndpoint, personType }) => {
       await axios.delete(`${apiEndpoint}/${id}`);
       setEmailDialogOpen(false);
       toast.success("Profile deleted and email sent successfully");
-      navigate("/Admin");
+      navigate("/signin/Admin/students");
       setIsLoading(false);
     } catch (error) {
       console.error("Error deleting profile or sending email:", error);
