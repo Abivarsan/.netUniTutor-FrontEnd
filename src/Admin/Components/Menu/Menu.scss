@@ -2,7 +2,7 @@
 @import "../../Styles/responsive.scss";
 
 .menu {
-  background-color:#3f9fdf;
+  background-color:#B0E0E6;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -33,7 +33,7 @@
       border-radius: 5px;
 
       &:hover {
-        background-color: $soft-bg;
+        background-color: #8de8fb ;
       }
 
       .listItemTitle {

@@ -1,6 +1,7 @@
 import React from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import "./PieChartBox.scss";
+import CountUp from "react-countup";  
 
 type DataItem = {
   name: string;
@@ -15,7 +16,7 @@ type Props = {
 const PieChartBox: React.FC<Props> = ({ data }) => {
   return (
     <div className="pieChartBox">
-      <h1>Current Users</h1>
+      <h1>CURRENT USERS</h1>
       <div className="chart">
         <ResponsiveContainer width="99%" height={300}>
           <PieChart>
@@ -43,7 +44,18 @@ const PieChartBox: React.FC<Props> = ({ data }) => {
               <div className="dot" style={{ backgroundColor: item.color }} />
               <span>{item.name}</span>
             </div>
-            <span>{item.value}</span>
+            <span>{}
+            <CountUp
+            start={0}
+            end={typeof item.value === 'number' ? item.value : parseFloat(item.value)}
+            duration={2.5}
+            delay={1}
+          // prefix="$"
+          // suffix=" USD"
+          // decimals={2}
+          separator=","
+          />
+            </span>
           </div>
         ))}
       </div>

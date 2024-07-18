@@ -1,12 +1,83 @@
+// .students {
+//     .info {
+//       h2 {
+//         color: darkblue;
+//       }
+//       display: flex;
+//       align-items: center;
+//       gap: 20px;
+//       margin-bottom: 20px;
+//     }
+//   }
+  
+@import "../../Styles/variable.scss";
+@import "../../Styles/responsive.scss";
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
 .students {
-    .info {
-      h2 {
-        color: darkblue;
-      }
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      margin-bottom: 20px;
+  .info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    animation: fadeIn 0.5s ease-in-out;
+
+    h2 {
+      color: #333333;
+      animation: pulse 1.5s infinite ease-in-out;
     }
   }
-  
+
+  .MuiDataGrid-root {
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(169, 214, 229, 0.6);
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px); /* Glass effect */
+    transition: transform 0.3s ease-in-out, background-color 0.3s;
+
+    .MuiDataGrid-cell {
+      &:hover {
+        background-color: rgba(169, 214, 229, 0.3);
+      }
+
+      &:focus {
+        background-color: rgba(169, 214, 229, 0.5);
+        transform: scale(1.02);
+      }
+    }
+
+    .MuiDataGrid-columnHeader {
+      background-color: rgba(169, 214, 229, 0.8);
+      backdrop-filter: blur(10px); /* Glass effect */
+    }
+  }
+
+  .MuiAvatar-root {
+    transition: transform 0.3s ease-in-out;
+
+    &:hover {
+      transform: scale(1.1);
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+  }
+}

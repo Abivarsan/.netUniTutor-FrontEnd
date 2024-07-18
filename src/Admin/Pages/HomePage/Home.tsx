@@ -494,72 +494,90 @@ const Home: React.FC = () => {
   return (
     <div className="home">
       <div className="box box1">
-        {loading ? <Skeleton variant="rectangular" width="100%" height="100%" /> : <TopBox/>}
+      {loading ? (
+          <div className="box loading">
+            <Skeleton variant="rectangular" width="150%" height="100%" />
       </div>
+        ) : ( <TopBox /> )}
+          </div>
       <div className="box box2">
         {loading ? (
-          <Skeleton variant="rectangular" width="100%" height="100%" />
+          <div className="box loading">
+            <Skeleton variant="rectangular" width="100%" height="100%" />
+          </div>
         ) : (
           <ChartBox
             color="black"
             icon="student.png"
-            title="Students Joined"
+            title="STUDENTS JOINED"
             number={studentData.reduce((acc, curr) => acc + curr.count, 0)}
             dataKey="count"
             percentage={calculatePercentage(studentData)}
             chartData={studentData.map(item => ({ day: item.day, count: item.count }))}
-            viewAllLink="/Admin/charts"
+            viewAllLink="/signin/Admin/charts"
           />
         )}
       </div>
       <div className="box box3">
         {loading ? (
-          <Skeleton variant="rectangular" width="100%" height="100%" />
+          <div className="box loading">
+            <Skeleton variant="rectangular" width="100%" height="100%" />
+          </div>
         ) : (
           <ChartBox
             color="purple"
             icon="/icons/tutor.png"
-            title="Tutors Joined"
+            title="TUTORS JOINED"
             number={tutorData.reduce((acc, curr) => acc + curr.count, 0)}
             dataKey="count"
             percentage={calculatePercentage(tutorData)}
             chartData={tutorData.map(item => ({ day: item.day, count: item.count }))}
-            viewAllLink="/Admin/charts"
+            viewAllLink="/signin/Admin/charts"
           />
         )}
       </div>
       <div className="box box4">
-        {loading ? <Skeleton variant="rectangular" width="100%" height="100%" /> : <PieChartBox data={pieData} />}
+        {loading ? (
+          <div className="box loading">
+            <Skeleton variant="rectangular" width="100%" height="100%" />
+          </div>
+        ) : (
+          <PieChartBox data={pieData} />
+        )}
       </div>
       <div className="box box5">
         {loading ? (
-          <Skeleton variant="rectangular" width="100%" height="100%" />
+          <div className="box loading">
+            <Skeleton variant="rectangular" width="100%" height="100%" />
+          </div>
         ) : (
           <ChartBox
             color="#2C550B"
             icon="/icons/request.png"
-            title="Tutor Requests"
+            title="PENDING REQUESTS"
             number={requestData.reduce((acc, curr) => acc + curr.count, 0)}
             dataKey="count"
             percentage={calculatePercentage(requestData)}
             chartData={requestData.map(item => ({ day: item.day, count: item.count }))}
-            viewAllLink="/Admin/requests"
+            viewAllLink="/signin/Admin/requests"
           />
         )}
       </div>
       <div className="box box6">
         {loading ? (
-          <Skeleton variant="rectangular" width="100%" height="100%" />
+          <div className="box loading">
+            <Skeleton variant="rectangular" width="100%" height="100%" />
+          </div>
         ) : (
           <ChartBox
             color="#66490B"
             icon="/icons/comment.png"
-            title="Comments"
+            title="COMMENTS"
             number={commentData.reduce((acc, curr) => acc + curr.count, 0)}
             dataKey="count"
             percentage={calculatePercentage(commentData)}
             chartData={commentData.map(item => ({ day: item.day, count: item.count }))}
-            viewAllLink="/Admin/comments"
+            viewAllLink="/signin/Admin/comments"
           />
         )}
       </div>
@@ -568,4 +586,3 @@ const Home: React.FC = () => {
 };
 
 export default Home;
-

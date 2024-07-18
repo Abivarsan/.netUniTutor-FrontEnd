@@ -1,13 +1,74 @@
-// src/Admin/Pages/CommentsPage/CommentsPage.scss
-.commentsPage {
-background: #DEF1FE;
+// // src/Admin/Pages/CommentsPage/CommentsPage.scss
+// .commentsPage {
+// background: #DEF1FE;
 
   
-  h1{color: darkblue;}
+//   h1{color: darkblue;}
   
-    margin-top: 20px;
+//     margin-top: 20px;
   
-}
-  .commentsPage .MuiTypography-root {
-    margin-bottom: 20px;
+// }
+//   .commentsPage .MuiTypography-root {
+//     margin-bottom: 20px;
+//   }
+
+
+// src/Admin/Pages/CommentsPage/CommentsPage.scss
+.commentsPage {
+  background: #DEF1FE;
+  padding: 20px;
+
+  .skeletonLoading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
   }
+
+  .commentsContainer {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+
+  .commentCard {
+    background: rgba(255, 255, 255, 0.8); /* Glass effect */
+    backdrop-filter: blur(10px); /* Glass effect */
+    border-radius: 8px;
+    overflow: hidden; /* Ensure content doesn't overflow */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-5px); /* Move up slightly on hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+      opacity: 0.9; /* Slightly darken on hover */
+    }
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 16px;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      padding: 16px;
+    }
+
+    .text {
+      flex-grow: 1;
+    }
+
+    .details {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+  }
+}

@@ -131,6 +131,7 @@ import React from "react";
 import { LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis, Line } from "recharts";
 import { Link } from "react-router-dom";
 import "./ChartBox.scss";
+import CountUp from 'react-countup';
 
 interface Props {
   color: string;
@@ -152,7 +153,17 @@ const ChartBox: React.FC<Props> = (props) => {
           <img src={props.icon} alt="" />
           <span>{props.title}</span>
         </div>
-        <h1>{props.number}</h1>
+        <h1><CountUp
+            start={0}
+            end={typeof props.number === 'number' ? props.number : parseFloat(props.number)}
+            duration={2.5}
+            delay={1}
+          // prefix="$"
+          // suffix=" USD"
+          // decimals={2}
+          separator=","
+          />
+        </h1>
         <Link to={props.viewAllLink} style={{ color: props.color }}>
           View all
         </Link>
