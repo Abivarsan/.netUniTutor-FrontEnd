@@ -30,7 +30,9 @@ body {
   background: #777777;
 }
 
+
 /* chat box */
+
 *,
 *:before,
 *:after {
@@ -324,4 +326,6 @@ body {
   background: #fff;
 
   border-radius: 10px;
+
 }
+

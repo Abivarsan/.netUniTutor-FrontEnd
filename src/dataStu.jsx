@@ -35,21 +35,21 @@ const data = [
     label: "Dashboard",
     icon: <DashboardIcon />,
     component: <DashboardSt />,
-    path: "/Student/Dashboard",
+    path: "/signin/Student/Dashboard",
   },
   {
     id: 1,
     label: "Editprofile",
     icon: <Edit />,
     component: <EditprofileSt />,
-    path: "/Student/Editprofile",
+    path: "/signin/Student/Editprofile",
   },
   {
     id: 2,
     label: "SearchTutors",
     icon: <SearchIcon />,
     component: <Search />,
-    path: "/Student/Search",
+    path: "/signin/Student/Search",
   },
  
   {
@@ -57,28 +57,28 @@ const data = [
     label: "MySubjects",
     icon: <Groups2Icon />,
     component: <Mysubjects />,
-    path: "/Student/MySubjects",
+    path: "/signin/Student/MySubjects",
   },
   {
     id: 4,
     label: "Requested",
     icon: <AddTaskIcon />,
     component: <Requested />,
-    path: "/Student/Requested",
+    path: "/signin/Student/Requested",
   },
   {
     id: 5,
     label: "Comment",
     icon: <ForumIcon />,
     component: <Comment />,
-    path: "/Student/Comment",
+    path: "/signin/Student/Comment",
   },
   {
     id: 6,
     label: "Logout",
     icon: <Logout />,
     component: "",
-    path: "/",
+    path: "/signin",
   },
 ];
 

@@ -9,7 +9,7 @@ export const menu = [
       {
         id: 1,
         title: "Home",
-        url: "/Admin",
+        url: "/signin/Admin",
         icon: <Home />,
       },
     ],
@@ -21,19 +21,19 @@ export const menu = [
       {
         id: 1,
         title: "Students",
-        url: "/Admin/students",
+        url: "/signin/Admin/students",
         icon: <School />,
       },
       {
         id: 2,
         title: "Tutors",
-        url: "/Admin/tutors",
+        url: "/signin/Admin/tutors",
         icon: <CastForEducation/>,
       },
       {
         id: 3,
         title: "Reports",
-        url: "/Admin/reports",
+        url: "/signin/Admin/reports",
         icon: <Report/>,
       },
     ],
@@ -45,7 +45,7 @@ export const menu = [
       {
         id: 1,
         title: "Charts",
-        url: "/Admin/charts",
+        url: "/signin/Admin/charts",
         icon: <BarChart/>,
       },
     ],
@@ -57,7 +57,7 @@ export const menu = [
       {
         id: 1,
         title: "Comments",
-        url: "/Admin/comments",
+        url: "/signin/Admin/comments",
         icon: <Comment/>,
       },
     ],
@@ -68,14 +68,8 @@ export const menu = [
     listItems: [
       {
         id: 1,
-        title: "Settings",
-        url: "/Admin/settings",
-        icon: <Settings />,
-      },
-      {
-        id: 2,
         title: "requests",
-        url: "/Admin/requests",
+        url: "/signin/Admin/requests",
         icon: <Checklist />,
       },
     ],
@@ -87,7 +81,7 @@ export const menu = [
       {
         id: 1,
         title: "Log Out",
-        url: "/",
+        url: "/signin",
         icon: <Logout />,
       },
     ],

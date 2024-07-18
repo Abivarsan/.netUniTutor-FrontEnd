@@ -15,7 +15,7 @@ const Navbar = () => {
           />
           <span>Admin1</span>
         </div>
-        <img src="/settings.svg" alt="" className="icon" />
+        
       </div>
     </div>
   );
