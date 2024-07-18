@@ -74,7 +74,7 @@ const BuyCoins: React.FC = () => {
 
         </Box>
         <Box my={15}>
-          <img src={coingif} alt="dollar" style={{ width: "60%" }} />
+          <img src={coingif} alt="dollar" style={{ width: "50%" }} />
         </Box>
       </Grid>
       <Grid item xs={12} sm={5}>
