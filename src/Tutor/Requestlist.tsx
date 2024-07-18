@@ -370,7 +370,7 @@ export default function Requestlist() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => navigate("/Tutor/Coinbank")} color="primary">
+          <Button onClick={() => navigate("/signin/Tutor/Coinbank")} color="primary">
             Add Coins
           </Button>
           <Button onClick={handleBuyCoinClose} color="primary">
