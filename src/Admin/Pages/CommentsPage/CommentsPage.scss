@@ -15,9 +15,12 @@
 
 // src/Admin/Pages/CommentsPage/CommentsPage.scss
 .commentsPage {
-  background: #DEF1FE;
+ 
   padding: 20px;
 
+  .comment-header{
+    animation: pulse 1.5s infinite ease-in-out;
+  }
   .skeletonLoading {
     display: flex;
     justify-content: center;
@@ -32,7 +35,8 @@
   }
 
   .commentCard {
-    background: rgba(255, 255, 255, 0.8); /* Glass effect */
+    //background: rgba(255, 255, 255, 0.8); /* Glass effect */
+    background: rgba(169, 214, 229, 0.8);
     backdrop-filter: blur(10px); /* Glass effect */
     border-radius: 8px;
     overflow: hidden; /* Ensure content doesn't overflow */

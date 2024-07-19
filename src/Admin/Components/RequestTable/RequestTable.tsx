@@ -172,9 +172,10 @@ const RequestTable: React.FC<RequestTableProps> = ({
     
     <Grid item sm={12} mt={3}>
       {requests.map((request) => (
-        <Card
+        <Card 
           key={request._id}
           sx={{
+            
             borderRadius: 3,
             boxShadow: 3,
             transition: "transform 0.3s ease-in-out",
@@ -185,7 +186,7 @@ const RequestTable: React.FC<RequestTableProps> = ({
             mb: 3, // Added margin bottom for spacing between cards
           }}
         >
-          <CardContent>
+          <CardContent className="request-card">
             <Box display="flex" alignItems="center" justifyContent="space-between">
               <Box display="flex" alignItems="center" gap={2}>
                 <CustomAvatar name={request.name} src={request.ProfileUrl} />
