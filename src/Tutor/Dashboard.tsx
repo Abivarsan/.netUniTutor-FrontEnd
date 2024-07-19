@@ -29,6 +29,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import Variants from "../components/common/sketlan";
 import Todotutor from "./TodoTutor";
+import Countup from "react-countup";
 
 const darkblue = {
   100: "#C9DCF7",
@@ -87,8 +88,6 @@ export default function Dashboard() {
           `http://localhost:5025/api/Transaction/totalamount/${tutorId}`
         );
         setCoinsCount(coinsCountResponse.data);
-
-        
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -99,8 +98,6 @@ export default function Dashboard() {
     }
   }, [tutorId]);
 
-
-
   const typing = keyframes`
 from { width: 0 }
 to { width: 100% }
@@ -110,7 +107,6 @@ to { width: 100% }
 from { border-right-color: black }
 to { border-right-color: transparent }
 `;
-
 
   if (!tutor) {
     return <Variants />;
@@ -282,8 +278,20 @@ to { border-right-color: transparent }
               }}
             >
               <LocalLibraryIcon sx={{ color: "Darkblue", fontSize: 30 }} />
-              <Typography sx={{ color: "Darkblue", fontSize: 25 }}>
-                {mySubjectsCount}
+              <Typography
+                sx={{ color: "Darkblue", fontSize: 25 }}
+                fontWeight={"bold"}
+              >
+                <Countup
+                  start={0}
+                  end={
+                    typeof mySubjectsCount === "number"
+                      ? mySubjectsCount
+                      : parseFloat(mySubjectsCount)
+                  }
+                  duration={1.8}
+                  separator=","
+                />
               </Typography>
             </CardContent>
           </Card>
@@ -330,8 +338,20 @@ to { border-right-color: transparent }
               }}
             >
               <CallReceivedSharpIcon sx={{ color: "green", fontSize: 30 }} />
-              <Typography sx={{ color: "Darkblue", fontSize: 25 }}>
-                {acceptedRequestsCount}
+              <Typography
+                sx={{ color: "Darkblue", fontSize: 25 }}
+                fontWeight={"bold"}
+              >
+                <Countup
+                  start={0}
+                  end={
+                    typeof acceptedRequestsCount === "number"
+                      ? acceptedRequestsCount
+                      : parseFloat(acceptedRequestsCount)
+                  }
+                  duration={1.8}
+                  separator=","
+                />
               </Typography>
             </CardContent>
           </Card>
@@ -378,16 +398,27 @@ to { border-right-color: transparent }
               }}
             >
               <MonetizationOnIcon sx={{ color: "#E5B80B", fontSize: 30 }} />
-              <Typography sx={{ color: "Darkblue", fontSize: 25 }}>
-                {coinsCount}
+              <Typography
+                sx={{ color: "Darkblue", fontSize: 25 }}
+                fontWeight={"bold"}
+              >
+                <Countup
+                  start={0}
+                  end={
+                    typeof coinsCount === "number"
+                      ? coinsCount
+                      : parseFloat(coinsCount)
+                  }
+                  duration={1.8}
+                  separator=","
+                />
               </Typography>
             </CardContent>
           </Card>
         </Grid>
 
         <Grid item sm={12}>
-          
-          <Todotutor/>
+          <Todotutor />
         </Grid>
       </Grid>
     </Grid>

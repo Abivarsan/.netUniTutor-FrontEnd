@@ -471,7 +471,7 @@ const CoverPage: React.FC = () => {
         </Box>
       </Grid>
 
-      <Dialog open={openTerms} onClose={handleCloseTerms}>
+      <Dialog open={openTerms} onClose={handleCloseTerms} maxWidth="md">
         <DialogTitle>Terms of Service</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -499,8 +499,7 @@ const CoverPage: React.FC = () => {
         </DialogActions>
       </Dialog>
 
-      <Dialog open={openPrivacy} onClose={handleClosePrivacy}>
-        <DialogTitle>Privacy Policy</DialogTitle>
+      <Dialog open={openPrivacy} onClose={handleClosePrivacy} maxWidth="md">
         <DialogContent>
           <DialogContentText>
             <Section title="Privacy Policy">
@@ -646,7 +645,7 @@ const CoverPage: React.FC = () => {
         </DialogActions>
       </Dialog>
 
-      <Dialog open={openFAQs} onClose={handleCloseFAQs}>
+      <Dialog open={openFAQs} onClose={handleCloseFAQs} maxWidth="md">
         <DialogTitle>Frequently Asked Questions (FAQ)</DialogTitle>
         <DialogContent>
           <DialogContentText>
