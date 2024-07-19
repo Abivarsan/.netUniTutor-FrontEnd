@@ -152,7 +152,7 @@ export default function Sidebarst() {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("userRole");
-    navigate("/"); // Redirect to login or home page after logout
+    navigate("/signin"); // Redirect to login or home page after logout
   };
   const tabClickEvent = (route: { label: string; path: To }, index: number) => {
     if (route.label === "Logout") {

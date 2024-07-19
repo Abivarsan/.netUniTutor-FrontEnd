@@ -1,3 +1,24 @@
+// @import "../../Styles/responsive.scss";
+
+// .charts {
+//   width: 100%;
+//   height: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+
+//   h2 {
+       
+      
+//       color: darkblue;
+//     }
+//   }
+//   .chart {
+//     width: 100%;
+//     height: 700px;
+//   }
+
+
 @import "../../Styles/responsive.scss";
 
 .charts {
@@ -7,13 +28,39 @@
   flex-direction: column;
   justify-content: space-between;
 
-  h1 {
-    @include xxl {
-      font-size: 24px;
-    }
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333333;
+    font-size: 2.5rem;
+    font-weight: bold;
   }
-  .chart {
-    width: 100%;
-    height: 700px;
+}
+
+.chart {
+  width: 100%;
+  height: 700px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+
+  .recharts-surface {
+    filter: blur(0.5px); /* Add a slight blur effect */
+  }
+
+  .recharts-legend-item-text {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .recharts-tooltip-wrapper {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
 }

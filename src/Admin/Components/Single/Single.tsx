@@ -441,15 +441,16 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
-  TextField
+  TextField,
 } from "@mui/material";
-import CollectionsIcon from '@mui/icons-material/Collections';
+import CollectionsIcon from "@mui/icons-material/Collections";
 import CustomAvatar from "../../Components/Avatar/CustomAvatar";
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import LockIcon from '@mui/icons-material/Lock';
-import EmailIcon from '@mui/icons-material/Email';
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import LockIcon from "@mui/icons-material/Lock";
+import EmailIcon from "@mui/icons-material/Email";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { set } from "date-fns";
 
 type Person = {
   id: number;
@@ -484,10 +485,14 @@ const Single: React.FC<SinglePersonProps> = ({ apiEndpoint, personType }) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
   const [emailDialogOpen, setEmailDialogOpen] = useState(false);
-  const [adminCredentials, setAdminCredentials] = useState({ username: '', password: '' });
-  const [emailMessage, setEmailMessage] = useState('');
+  const [adminCredentials, setAdminCredentials] = useState({
+    username: "",
+    password: "",
+  });
+  const [emailMessage, setEmailMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPerson = async () => {
@@ -514,28 +519,38 @@ const Single: React.FC<SinglePersonProps> = ({ apiEndpoint, personType }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`http://localhost:5025/api/Admin/relogin`, adminCredentials);
+      const response = await axios.post(
+        `http://localhost:5025/api/Admin/relogin`,
+        adminCredentials
+      );
+  
+      console.log("API Response:", response.data);
+  
       if (response.data.success) {
         setLoginDialogOpen(false);
         setEmailDialogOpen(true);
       } else {
-        alert('Invalid login credentials');
+        toast.error("Invalid login credentials");
       }
     } catch (error) {
       console.error("Error during admin login:", error);
+      // You can also show a toast message for network or other errors
+      toast.error("An error occurred during login. Please try again.");
     }
   };
 
   const handleSendEmail = async () => {
     try {
+      setIsLoading(true);
       await axios.post(`http://localhost:5025/api/Admin/Report/send-email`, {
         to: person.email || person.universityMail,
-        message: emailMessage
-      }); 
+        message: emailMessage,
+      });
       await axios.delete(`${apiEndpoint}/${id}`);
       setEmailDialogOpen(false);
-      toast.success('Profile deleted and email sent successfully');
-      navigate("/Admin");
+      toast.success("Profile deleted and email sent successfully");
+      navigate("/signin/Admin/students");
+      setIsLoading(false);
     } catch (error) {
       console.error("Error deleting profile or sending email:", error);
     }
@@ -545,7 +560,9 @@ const Single: React.FC<SinglePersonProps> = ({ apiEndpoint, personType }) => {
   const handleCvClose = () => setOpenCv(false);
   const handleUniversityIdOpen = () => setOpenUniversityId(true);
   const handleUniversityIdClose = () => setOpenUniversityId(false);
-  const renderQualifications = (qualifications: string | string[] | undefined) => {
+  const renderQualifications = (
+    qualifications: string | string[] | undefined
+  ) => {
     if (Array.isArray(qualifications)) {
       return qualifications.join(", ");
     } else if (typeof qualifications === "string") {
@@ -558,11 +575,20 @@ const Single: React.FC<SinglePersonProps> = ({ apiEndpoint, personType }) => {
     <Container maxWidth="sm">
       <Card>
         <CardHeader
-          avatar={<CustomAvatar name={`${person.firstName || ""} ${person.lastName || ""}`} src={person.profileUrl} />}
+          avatar={
+            <CustomAvatar
+              name={`${person.firstName || ""} ${person.lastName || ""}`}
+              src={person.profileUrl}
+            />
+          }
           title={`${person.firstName} ${person.lastName}`}
           subheader={person.grade || person.occupation || "N/A"}
           action={
-            <Button variant="contained" color="secondary" onClick={handleDeleteClick}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleDeleteClick}
+            >
               Remove
             </Button>
           }
@@ -573,50 +599,85 @@ const Single: React.FC<SinglePersonProps> = ({ apiEndpoint, personType }) => {
               <Typography variant="h6">Information</Typography>
             </Grid>
             <Grid item xs={6}>
-              <Typography variant="body2" color="textSecondary">Email:</Typography>
-              <Typography variant="body1">{person.email || person.universityMail}</Typography>
+              <Typography variant="body2" color="textSecondary">
+                Email:
+              </Typography>
+              <Typography variant="body1">
+                {person.email || person.universityMail}
+              </Typography>
             </Grid>
             <Grid item xs={6}>
-              <Typography variant="body2" color="textSecondary">Phone Number:</Typography>
+              <Typography variant="body2" color="textSecondary">
+                Phone Number:
+              </Typography>
               <Typography variant="body1">{person.phoneNumber}</Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="body2" color="textSecondary">Address:</Typography>
+              <Typography variant="body2" color="textSecondary">
+                Address:
+              </Typography>
               <Typography variant="body1">{person.address}</Typography>
             </Grid>
             <Grid item xs={6}>
-              <Typography variant="body2" color="textSecondary">District:</Typography>
+              <Typography variant="body2" color="textSecondary">
+                District:
+              </Typography>
               <Typography variant="body1">{person.district}</Typography>
             </Grid>
             {personType === "student" && (
               <>
                 <Grid item xs={6}>
-                  <Typography variant="body2" color="textSecondary">School:</Typography>
-                  <Typography variant="body1">{person.schoolName || "N/A"}</Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    School:
+                  </Typography>
+                  <Typography variant="body1">
+                    {person.schoolName || "N/A"}
+                  </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography variant="body2" color="textSecondary">Number of Complaints:</Typography>
-                  <Typography variant="body1">{person.numberofcomplain}</Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Number of Complaints:
+                  </Typography>
+                  <Typography variant="body1">
+                    {person.numberofcomplain}
+                  </Typography>
                 </Grid>
               </>
             )}
             {personType === "tutor" && (
               <>
                 <Grid item xs={6}>
-                  <Typography variant="body2" color="textSecondary">University ID:</Typography>
-                  <IconButton onClick={handleUniversityIdOpen} color="primary" size="large">
+                  <Typography variant="body2" color="textSecondary">
+                    University ID:
+                  </Typography>
+                  <IconButton
+                    onClick={handleUniversityIdOpen}
+                    color="primary"
+                    size="large"
+                  >
                     <CameraAltIcon />
                   </IconButton>
-                  <Dialog open={openUniversityId} onClose={handleUniversityIdClose}>
+                  <Dialog
+                    open={openUniversityId}
+                    onClose={handleUniversityIdClose}
+                  >
                     <DialogTitle>
                       University ID
-                      <IconButton aria-label="close" onClick={handleUniversityIdClose} sx={{ position: 'absolute', right: 8, top: 8 }}>
+                      <IconButton
+                        aria-label="close"
+                        onClick={handleUniversityIdClose}
+                        sx={{ position: "absolute", right: 8, top: 8 }}
+                      >
                         <CameraAltIcon />
                       </IconButton>
                     </DialogTitle>
                     <DialogContent>
                       <DialogContentText>
-                        <img src={person.universityID} alt="University ID" style={{ width: "100%" }} />
+                        <img
+                          src={person.universityID}
+                          alt="University ID"
+                          style={{ width: "100%" }}
+                        />
                       </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -625,24 +686,42 @@ const Single: React.FC<SinglePersonProps> = ({ apiEndpoint, personType }) => {
                   </Dialog>
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography variant="body2" color="textSecondary">Qualifications:</Typography>
-                  <Typography variant="body1">{renderQualifications(person.qualifications)}</Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Qualifications:
+                  </Typography>
+                  <Typography variant="body1">
+                    {renderQualifications(person.qualifications)}
+                  </Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography variant="body2" color="textSecondary">CV:</Typography>
-                  <IconButton onClick={handleCvOpen} color="primary" size="large">
+                  <Typography variant="body2" color="textSecondary">
+                    CV:
+                  </Typography>
+                  <IconButton
+                    onClick={handleCvOpen}
+                    color="primary"
+                    size="large"
+                  >
                     <CollectionsIcon />
                   </IconButton>
                   <Dialog open={openCv} onClose={handleCvClose}>
                     <DialogTitle>
                       CV
-                      <IconButton aria-label="close" onClick={handleCvClose} sx={{ position: 'absolute', right: 8, top: 8 }}>
+                      <IconButton
+                        aria-label="close"
+                        onClick={handleCvClose}
+                        sx={{ position: "absolute", right: 8, top: 8 }}
+                      >
                         <CollectionsIcon />
                       </IconButton>
                     </DialogTitle>
                     <DialogContent>
                       <DialogContentText>
-                        <img src={person.cv} alt="CV" style={{ width: "100%" }} />
+                        <img
+                          src={person.cv}
+                          alt="CV"
+                          style={{ width: "100%" }}
+                        />
                       </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -653,7 +732,9 @@ const Single: React.FC<SinglePersonProps> = ({ apiEndpoint, personType }) => {
               </>
             )}
             <Grid item xs={12}>
-              <Typography variant="body2" color="textSecondary">Created At:</Typography>
+              <Typography variant="body2" color="textSecondary">
+                Created At:
+              </Typography>
               <Typography variant="body1">{person.createdAt}</Typography>
             </Grid>
           </Grid>
@@ -661,16 +742,22 @@ const Single: React.FC<SinglePersonProps> = ({ apiEndpoint, personType }) => {
       </Card>
 
       {/* Delete Confirmation Dialog */}
-      <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+      >
         <DialogTitle>Delete Profile</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete this profile? This action cannot be undone.
+            Are you sure you want to delete this profile? This action cannot be
+            undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
-          <Button onClick={handleDeleteConfirm} color="secondary">Yes, Delete</Button>
+          <Button onClick={handleDeleteConfirm} color="secondary">
+            Yes, Delete
+          </Button>
         </DialogActions>
       </Dialog>
 
@@ -689,7 +776,12 @@ const Single: React.FC<SinglePersonProps> = ({ apiEndpoint, personType }) => {
             fullWidth
             variant="standard"
             value={adminCredentials.username}
-            onChange={(e) => setAdminCredentials({ ...adminCredentials, username: e.target.value })}
+            onChange={(e) =>
+              setAdminCredentials({
+                ...adminCredentials,
+                username: e.target.value,
+              })
+            }
           />
           <TextField
             margin="dense"
@@ -698,12 +790,19 @@ const Single: React.FC<SinglePersonProps> = ({ apiEndpoint, personType }) => {
             fullWidth
             variant="standard"
             value={adminCredentials.password}
-            onChange={(e) => setAdminCredentials({ ...adminCredentials, password: e.target.value })}
+            onChange={(e) =>
+              setAdminCredentials({
+                ...adminCredentials,
+                password: e.target.value,
+              })
+            }
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setLoginDialogOpen(false)}>Cancel</Button>
-          <Button onClick={handleLogin} color="primary">Login</Button>
+          <Button onClick={handleLogin} color="primary">
+            Login
+          </Button>
         </DialogActions>
       </Dialog>
 
@@ -729,7 +828,14 @@ const Single: React.FC<SinglePersonProps> = ({ apiEndpoint, personType }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setEmailDialogOpen(false)}>Cancel</Button>
-          <Button onClick={handleSendEmail} color="primary">Send Email and Delete Profile</Button>
+          <Button
+            onClick={handleSendEmail}
+            color="primary"
+            disabled={isLoading}
+            endIcon={isLoading ? <CircularProgress size="1.4rem" /> : null}
+          >
+          {isLoading ? "Deleting..." : "Delete Profile"}
+          </Button>
         </DialogActions>
       </Dialog>
     </Container>

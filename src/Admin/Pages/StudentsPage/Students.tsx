@@ -5,6 +5,7 @@ import "./Students.scss";
 import axios from "axios";
 import CustomAvatar from "../../Components/Avatar/CustomAvatar";
 import moment from "moment";
+import { Typography } from "@mui/material";
 
 
 const columns: GridColDef[] = [
@@ -12,7 +13,7 @@ const columns: GridColDef[] = [
   {
     field: "profileUrl",
     headerName: "Avatar",
-    width: 100,
+    width: 150,
     renderCell: (params: GridRenderCellParams) => (
       <CustomAvatar
         name={`${params.row.firstName || ""} ${params.row.lastName || ""}`}
@@ -25,25 +26,25 @@ const columns: GridColDef[] = [
     headerName: "Full name",
     description: "This column has a value getter and is not sortable.",
     sortable: false,
-    width: 160,
+    width: 250,
     valueGetter: (params: GridValueGetterParams) =>
       `${params.row.firstName || ""} ${params.row.lastName || ""}`,
   },
   {
     field: "createdAt",
     headerName: "Created At",
-    width: 200,
+    width: 250,
     type: "string",
     valueGetter: (params: GridRenderCellParams<any>) =>
       moment(params.row.createdAt).format("DD MMM YYYY - hh:mm A"),
   },
   {
-    field: "complaints",
-    headerName: "No. of Complaints",
-    width: 150,
-    type: "number",
-    valueGetter: (params: GridValueGetterParams) => params.row.complaints || 0,
+    field: "isSuspended",
+    headerName: "Suspended",
+    width: 200,
+    type: "boolean",
   },
+  
 ];
 
 const Students = () => {
@@ -65,7 +66,10 @@ const Students = () => {
   return (
     <div className="students">
       <div className="info">
-        <h1>Students</h1>
+        <Typography variant="h4">
+          <h2>STUDENTS</h2>
+          </Typography>
+        
       </div>
       <DataTable columns={columns} rows={students} slug="student" />
       {/* Add your Add component or any other components here */}

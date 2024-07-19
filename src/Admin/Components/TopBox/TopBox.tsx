@@ -29,7 +29,7 @@ const TopBox: React.FC = () => {
 
   return (
     <div className="topBox">
-      <h1>Last Joined</h1>
+      <h1>LAST JOINED</h1>
       <div className="list">
         {users.map((user) => (
           <div className="listItem" key={user.id}>
