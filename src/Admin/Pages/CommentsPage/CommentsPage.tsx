@@ -85,8 +85,8 @@ const CommentsPage: React.FC = () => {
 
   return (
     <Container className="commentsPage">
-      <Typography variant="h4" gutterBottom>
-       <h3> COMMENTS</h3>
+      <Typography variant="h4" gutterBottom className='comment-header'>
+       <h3 > COMMENTS</h3>
       </Typography>
       {loading ? ( // Skeleton loading effect while fetching data
         <div className="skeletonLoading">

@@ -501,7 +501,7 @@ const ReportList: React.FC = () => {
 
   return (
     <div className="report-list">
-      <Typography variant="h4" color="#333333" className="report-header">
+      <Typography variant="h4"  className="report-header">
        <h3>REPORTS</h3> 
       </Typography>
       <Grid container spacing={3} className="report-grid">
